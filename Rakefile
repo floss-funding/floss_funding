@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Galtzo FLOSS Rakefile v1.0.10 - 2025-08-18
+# Galtzo FLOSS Rakefile v1.0.11 - 2025-08-19
 # Ruby 1.9 Compatible Edition
 # NOTE: floss_funding removed because this is the floss_funding gem source.
 #
@@ -16,6 +16,7 @@
 # v1.0.8 - improved Dir globs, add back and document rbconfig dependency
 # v1.0.9 - add appraisal:update task to update Appraisal gemfiles and autocorrect with RuboCop Gradual
 # v1.0.10 - add ci:act to run GHA workflows locally, and get status of remote workflows
+# v1.0.11 - ci:act workflows are populated entirely dynamically, based on existing files
 #
 # MIT License (see License.txt)
 #
