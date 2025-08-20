@@ -58,6 +58,13 @@ module FlossFunding
         lines << "Unactivated/Invalid library spotlight:"
         lines << library_details_block(showcased_lib)
 
+        # DEBUG: Explain why the at_exit lockfile allowed this spotlight
+        if ::FlossFunding::DEBUG && defined?(@at_exit_lock_debug_info) && @at_exit_lock_debug_info.is_a?(Array) && !@at_exit_lock_debug_info.empty?
+          lines << ""
+          lines << "[DEBUG] Spotlight allowed reason (at_exit lockfile):"
+          @at_exit_lock_debug_info.each { |ln| lines << "  #{ln}" }
+        end
+
         # 4. Render a summary of counts
         root = ::FlossFunding.project_root
         root_str = root.to_s unless root.nil?
@@ -261,6 +268,33 @@ module FlossFunding
       # Filter using at_exit lockfile to exclude recently featured libraries
       lock = ::FlossFunding::Lockfile.at_exit
       filtered = libs.reject { |lib| lock && lock.nagged?(lib) }
+
+      # Prepare DEBUG context (why allowed)
+      if ::FlossFunding::DEBUG
+        @at_exit_lock_debug_info = []
+        root = ::FlossFunding.project_root
+        if lock.nil?
+          root_str = (root.nil? || root.to_s.empty?) ? "(unknown)" : root.to_s
+          @at_exit_lock_debug_info << "No at_exit lockfile available (project_root=#{root_str}); allowing spotlight"
+        else
+          path = begin
+            lock.path
+          rescue StandardError
+            nil
+          end
+          @at_exit_lock_debug_info << "Lockfile: #{path || "(unknown path)"}"
+          begin
+            max_age = lock.respond_to?(:max_age_seconds) ? lock.max_age_seconds : nil
+            @at_exit_lock_debug_info << "Window seconds: #{max_age}" if max_age
+          rescue StandardError
+            # ignore
+          end
+          @at_exit_lock_debug_info << "Candidates total: #{libs.size}"
+          @at_exit_lock_debug_info << "Rejected by lock: #{libs.size - filtered.size}"
+          @at_exit_lock_debug_info << "Eligible after filter: #{filtered.size}"
+        end
+      end
+
       # If all candidates were recently nagged, do not spotlight any library this run.
       return if filtered.empty?
       pool = filtered
@@ -273,6 +307,28 @@ module FlossFunding
         evt_state = ::FlossFunding::STATES[:unactivated]
         event_stub = Struct.new(:state).new(evt_state)
         lock.record_nag(chosen, event_stub, "at_exit")
+
+        # Add chosen-specific DEBUG info
+        if ::FlossFunding::DEBUG
+          key_name = begin
+            if lock.respond_to?(:send)
+              lock.send(:key_name_for, chosen)
+            else
+              (chosen.respond_to?(:library_name) ? chosen.library_name.to_s : "(unknown)")
+            end
+          rescue StandardError
+            (chosen.respond_to?(:library_name) ? chosen.library_name.to_s : "(unknown)")
+          end
+          @at_exit_lock_debug_info << "Chosen: #{key_name} (not previously nagged within window)"
+        end
+      elsif ::FlossFunding::DEBUG
+        # When there is no lock, also note the chosen library
+        key_name = begin
+          chosen.respond_to?(:library_name) ? chosen.library_name.to_s : "(unknown)"
+        rescue StandardError
+          "(unknown)"
+        end
+        @at_exit_lock_debug_info << "Chosen: #{key_name}"
       end
 
       chosen
