@@ -1,4 +1,13 @@
 {
+  "- 'spec/floss_funding/poke_spec.rb'\n- 'spec/floss_funding/wedge_spec.rb'": [
+    {
+      "file": ".rubocop_rspec.yml",
+      "lines": [
+        99,
+        104
+      ]
+    }
+  ],
   "- 100.00% documented\n### Added": [
     {
       "file": "CHANGELOG.md",
@@ -14,6 +23,34 @@
       "lines": [
         11,
         22
+      ]
+    }
+  ],
+  "Exclude:\n- 'lib/floss_funding.rb'": [
+    {
+      "file": ".rubocop.yml",
+      "lines": [
+        32,
+        40
+      ]
+    }
+  ],
+  "Exclude:\n- 'spec/bench/**/*'": [
+    {
+      "file": ".rubocop_rspec.yml",
+      "lines": [
+        85,
+        91
+      ]
+    }
+  ],
+  "Exclude:\n- 'spec/floss_funding/poke_spec.rb'": [
+    {
+      "file": ".rubocop_rspec.yml",
+      "lines": [
+        98,
+        103,
+        113
       ]
     }
   ],

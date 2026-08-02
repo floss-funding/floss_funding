@@ -593,14 +593,14 @@ files:
   ".rubocop.yml":
     recipe: template_source_application_rubocop_yml
     action: write
-    dest_sha256: c563f4b6616b209acff6377b0186ba257ee5fec69d9b487f8cb47dd35590c20a
+    dest_sha256: 48bcddda5bf0d03cdf8f1f4560cb6186b81ee05021b90ca45211ad92941f7a9a
     input_fingerprint: 8ca5c2a75a28ae376032aab3143361509effb0ff85fc61405b80a21ef91f20f8
     template_sources:
     - ".rubocop.yml.example"
   ".rubocop_rspec.yml":
     recipe: template_source_application_rubocop_rspec_yml
     action: write
-    dest_sha256: 288ad75e7eb14d87d80fafe6f7272217be5c57547536ee56c780a7d10ac7ec74
+    dest_sha256: 8e164679090a8bf6d68b72bc20678826679bfbd8e15c61ab2a5d17dac212c0a5
     input_fingerprint: 2c9f3b54d7ef1a17f0fb0f1bdb887275a992f77ee9cc7de733cad9fb12bdb82f
     template_sources:
     - ".rubocop_rspec.yml.example"
@@ -650,14 +650,14 @@ files:
     recipe: template_source_application_Appraisal_root_gemfile
     action: write
     dest_sha256: 8724e3f6faea995be655ac49369bec64a70710112b1f65707fa38f1fd2fd3254
-    input_fingerprint: 6c82c13aec94c8b9a926e3abc6a45f7afca393fd974b149510e87520b65f2b6e
+    input_fingerprint: aa98557ff96ecf17f3235fec9ddab42e7cd8bc39670eb9fe462d004ea4da3d67
     template_sources:
     - Appraisal.root.gemfile.example
   Appraisals:
     recipe: template_source_application_Appraisals
     action: write
     dest_sha256: 7bcb1ccfb59e38ae075195993d6ddf2b04587dd754d06f29063ad89b80fdc72d
-    input_fingerprint: e3a453c3b6465cdd327d6a31a032590723bb898da59422a3fdb36db3aac2761f
+    input_fingerprint: 592e29b27e9718c54077683e44bc3b24c02969b9e6705c1e8b75f0225358f8f5
     template_sources:
     - Appraisals.example
   CHANGELOG.md:
@@ -1133,6 +1133,6 @@ files:
     recipe: template_source_application_spec_spec_helper_rb
     action: write
     dest_sha256: 489d35793109b545d6815f6092cdbf1e4ccccd9ee4a29e6518bdc076c4f83176
-    input_fingerprint: b394bf521b14ba0eb9be85233c006eac4e1e66d292e709934af50f1678eb3bfc
+    input_fingerprint: c7f024ec7bbbd2ee0f218ba645f75c18dc85ea8babf3f9c43ca4711a151fd34b
     template_sources:
     - spec/spec_helper.rb.example
