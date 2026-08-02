@@ -24,7 +24,7 @@ module FlossFunding
     # Fortunately this entire wedge file is not loaded at all by the floss_funding gem.
     # Wedge must be loaded explicitly; preferably in a clean testing environment.
     maybe_dangerous = begin
-      v = ENV.fetch("FLOSS_CFG_FUNDING_WEDGE_DANGEROUS", nil)
+      v = ENV.fetch("FLOSS_CFG_FUND_WEDGE_DANGEROUS", nil)
       v == "1"
     rescue StandardError
       false

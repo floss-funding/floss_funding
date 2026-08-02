@@ -285,7 +285,7 @@ module FlossFunding
     end
 
     def env_seconds_key
-      :FLOSS_CFG_FUNDING_ON_LOAD_SEC_PER_NAG_MAX
+      :FLOSS_CFG_FUND_ON_LOAD_SEC_PER_NAG_MAX
     end
   end
 
@@ -304,7 +304,7 @@ module FlossFunding
     end
 
     def env_seconds_key
-      :FLOSS_CFG_FUNDING_AT_EXIT_SEC_PER_NAG_MAX
+      :FLOSS_CFG_FUND_AT_EXIT_SEC_PER_NAG_MAX
     end
   end
 

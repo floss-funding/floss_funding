@@ -315,11 +315,11 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       true
     end
 
-    # Lazily build a Logger instance when FLOSS_CFG_FUNDING_LOGFILE is set and 'logger' is available.
+    # Lazily build a Logger instance when FLOSS_CFG_FUND_LOGFILE is set and 'logger' is available.
     # Returns a Logger or nil when unavailable or initialization failed.
     def debug_logger
       path = begin
-        ENV["FLOSS_CFG_FUNDING_LOGFILE"]
+        ENV["FLOSS_CFG_FUND_LOGFILE"]
       rescue StandardError
         nil
       end

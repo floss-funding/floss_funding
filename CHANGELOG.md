@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning v2](https://semver.org/spec/v2.
 - Rakefile: Added `appraisal:update` task to update Appraisal gemfiles and run RuboCop Gradual autocorrect.
 ### Changed
 - Final summary header now shows only the project basename (name) instead of the full project root path.
+
+- Rename FLOSS funding configuration environment variables to the FLOSS_CFG_FUND_* namespace.
+
 ### Deprecated
 ### Removed
 ### Fixed

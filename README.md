@@ -29,7 +29,7 @@ This tool can help library maintainers earn money from their open source work in
 A global ones is:
 
 ```
-ENV['FLOSS_CFG_FUNDING_SILENT'] = "CATHEDRAL_OR_BAZAAR"`
+ENV['FLOSS_CFG_FUND_SILENT'] = "CATHEDRAL_OR_BAZAAR"`
 ```
 
 Instructions for turning this tool off will always be front and center.
@@ -304,7 +304,7 @@ Funding: | | 0% (0/1)
 
 ### Silence via global Environment Variable
 
-For global silence the best solution is to set the environment variable `FLOSS_CFG_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
+For global silence the best solution is to set the environment variable `FLOSS_CFG_FUND_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
 
 If you can't control ENV variables, and you can control the stack, at the beginning of the stack, before other things load, simply `require "floss_funding/silent"`, and it will silence all output. Note that this is less performant than setting the global environment variable, as above.
 
@@ -320,7 +320,7 @@ If you have a library that doesn't know, at the time of `Poke.new` inclusion, if
 
 **IMPORTANT** - By the time your `Poke.new` using library loads into a stack, other libraries may have already loaded `Poke.new` for themselves, and may have already generated output. This is not a solution for silencing all output. The main thing it can reliably do is silence the output from the at_exit handler.
 
-If you need to silence **everything**, do so by setting the environment variable `FLOSS_CFG_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
+If you need to silence **everything**, do so by setting the environment variable `FLOSS_CFG_FUND_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
 
 ### File-based Configuration
 
@@ -345,9 +345,9 @@ floss_funding_url: https://example.com/fund
 
 These environment variables let you control FlossFunding behavior at runtime. Each variable is optional; unset variables use safe defaults.
 
-Note: This section documents the FLOSS_CFG_FUNDING_* variables specifically requested. The library also honors additional variables (e.g., activation key envs and some FLOSS_CFG_FUND_* controls) which are described elsewhere in the README and code comments.
+Note: This section documents the FLOSS_CFG_FUND_* variables specifically requested. The library also honors additional variables (e.g., activation key envs and some FLOSS_CFG_FUND_* controls) which are described elsewhere in the README and code comments.
 
-### FLOSS_CFG_FUNDING_LOGFILE
+### FLOSS_CFG_FUND_LOGFILE
 - Purpose: Redirects FlossFunding debug output to a file when debugging is enabled.
 - Type: file path (string)
 - Default: unset (debug messages, if any, go to STDOUT)
@@ -355,9 +355,9 @@ Note: This section documents the FLOSS_CFG_FUNDING_* variables specifically requ
   - When set to a non-empty path, FlossFunding attempts to create/truncate the file on first use and logs debug messages via Ruby's Logger at DEBUG level.
   - Directory creation is best-effort (mkdir -p). Failures fall back to STDOUT without raising.
 - Example:
-  - FLOSS_CFG_FUNDING_LOGFILE=tmp/log/floss_funding.debug.log
+  - FLOSS_CFG_FUND_LOGFILE=tmp/log/floss_funding.debug.log
 
-### FLOSS_CFG_FUNDING_ON_LOAD_SEC_PER_NAG_MAX
+### FLOSS_CFG_FUND_ON_LOAD_SEC_PER_NAG_MAX
 - Purpose: Limits how often a given library can emit an on-load (include-time) nag message.
 - Type: integer seconds
 - Default: 86400 (24 hours)
@@ -365,9 +365,9 @@ Note: This section documents the FLOSS_CFG_FUNDING_* variables specifically requ
   - A YAML lockfile .floss_funding.ruby.on_load.lock in the project root records the last on-load nag per library. If the recorded time is within this many seconds, the on-load nag is suppressed.
   - Values are clamped to a safe range internally.
 - Example:
-  - FLOSS_CFG_FUNDING_ON_LOAD_SEC_PER_NAG_MAX=3600  # at most one on-load nag per hour per library
+  - FLOSS_CFG_FUND_ON_LOAD_SEC_PER_NAG_MAX=3600  # at most one on-load nag per hour per library
 
-### FLOSS_CFG_FUNDING_AT_EXIT_SEC_PER_NAG_MAX
+### FLOSS_CFG_FUND_AT_EXIT_SEC_PER_NAG_MAX
 - Purpose: Limits how often the at-exit spotlight (the featured info card at process end) can highlight a library.
 - Type: integer seconds
 - Default: 2400 (40 minutes)
@@ -375,9 +375,9 @@ Note: This section documents the FLOSS_CFG_FUNDING_* variables specifically requ
   - A YAML lockfile .floss_funding.ruby.at_exit.lock in the project root records the last at-exit spotlight per library. If within this many seconds, that library won't be spotlighted again.
   - Values are clamped to a safe range internally.
 - Example:
-  - FLOSS_CFG_FUNDING_AT_EXIT_SEC_PER_NAG_MAX=600  # at most one at-exit spotlight per 10 minutes per library
+  - FLOSS_CFG_FUND_AT_EXIT_SEC_PER_NAG_MAX=600  # at most one at-exit spotlight per 10 minutes per library
 
-### FLOSS_CFG_FUNDING_WEDGE_DANGEROUS
+### FLOSS_CFG_FUND_WEDGE_DANGEROUS
 - Purpose: Enables an aggressive mode for FlossFunding::Wedge that attempts to require gems before injecting, to increase chances of finding their namespaces.
 - Type: string; recognized value: "1"
 - Default: unset (safe mode)
@@ -385,7 +385,7 @@ Note: This section documents the FLOSS_CFG_FUNDING_* variables specifically requ
   - When set to "1", the wedge will attempt to require each loaded gem before resolving constants, but only if FlossFunding DEBUG is true. If DEBUG is false, wedge prints a warning and remains safe.
   - This file is not auto-required by the gem; wedge must be explicitly required/used.
 - Example:
-  - FLOSS_CFG_FUNDING_WEDGE_DANGEROUS=1
+  - FLOSS_CFG_FUND_WEDGE_DANGEROUS=1
   - With DEBUG enabled (see README for DEBUG), running: ruby -rfloss_funding/wedge -e 'FlossFunding::Wedge.wedge!'
 
 ## 🦷 FLOSS Funding
@@ -512,9 +512,24 @@ See [LICENSE.txt][📄license] for the official [Copyright Notice][📄copyright
     <li>*1) If they were extracted into a general purpose `config_finder`, I'd use that instead, and I may do that at some point.</li>
 </ul>
 
-P.S. If you need help️ or want to say thanks, 👇 Join the Discord.
+## 🤑 A request for help
+
+Maintainers have teeth, and need to pay their dentists.
+After getting laid off in an RIF in March, and filled with many dozens of rejections,
+I'm now spending ~80 hours a week building open source tools.
+I'm hoping to be able to pay for my kids' health insurance this month,
+so if you value the work I am doing, I need your support.
+Please consider sponsoring me.
+
+[![Sponsor me on GitHub Sponsors][🖇sponsor-bottom-img]][🖇sponsor] 💌 [![Sponsor me on Liberapay][⛳liberapay-bottom-img]][⛳liberapay-img] 💌 [![Donate on PayPal][🖇paypal-bottom-img]][🖇paypal-img]
+
+To say "thanks for maintaining such a great tool" 👇️ Join the Discord or ☝️ send money.
+
+To join the community or get help 👇️ Join the Discord.
 
 [![Live Chat on Discord][✉️discord-invite-img]][✉️discord-invite]
+
+Thanks for RTFM. ☺️
 
 [⛳liberapay-img]: https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay&color=a51611
 [⛳liberapay]: https://liberapay.com/pboling/donate

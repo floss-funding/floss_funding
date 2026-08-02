@@ -174,7 +174,7 @@ RSpec.describe FlossFunding do
       ruby = RbConfig.ruby
       lib_dir = File.expand_path("../../lib", __dir__)
       code = 'require "floss_funding"; puts FlossFunding::DEBUG'
-      env = {"FLOSS_CFG_FUND_DEBUG" => nil, "FLOSS_CFG_FUNDING_LOGFILE" => "tmp/log/rspec_debug.log"}
+      env = {"FLOSS_CFG_FUND_DEBUG" => nil, "FLOSS_CFG_FUND_LOGFILE" => "tmp/log/rspec_debug.log"}
       stdout, _stderr, _status = Open3.capture3(env, ruby, "-I", lib_dir, "-e", code)
       expect(stdout.strip).to eq("false")
     end
@@ -185,7 +185,7 @@ RSpec.describe FlossFunding do
       ruby = RbConfig.ruby
       lib_dir = File.expand_path("../../lib", __dir__)
       code = 'require "floss_funding"; puts FlossFunding::DEBUG'
-      env = {"FLOSS_CFG_FUND_DEBUG" => "TrUe", "FLOSS_CFG_FUNDING_LOGFILE" => "tmp/log/rspec_debug.log"}
+      env = {"FLOSS_CFG_FUND_DEBUG" => "TrUe", "FLOSS_CFG_FUND_LOGFILE" => "tmp/log/rspec_debug.log"}
       stdout, _stderr, _status = Open3.capture3(env, ruby, "-I", lib_dir, "-e", code)
       expect(stdout.strip).to eq("true")
     end
@@ -196,7 +196,7 @@ RSpec.describe FlossFunding do
       ruby = RbConfig.ruby
       lib_dir = File.expand_path("../../lib", __dir__)
       code = 'require "floss_funding"; puts FlossFunding::DEBUG'
-      env = {"FLOSS_CFG_FUND_DEBUG" => "FALSE", "FLOSS_CFG_FUNDING_LOGFILE" => "tmp/log/rspec_debug.log"}
+      env = {"FLOSS_CFG_FUND_DEBUG" => "FALSE", "FLOSS_CFG_FUND_LOGFILE" => "tmp/log/rspec_debug.log"}
       stdout, _stderr, _status = Open3.capture3(env, ruby, "-I", lib_dir, "-e", code)
       expect(stdout.strip).to eq("false")
     end
@@ -234,7 +234,7 @@ RSpec.describe FlossFunding do
       before do
         stub_const("FlossFunding::DEBUG", true)
         # Force debug_log to use STDOUT by disabling logfile redirection for this context
-        stub_env("FLOSS_CFG_FUNDING_LOGFILE" => "")
+        stub_env("FLOSS_CFG_FUND_LOGFILE" => "")
         # Clear any memoized logger created in a prior example when the ENV was set
         described_class.instance_variable_set(:@debug_logger, nil)
       end
