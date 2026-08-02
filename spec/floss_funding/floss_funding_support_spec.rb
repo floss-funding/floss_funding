@@ -11,7 +11,7 @@ RSpec.describe FlossFunding do
     it "returns [] when a namespace has zero events" do
       ns = described_class::Namespace.new("NoEventsNS", nil, [])
       described_class.namespaces = {ns.name => ns}
-      expect(described_class.activation_occurrences).to eq([])
+      expect(described_class.activation_occurrences).to be_empty
     end
 
     context "when Poke records an activation event" do

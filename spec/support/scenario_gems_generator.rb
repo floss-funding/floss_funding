@@ -32,8 +32,8 @@ module FlossFunding
     # - :dependencies (ignored)
     def run_factory_with_dir_name(name, options = {})
       gem_dir = File.join(ROOT, name)
-      FileUtils.rm_rf(gem_dir)
-      FileUtils.mkdir_p(gem_dir)
+      GemMine.clean(gem_dir)
+      GemMine.scaffold(name, root: gem_dir, build: false, install: false)
 
       # Write YAML templates first
       (options[:yaml_templates] || {}).each do |rel, content|
@@ -50,11 +50,11 @@ module FlossFunding
       end
 
       # Return metadata similar to GemMine
-      {:dir => gem_dir}
+      {dir: gem_dir}
     end
 
     def floss_dep
-      {:name => "floss_funding", :path => "../../../.."}
+      {name: "floss_funding", path: "../../../.."}
     end
 
     def yaml_for(lib)
@@ -73,9 +73,9 @@ module FlossFunding
 
       run_factory_with_dir_name(
         name,
-        :gemspec_extras => {:files_glob => "{lib,bin,vendor}/**/*"},
-        :yaml_templates => {".floss_funding.yml" => ""}, # main gem has no Poke, config optional
-        :file_contents => {
+        gemspec_extras: {files_glob: "{lib,bin,vendor}/**/*"},
+        yaml_templates: {".floss_funding.yml" => ""}, # main gem has no Poke, config optional
+        file_contents: {
           File.join("lib", "#{name}.rb") => <<-RUBY,
             # frozen_string_literal: true
             module #{mod}
@@ -84,7 +84,7 @@ module FlossFunding
             end
           RUBY
           File.join("vendor", vend_name, ".floss_funding.yml") => yaml_for(vend_name),
-          File.join("vendor", vend_name, "lib", "#{vend_name}.rb") => <<-RUBY,
+          File.join("vendor", vend_name, "lib", "#{vend_name}.rb") => <<-RUBY
             # frozen_string_literal: true
             module #{vend_mod}
               module Core; end
@@ -92,7 +92,7 @@ module FlossFunding
             require "floss_funding"
             #{vend_mod}::Core.send(:include, FlossFunding::Poke.new(__FILE__, namespace: #{vend_mod.inspect}))
           RUBY
-        },
+        }
       )
     end
 
@@ -105,9 +105,9 @@ module FlossFunding
 
       run_factory_with_dir_name(
         name,
-        :gemspec_extras => {:files_glob => "{lib,bin,vendor}/**/*"},
-        :yaml_templates => {".floss_funding.yml" => yaml_for(name)},
-        :file_contents => {
+        gemspec_extras: {files_glob: "{lib,bin,vendor}/**/*"},
+        yaml_templates: {".floss_funding.yml" => yaml_for(name)},
+        file_contents: {
           File.join("lib", "#{name}.rb") => <<-RUBY,
             # frozen_string_literal: true
             module #{mod}
@@ -119,7 +119,7 @@ module FlossFunding
             require_relative "../vendor/#{vend_name}/lib/#{vend_name}"
           RUBY
           File.join("vendor", vend_name, ".floss_funding.yml") => yaml_for(vend_name),
-          File.join("vendor", vend_name, "lib", "#{vend_name}.rb") => <<-RUBY,
+          File.join("vendor", vend_name, "lib", "#{vend_name}.rb") => <<-RUBY
             # frozen_string_literal: true
             module #{vend_mod}
               module Core; end
@@ -127,7 +127,7 @@ module FlossFunding
             require "floss_funding"
             #{vend_mod}::Core.send(:include, FlossFunding::Poke.new(__FILE__, namespace: #{vend_mod.inspect}))
           RUBY
-        },
+        }
       )
     end
 
@@ -138,9 +138,9 @@ module FlossFunding
 
       run_factory_with_dir_name(
         name,
-        :gemspec_extras => {:files_glob => "{lib,bin}/**/*"},
-        :yaml_templates => {".floss_funding.yml" => yaml_for(name)},
-        :file_contents => {
+        gemspec_extras: {files_glob: "{lib,bin}/**/*"},
+        yaml_templates: {".floss_funding.yml" => yaml_for(name)},
+        file_contents: {
           File.join("lib", "#{name}.rb") => <<-RUBY,
             # frozen_string_literal: true
             module #{mod}
@@ -149,14 +149,14 @@ module FlossFunding
             require "floss_funding"
             #{mod}::Core.send(:include, FlossFunding::Poke.new(__FILE__, namespace: #{mod.inspect}))
           RUBY
-          File.join("bin", name) => <<-RUBY,
+          File.join("bin", name) => <<-RUBY
             #!/usr/bin/env ruby
             # frozen_string_literal: true
             $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
             require "poked_gem_with_exe"
             puts "ok"
           RUBY
-        },
+        }
       )
     end
 
@@ -167,9 +167,9 @@ module FlossFunding
 
       run_factory_with_dir_name(
         name,
-        :gemspec_extras => {:files_glob => "{lib,bin}/**/*"},
-        :yaml_templates => {".floss_funding.yml" => yaml_for(name)},
-        :file_contents => {
+        gemspec_extras: {files_glob: "{lib,bin}/**/*"},
+        yaml_templates: {".floss_funding.yml" => yaml_for(name)},
+        file_contents: {
           File.join("lib", "#{name}.rb") => <<-RUBY,
             # frozen_string_literal: true
             module #{mod}
@@ -178,7 +178,7 @@ module FlossFunding
             require "floss_funding"
             #{mod}::Core.send(:include, FlossFunding::Poke.new(__FILE__, namespace: #{mod.inspect}))
           RUBY
-          File.join("bin", name) => <<-RUBY,
+          File.join("bin", name) => <<-RUBY
             #!/usr/bin/env ruby
             # frozen_string_literal: true
             $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
@@ -189,7 +189,7 @@ module FlossFunding
             PokedGemWithPokedExeExecutable.send(:include, FlossFunding::Poke.new(nil, wedge: true))
             puts "ok"
           RUBY
-        },
+        }
       )
     end
 
@@ -200,9 +200,9 @@ module FlossFunding
 
       run_factory_with_dir_name(
         name,
-        :gemspec_extras => {:files_glob => "{lib,spec}/**/*"},
-        :yaml_templates => {".floss_funding.yml" => yaml_for(name)},
-        :file_contents => {
+        gemspec_extras: {files_glob: "{lib,spec}/**/*"},
+        yaml_templates: {".floss_funding.yml" => yaml_for(name)},
+        file_contents: {
           File.join("lib", "#{name}.rb") => <<-RUBY,
             # frozen_string_literal: true
             module #{mod}
@@ -211,13 +211,13 @@ module FlossFunding
             require "floss_funding"
             #{mod}::Core.send(:include, FlossFunding::Poke.new(__FILE__, namespace: #{mod.inspect}))
           RUBY
-          File.join("spec", "dummy", "app.rb") => <<-RUBY,
+          File.join("spec", "dummy", "app.rb") => <<-RUBY
             # frozen_string_literal: true
             $LOAD_PATH.unshift(File.expand_path("../../lib", __dir__))
             require #{name.inspect}
             puts "dummy-ok"
           RUBY
-        },
+        }
       )
     end
   end

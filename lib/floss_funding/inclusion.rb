@@ -97,7 +97,7 @@ module FlossFunding
         @config_path,
         @namespace.env_var_name,
         @configuration,
-        @silent,
+        @silent
       )
 
       ### ACTIVATION EVENT (frozen object!) ###
@@ -105,7 +105,7 @@ module FlossFunding
         @library,
         @activation_key,
         @state,
-        @silent,
+        @silent
       )
 
       FlossFunding.add_or_update_namespace_with_event(@namespace, @event)
@@ -124,7 +124,8 @@ module FlossFunding
       unless @base.respond_to?(:name) && @base.name && @base.name.is_a?(String)
         raise ::FlossFunding::Error, "base must have a name (e.g., MyGemLibrary), got #{@base.inspect}"
       end
-      unless @custom_namespace.nil? || @custom_namespace.is_a?(String) && !@custom_namespace.empty?
+      custom_namespace_valid = @custom_namespace.nil? || (@custom_namespace.is_a?(String) && !@custom_namespace.empty?)
+      unless custom_namespace_valid
         raise ::FlossFunding::Error, "custom_namespace must be nil or a non-empty String (e.g., MyGemLibrary), got #{@custom_namespace.inspect}"
       end
     end
@@ -145,7 +146,7 @@ module FlossFunding
       yaml_cfg =
         begin
           YAML.safe_load(File.read(@config_path)) || {}
-        rescue StandardError => e
+        rescue => e
           # Expect failure again below in the required keys check.
           # Default config can't supply all required keys.
           # Warning here, and then failing again below,
@@ -171,7 +172,7 @@ module FlossFunding
         begin
           lib_for_log = Array(@config_data["library_name"]).first || @base_name || "(unknown)"
           ::FlossFunding.debug_log { "[config][invalid] lib=#{lib_for_log.inspect} attrs=#{invalids.join(", ")}" }
-        rescue StandardError
+        rescue
         end
         # Mark as detained at inclusion time; event will carry detained state
         @state = ::FlossFunding::STATES[:detained]

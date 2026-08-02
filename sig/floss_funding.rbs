@@ -10,7 +10,7 @@ module FlossFunding
     attr_reader silent: (untyped | nil)
 
     def initialize: (::FlossFunding::Library, String, String, (untyped | nil)) -> void
-    def validate!: -> void
+    def validate!: () -> void
   end
 
   class Library
@@ -38,14 +38,14 @@ module FlossFunding
     attr_reader activation_events: Array[ActivationEvent]
 
     def activation_events=: (Array[ActivationEvent]) -> void
-    def to_s: -> String
+    def to_s: () -> String
     def has_state?: (String) -> bool
     def with_state: (String) -> Array[ActivationEvent]
-    def configs: -> Array[::FlossFunding::Configuration]
+    def configs: () -> Array[::FlossFunding::Configuration]
 
     def check_unpaid_silence: (String) -> bool
     def floss_funding_decrypt: (String) -> (String | false)
-    def merged_config: -> ::FlossFunding::Configuration
+    def merged_config: () -> ::FlossFunding::Configuration
   end
 
   class Configuration
@@ -56,13 +56,13 @@ module FlossFunding
     def []: (String | Symbol) -> Array[untyped]
     def fetch: (String | Symbol, ?untyped) { (String | Symbol) -> untyped } -> Array[untyped]
     def each: () { (String, Array[untyped]) -> void } -> void
-    def keys: -> Array[String]
+    def keys: () -> Array[String]
     def key?: (String | Symbol) -> bool
     def include?: (String | Symbol) -> bool
     def has_key?: (String | Symbol) -> bool
-    def to_h: -> Hash[String, Array[untyped]]
-    def size: -> Integer
-    def empty?: -> bool
+    def to_h: () -> Hash[String, Array[untyped]]
+    def size: () -> Integer
+    def empty?: () -> bool
   end
 
   # Constants
@@ -91,27 +91,27 @@ module FlossFunding
     VERSION: String
   end
 
-  def self.install_tasks: -> void
+  def self.install_tasks: () -> void
   def self.debug_log: (*untyped) { () -> String } -> void
 
-  def self.namespaces: -> Hash[String, Namespace]
+  def self.namespaces: () -> Hash[String, Namespace]
   def self.namespaces=: (Hash[String, Namespace]) -> void
 
-  def self.silenced: -> bool
+  def self.silenced: () -> bool
   def self.silenced=: (bool) -> void
 
   # All namespaces as Namespace objects
-  def self.all_namespaces: -> Array[Namespace]
+  def self.all_namespaces: () -> Array[Namespace]
 
   # configurations
   def self.configurations: ((String | nil)) -> (Hash[String, Array[::FlossFunding::Configuration]] | ::FlossFunding::Configuration | nil)
   def self.configuration: (String) -> (::FlossFunding::Configuration | nil)
 
-  def self.env_var_names: -> Hash[String, String]
+  def self.env_var_names: () -> Hash[String, String]
 
   def self.base_words: (?Integer) -> Array[String]
 
-  def self.loaded_at: -> Time
+  def self.loaded_at: () -> Time
   def self.check_activation: (String) -> bool
   def self.start_coughing: (String, String, String) -> void
   def self.start_begging: (String, String, String) -> void
@@ -127,7 +127,7 @@ module FlossFunding
   end
 
   module Config
-    def self.find_project_root: -> (String | nil)
+    def self.find_project_root: () -> (String | nil)
     def self.normalize_to_array: (untyped) -> Array[untyped]
   end
 
@@ -137,8 +137,8 @@ module FlossFunding
   end
 
   class ContraIndications
-    def self.poke_contraindicated?: -> bool
-    def self.at_exit_contraindicated?: -> bool
+    def self.poke_contraindicated?: () -> bool
+    def self.at_exit_contraindicated?: () -> bool
   end
 
   class ConfigNotFoundError < ::FlossFunding::Error
@@ -148,10 +148,11 @@ module FlossFunding
     FF_ROOT: String
     DEFAULT_FILE: String
 
-    def self.clear_options: -> void
+    def self.clear_options: () -> void
     def self.configuration_file_for: (String) -> (String | nil)
     def self.load_file: (String, ?{ check: bool }) -> Hash[untyped, untyped]
-    def self.default_configuration: -> Hash[untyped, untyped]
-    def self.reset_caches!: -> void
+    def self.default_configuration: () -> Hash[untyped, untyped]
+    def self.reset_caches!: () -> void
   end
+  VERSION: String
 end

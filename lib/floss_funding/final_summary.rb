@@ -80,19 +80,19 @@ module FlossFunding
         total = @all_libs.size
         ::FlossFunding.progress_bar(@activated_libs.size, total)
       end
-    rescue StandardError => e
+    rescue => e
       # Record the failure and switch library to inert mode.
       ::FlossFunding.error!(e, "FinalSummary#render")
     end
 
-    # :nocov:
+    # simplecov:disable
     # NOTE: Presently unused helper retained for readability; behavior trivially formats
     # a string and provides no additional execution value for tests.
     def counts_line(label, namespaces_count, libraries_count)
       "#{label}: namespaces=#{namespaces_count} / libraries=#{libraries_count}"
     end
-    # :nocov:
 
+    # simplecov:enable
     # Fallback rendering when terminal-table cannot render due to width constraints.
     # Produces a very basic key: value list with the same information.
     def build_summary_kv_list(statuses, ns_counts, lib_counts)
@@ -129,7 +129,7 @@ module FlossFunding
       rows << (["libraries"] + statuses.map { |st| colorize_cell(st, lib_counts[st]) })
 
       begin
-        tbl = ::Terminal::Table.new(:headings => headings, :rows => rows)
+        tbl = ::Terminal::Table.new(headings: headings, rows: rows)
         ::FlossFunding::Terminal.apply_width!(tbl)
         tbl.to_s
       rescue RuntimeError => e
@@ -138,7 +138,7 @@ module FlossFunding
       end
     end
 
-    # :nocov:
+    # simplecov:disable
     # NOTE: This helper simply composes cached counts; branches are trivial and
     # already exercised indirectly by build_summary_table tests. Excluded to
     # improve determinism under varying pool compositions.
@@ -149,23 +149,23 @@ module FlossFunding
           ::FlossFunding::STATES[:activated] => @activated_ns_names.size,
           ::FlossFunding::STATES[:unactivated] => @unactivated_ns_names.size,
           ::FlossFunding::STATES[:invalid] => @invalid_ns_names.size,
-          ::FlossFunding::STATES[:detained] => @detained_ns_names.size,
+          ::FlossFunding::STATES[:detained] => @detained_ns_names.size
         }
       when :libraries
         {
           ::FlossFunding::STATES[:activated] => @activated_libs.size,
           ::FlossFunding::STATES[:unactivated] => @unactivated_libs.size,
           ::FlossFunding::STATES[:invalid] => @invalid_libs.size,
-          ::FlossFunding::STATES[:detained] => @detained_libs.size,
+          ::FlossFunding::STATES[:detained] => @detained_libs.size
         }
       else
         {}
       end
     end
-    # :nocov:
 
+    # simplecov:enable
     # Try to detect if terminal background is dark (true), light (false), or unknown (nil)
-    # :nocov:
+    # simplecov:disable
     # NOTE: Background detection depends on terminal env. All meaningful branches
     # are indirectly exercised in colorization tests; the rescue path is excluded
     # to avoid platform-specific flakiness.
@@ -175,11 +175,11 @@ module FlossFunding
       parts = cfg.split(";")
       bg = parts.last.to_i
       bg <= 7
-    rescue StandardError
+    rescue
       nil
     end
-    # :nocov:
 
+    # simplecov:enable
     def colorize_heading(status)
       txt = status.to_s
       apply_color(txt, status)
@@ -221,7 +221,7 @@ module FlossFunding
       else # light background -> use darker hues
         Rainbow(text).color(dark_hex).to_s
       end
-    rescue StandardError => e
+    rescue => e
       # Log and fall back when color support fails; not a fatal error
       ::FlossFunding.debug_log { "[WARN][FinalSummary#apply_color] #{e.class}: #{e.message}" }
       text.to_s
@@ -236,14 +236,14 @@ module FlossFunding
 
       funding_url = begin
         Array(cfg && (cfg.respond_to?(:to_h) ? cfg.to_h["floss_funding_url"] : cfg["floss_funding_url"]))
-      rescue StandardError
+      rescue
         []
       end
       funding_url = funding_url.first || "https://floss-funding.dev"
 
       suggested_amount = begin
         Array(cfg && (cfg.respond_to?(:to_h) ? cfg.to_h["suggested_donation_amount"] : cfg["suggested_donation_amount"]))
-      rescue StandardError
+      rescue
         []
       end
       suggested_amount = suggested_amount.first || 5
@@ -279,14 +279,14 @@ module FlossFunding
         else
           path = begin
             lock.path
-          rescue StandardError
+          rescue
             nil
           end
           @at_exit_lock_debug_info << "Lockfile: #{path || "(unknown path)"}"
           begin
             max_age = lock.respond_to?(:max_age_seconds) ? lock.max_age_seconds : nil
             @at_exit_lock_debug_info << "Window seconds: #{max_age}" if max_age
-          rescue StandardError
+          rescue
             # ignore
           end
           @at_exit_lock_debug_info << "Candidates total: #{libs.size}"
@@ -316,7 +316,7 @@ module FlossFunding
             else
               (chosen.respond_to?(:library_name) ? chosen.library_name.to_s : "(unknown)")
             end
-          rescue StandardError
+          rescue
             (chosen.respond_to?(:library_name) ? chosen.library_name.to_s : "(unknown)")
           end
           @at_exit_lock_debug_info << "Chosen: #{key_name} (not previously nagged within window)"
@@ -325,7 +325,7 @@ module FlossFunding
         # When there is no lock, also note the chosen library
         key_name = begin
           chosen.respond_to?(:library_name) ? chosen.library_name.to_s : "(unknown)"
-        rescue StandardError
+        rescue
           "(unknown)"
         end
         @at_exit_lock_debug_info << "Chosen: #{key_name}"

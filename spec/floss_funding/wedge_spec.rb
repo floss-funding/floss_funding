@@ -4,14 +4,12 @@
 require "floss_funding/wedge"
 
 RSpec.describe FlossFunding::Wedge do
-  include_context 'with stubbed env'
+  include_context "with stubbed env"
 
   before do
-    # Ensure clean constants before each test
+    # Ensure clean constants before each test.
     Object.send(:remove_const, :Foo) if Object.const_defined?(:Foo)
     Object.send(:remove_const, :AlphaBeta) if Object.const_defined?(:AlphaBeta)
-  rescue NameError
-    # ignore
   end
 
   it "injects Poke into nested module candidates from dashed gem names" do
@@ -21,7 +19,7 @@ RSpec.describe FlossFunding::Wedge do
     end
 
     specs = [
-      SpecStruct.new("foo-bar", File.join(Dir.pwd, "foo-bar.gemspec"), Dir.pwd),
+      SpecStruct.new("foo-bar", File.join(Dir.pwd, "foo-bar.gemspec"), Dir.pwd)
     ]
 
     # Stub loaded specs to our controlled list
@@ -40,7 +38,7 @@ RSpec.describe FlossFunding::Wedge do
     module AlphaBeta; end
 
     specs = [
-      SpecStruct.new("alpha_beta", File.join(Dir.pwd, "alpha_beta.gemspec"), Dir.pwd),
+      SpecStruct.new("alpha_beta", File.join(Dir.pwd, "alpha_beta.gemspec"), Dir.pwd)
     ]
 
     allow(described_class).to receive(:loaded_specs).and_return(specs)
@@ -55,7 +53,7 @@ RSpec.describe FlossFunding::Wedge do
 
   it "skips gems with no resolvable constants without raising" do
     specs = [
-      SpecStruct.new("nonexistent_gem_module_name", File.join(Dir.pwd, "nope.gemspec"), Dir.pwd),
+      SpecStruct.new("nonexistent_gem_module_name", File.join(Dir.pwd, "nope.gemspec"), Dir.pwd)
     ]
     allow(described_class).to receive(:loaded_specs).and_return(specs)
 
@@ -64,37 +62,39 @@ RSpec.describe FlossFunding::Wedge do
     result = described_class.wedge!
     expect(result[:tried]).to eq(1)
     expect(result[:injected]).to eq(0)
-    expect(result[:details].first[:injected_into]).to eq([])
+    expect(result[:details].first[:injected_into]).to be_empty
   end
 
   describe ".loaded_specs variants" do
     it "uses Gem.loaded_specs when it returns a hash" do
       allow(Gem).to receive(:loaded_specs).and_return({"a" => 1, "b" => 2})
-      expect(described_class.loaded_specs).to match_array([1, 2])
+      expect(described_class.loaded_specs).to contain_exactly(1, 2)
     end
 
     it "uses Gem.loaded_specs when it returns an array" do
       allow(Gem).to receive(:loaded_specs).and_return([1, 2])
-      expect(described_class.loaded_specs).to match_array([1, 2])
+      expect(described_class.loaded_specs).to contain_exactly(1, 2)
     end
 
     it "rescues and returns [] if Gem.loaded_specs raises" do
       allow(Gem).to receive(:loaded_specs).and_raise(StandardError)
-      expect(described_class.loaded_specs).to eq([])
+      expect(described_class.loaded_specs).to be_empty
     end
 
     it "rescues unexpected errors after retrieval (outer rescue)" do
       obj = Object.new
-      def obj.respond_to?(*); raise "oops"; end
+      def obj.respond_to?(*)
+        raise "oops"
+      end
       allow(Gem).to receive(:loaded_specs).and_return(obj)
-      expect(described_class.loaded_specs).to eq([])
+      expect(described_class.loaded_specs).to be_empty
     end
   end
 
   describe ".namespace_candidates_for edge cases" do
     it "returns [] for nil and empty" do
-      expect(described_class.namespace_candidates_for(nil)).to eq([])
-      expect(described_class.namespace_candidates_for("")).to eq([])
+      expect(described_class.namespace_candidates_for(nil)).to be_empty
+      expect(described_class.namespace_candidates_for("")).to be_empty
     end
 
     it "returns nested and collapsed candidates for multi-part names" do
@@ -116,7 +116,15 @@ RSpec.describe FlossFunding::Wedge do
     end
 
     it "returns nil when const_get fails on a later part" do
-      module Tricky; def self.const_defined?(*); true; end; def self.const_get(*); raise "nope"; end; end
+      module Tricky
+        def self.const_defined?(*)
+          true
+        end
+
+        def self.const_get(*)
+          raise "nope"
+        end
+      end
       expect(described_class.safe_const_resolve("Tricky::X")).to be_nil
     end
   end
@@ -137,7 +145,7 @@ RSpec.describe FlossFunding::Wedge do
       spec = SpecStruct.new("fake", nil, Dir.pwd)
       allow(Dir).to receive(:glob).and_return([])
       path = described_class.send(:guess_including_path, spec)
-      expect(path).to eq(FlossFunding::Wedge.method(:guess_including_path).source_location.first)
+      expect(path).to eq(described_class.method(:guess_including_path).source_location.first)
     end
   end
 
@@ -155,7 +163,7 @@ RSpec.describe FlossFunding::Wedge do
       module Zed; end
       specs = [
         SpecStruct.new("floss_funding", nil, nil),
-        SpecStruct.new("zed", nil, nil),
+        SpecStruct.new("zed", nil, nil)
       ]
       allow(described_class).to receive(:loaded_specs).and_return(specs)
       result = described_class.wedge!
@@ -171,7 +179,6 @@ RSpec.describe FlossFunding::Wedge do
       expect(result[:tried]).to eq(1)
     end
   end
-
 
   describe ".attempt_require_for_spec branches" do
     it "tolerates empty spec name and ignores invalid candidate entries" do
@@ -204,21 +211,22 @@ RSpec.describe FlossFunding::Wedge do
   end
 
   describe "render_summary_table variants" do
+    let(:results) do
+      {
+        tried: 2,
+        injected: 1,
+        details: [
+          {gem: "empty_gem", injected_into: []},
+          {gem: "good_gem", injected_into: ["Good::Mod"]}
+        ]
+      }
+    end
+
     it "falls back when terminal-table cannot be required (LoadError)" do
       hide_const("Terminal::Table")
       allow(Kernel).to receive(:require).with("terminal-table").and_raise(LoadError)
-      out = described_class.send(:render_summary_table, {:details => [], :tried => 0, :injected => 0})
+      out = described_class.send(:render_summary_table, {details: [], tried: 0, injected: 0})
       expect(out).to start_with("[Wedge] Summary:")
-    end
-    let(:results) do
-      {
-        :tried => 2,
-        :injected => 1,
-        :details => [
-          {:gem => "empty_gem", :injected_into => []},
-          {:gem => "good_gem", :injected_into => ["Good::Mod"]},
-        ],
-      }
     end
 
     it "excludes gems with no injections from the table" do
@@ -235,8 +243,13 @@ RSpec.describe FlossFunding::Wedge do
 
     it "rescues StandardError during table rendering and falls back" do
       stub_const("Terminal::Table", Class.new do
-        def initialize(*); raise "boom"; end
-        def to_s; "IGNORED"; end
+        def initialize(*)
+          raise "boom"
+        end
+
+        def to_s
+          "IGNORED"
+        end
       end)
       out = described_class.send(:render_summary_table, results)
       expect(out).to include("[Wedge] Summary:")
@@ -272,7 +285,7 @@ RSpec.describe FlossFunding::Wedge do
       allow(FlossFunding::Poke).to receive(:new).and_raise("kaboom")
       result = described_class.wedge!
       detail = result[:details].find { |d| d[:gem] == "boom" }
-      expect(detail[:injected_into]).to eq([])
+      expect(detail[:injected_into]).to be_empty
     end
   end
 
@@ -350,6 +363,7 @@ RSpec.describe FlossFunding::Wedge do
         described_class.send(:attempt_require_for_spec, spec, ["Json"])
       }.not_to raise_error
     end
+
     it "does not raise and attempts various require strings" do
       spec = SpecStruct.new("foo-bar_baz", nil, nil)
       candidates = ["Foo::BarBaz"]

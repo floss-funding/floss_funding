@@ -33,7 +33,7 @@ namespace :floss_funding do
       "homepage" => gemspec_data[:homepage],
       "authors" => gemspec_data[:authors],
       "email" => gemspec_data[:email],
-      "funding_uri" => gemspec_data[:funding_uri],
+      "funding_uri" => gemspec_data[:funding_uri]
     ).compact
 
     # Validate and sanitize before writing
@@ -42,7 +42,7 @@ namespace :floss_funding do
     unless invalids.empty?
       begin
         FlossFunding.debug_log { "[install][invalid] lib=#{lib_for_log.inspect} attrs=#{invalids.join(", ")}" }
-      rescue StandardError
+      rescue
       end
       choice = ask_continue_on_invalid(invalids, lib_for_log)
       if choice == :abort

@@ -66,7 +66,10 @@ module FlossFunding
           find_file_upwards("Gemfile", key) ||
           find_file_upwards("gems.rb", key) ||
           find_file_upwards("*.gemspec", key)
-        return (@project_root_for_cache[key] = nil) unless root_indicator_file
+        unless root_indicator_file
+          @project_root_for_cache[key] = nil
+          return
+        end
 
         dir = File.dirname(root_indicator_file)
         # Ignore the gem's own repository root when resolving a project root for

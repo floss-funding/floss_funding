@@ -46,24 +46,24 @@ RSpec.describe FlossFunding::Rakelib::GemSpecReader do
       end
       expect(output).to include(
         "[floss_funding] Error reading gemspec in /tmp:",
-        "StandardError",
+        "StandardError"
       )
     end
 
     it "extracts fields and supports funding_uri from metadata symbol key" do
       fake_spec = Struct.new(:name, :homepage, :authors, :email, :metadata).new(
-        "gemy", "https://example.test", ["Ada"], ["ada@example.test"], {:funding_uri => "https://fund.me"}
+        "gemy", "https://example.test", ["Ada"], ["ada@example.test"], {funding_uri: "https://fund.me"}
       )
       allow(Dir).to receive(:glob).and_return(["/tmp/fake.gemspec"]) # ensure path discovered
       allow(Gem::Specification).to receive(:load).and_return(fake_spec)
 
       result = described_class.read("/tmp")
       expect(result).to eq(
-        :library_name => "gemy",
-        :homepage => "https://example.test",
-        :authors => ["Ada"],
-        :email => ["ada@example.test"],
-        :funding_uri => "https://fund.me",
+        library_name: "gemy",
+        homepage: "https://example.test",
+        authors: ["Ada"],
+        email: ["ada@example.test"],
+        funding_uri: "https://fund.me"
       )
     end
 
@@ -76,11 +76,11 @@ RSpec.describe FlossFunding::Rakelib::GemSpecReader do
 
       result = described_class.read("/tmp")
       expect(result).to eq(
-        :library_name => "gemz",
-        :homepage => "https://example.org",
-        :authors => ["Linus"],
-        :email => ["linus@example.org"],
-        :funding_uri => "https://fund.str",
+        library_name: "gemz",
+        homepage: "https://example.org",
+        authors: ["Linus"],
+        email: ["linus@example.org"],
+        funding_uri: "https://fund.str"
       )
     end
   end

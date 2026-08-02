@@ -11,9 +11,9 @@ module FlossFunding
       cols = nil
       # Prefer tput, over TTY::Screen.width (from the tty-screen gem), for cross-platform compatibility
       begin
-        out = %x(tput cols 2>/dev/null).to_s.strip
+        out = `tput cols 2>/dev/null`.to_s.strip
         cols = Integer(out) unless out.empty?
-      rescue StandardError
+      rescue
         # ignore
       end
 
@@ -22,7 +22,7 @@ module FlossFunding
         begin
           env_cols = ENV["COLUMNS"]
           cols = Integer(env_cols) if env_cols && !env_cols.to_s.empty?
-        rescue StandardError
+        rescue
           # ignore
         end
       end
@@ -33,7 +33,7 @@ module FlossFunding
           require "io/console"
           _, c = IO.console.winsize
           cols = c if c && c > 0
-        rescue StandardError
+        rescue
           # ignore
         end
       end
@@ -44,9 +44,9 @@ module FlossFunding
     # Apply detected width to a Terminal::Table instance when possible.
     def apply_width!(table)
       cols = columns
-      table.style = {:width => cols} if cols && cols > 0
+      table.style = {width: cols} if cols && cols > 0
       table
-    rescue StandardError
+    rescue
       table
     end
   end

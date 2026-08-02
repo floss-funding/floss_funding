@@ -9,10 +9,10 @@ RSpec.describe "exe/floss_funding" do
   def run_cli(*args, env: {})
     # Use Bundler to ensure the same dependency context as the development environment
     default_env = {
-      "BUNDLE_GEMFILE" => File.expand_path("../../Gemfile", __dir__),
+      "BUNDLE_GEMFILE" => File.expand_path("../../Gemfile", __dir__)
     }
     cmd = ["bundle", "exec", RbConfig.ruby, exe_path, *args]
-    Open3.capture3(default_env.merge(env), *cmd, :chdir => File.expand_path("../..", __dir__))
+    Open3.capture3(default_env.merge(env), *cmd, chdir: File.expand_path("../..", __dir__))
   end
 
   describe "--help" do

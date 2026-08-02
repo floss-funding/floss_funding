@@ -11,10 +11,11 @@ require "fileutils"
 
 # external gems
 require "month/serializer"
+require_relative "floss_funding/version"
+
 Month.include(Month::Serializer)
 
 # Just the version from this gem
-require "floss_funding/version"
 
 # Load runtime control switch constants separately for easier test isolation
 require "floss_funding/constants"
@@ -28,7 +29,7 @@ module FlossFunding
   DEBUG = begin
     v = ENV.fetch("FLOSS_CFG_FUND_DEBUG", nil)
     v.to_s.casecmp("true") == 0
-  rescue StandardError
+  rescue
     false
   end
 
@@ -40,7 +41,7 @@ module FlossFunding
 
   # Minimum required keys for a valid .floss_funding.yml file
   # Used to validate presence when integrating without :wedge mode
-  REQUIRED_YAML_KEYS = %w[library_name funding_uri].freeze
+  REQUIRED_YAML_KEYS = ["library_name", "funding_uri"].freeze
 
   # Base error class for all FlossFunding-specific failures.
   class Error < StandardError; end
@@ -58,10 +59,10 @@ module FlossFunding
   NOT_FINANCIALLY_SUPPORTING = "Not-financially-supporting"
 
   STATES = {
-    :activated => "activated",
-    :unactivated => "unactivated",
-    :invalid => "invalid",
-    :detained => "detained",
+    activated: "activated",
+    unactivated: "unactivated",
+    invalid: "invalid",
+    detained: "detained"
   }.freeze
   STATE_VALUES = STATES.values.freeze
 
@@ -144,7 +145,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       words = []
       begin
         File.foreach(::FlossFunding::BASE_WORDS_PATH) { |line| words << line.chomp }
-      rescue StandardError
+      rescue
         warn("[FlossFunding] Unable to read base words file: #{::FlossFunding::BASE_WORDS_PATH}")
         words = []
       end
@@ -181,7 +182,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         return
       end
 
-      bar = ProgressBar.create(:title => "FUNDED🦷%", :total => total, :format => "%t: |%B| %p%% (%c/%C)")
+      bar = ProgressBar.create(title: "FUNDED🦷%", total: total, format: "%t: |%B| %p%% (%c/%C)")
       bar.progress = activated
       # Ensure we end with a newline after progress bar output without forcing completion
       if $stdout.tty?
@@ -210,7 +211,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       # Minimal configuration: include required keys so downstream consumers have something sensible
       cfg_hash = {
         "library_name" => ["wedge_#{derived_lib_name}"],
-        "funding_uri" => ["https://floss-funding.dev"],
+        "funding_uri" => ["https://floss-funding.dev"]
       }
       config = ::FlossFunding::Configuration.new(cfg_hash)
 
@@ -225,7 +226,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         nil,                     # config_path
         namespace.env_var_name,  # env_var_name
         config,                  # configuration
-        nil,                     # silent
+        nil                     # silent
       )
 
       # Event with the derived state and key
@@ -233,14 +234,14 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         library,
         namespace.activation_key,
         namespace.state,
-        nil,
+        nil
       )
 
       add_or_update_namespace_with_event(namespace, event)
       initiate_begging(event) unless contraindicated
 
       event
-    rescue StandardError => e
+    rescue => e
       # Never raise; wedge registration is best-effort only
       ::FlossFunding.error!(e, "register_wedge")
       nil
@@ -274,7 +275,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       msg = if block_given?
         yield
       else
-        args.map(&:to_s).join(" ")
+        args.join(" ")
       end
       # Prefer Logger to file when configured and available; otherwise STDOUT
       logger = debug_logger
@@ -282,12 +283,12 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         begin
           logger.debug(msg.to_s)
           return
-        rescue StandardError
+        rescue
           # fall back to STDOUT below
         end
       end
       puts(msg)
-    rescue StandardError
+    rescue
       # Never fail the caller due to logging issues
       nil
     end
@@ -307,7 +308,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         debug_log { msg }
         bt = (error.backtrace || [])[0, 5].join("\n")
         debug_log { "#{lbl} backtrace:\n#{bt}" } unless bt.empty?
-      rescue StandardError
+      rescue
         # ignore logging failures
       ensure
         @mutex.synchronize { @errored = true }
@@ -320,7 +321,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     def debug_logger
       path = begin
         ENV["FLOSS_CFG_FUND_LOGFILE"]
-      rescue StandardError
+      rescue
         nil
       end
       return if path.nil? || path.to_s.strip.empty?
@@ -329,7 +330,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         require "logger"
       rescue LoadError
         return
-      rescue StandardError => e
+      rescue => e
         # Log but do not set inert for logger init failures
         debug_log { "[WARN][debug_logger] #{e.class}: #{e.message}" }
         return
@@ -342,7 +343,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         begin
           dir = File.dirname(path)
           FileUtils.mkdir_p(dir) unless dir.nil? || dir.empty? || Dir.exist?(dir)
-        rescue StandardError
+        rescue
           # ignore; Logger.new may still succeed if dir already exists or is current dir
         end
 
@@ -350,16 +351,16 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
           # Truncate the debug log file on first initialization to keep runs readable
           begin
             File.open(path, "w") { |f| f.truncate(0) }
-          rescue StandardError => e
+          rescue => e
             debug_log { "[WARN][debug_logger] unable to truncate #{path}: #{e.class}: #{e.message}" }
           end
 
           logger = Logger.new(path)
           logger.level = Logger::DEBUG
           # Keep output minimal: message only with newline
-          logger.formatter = proc { |_severity, _datetime, _progname, message| (message.to_s.end_with?("\n") ? message.to_s : message.to_s + "\n") }
+          logger.formatter = proc { |_severity, _datetime, _progname, message| message.to_s.end_with?("\n") ? message.to_s : message.to_s + "\n" }
           @debug_logger = logger
-        rescue StandardError
+        rescue
           @debug_logger = nil
         end
 
@@ -400,7 +401,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         begin
           lib_name = (event.library ? event.library.library_name : nil)
           ::FlossFunding.debug_log { "[registry] add_or_update ns=#{namespace.name.inspect} events=#{ns_obj.activation_events.size} state=#{event.state} lib=#{lib_name.inspect}" }
-        rescue StandardError
+        rescue
           # ignore log errors
         end
       end
@@ -566,13 +567,13 @@ FlossFunding.send(
   :include,
   FlossFunding::Poke.new(
     __FILE__,
-    :namespace => "FlossFunding",
-    :silent => false,
-    :wedge => true,
-  ),
+    namespace: "FlossFunding",
+    silent: false,
+    wedge: true
+  )
 )
 
-# :nocov:
+# simplecov:disable
 # Add END hook to display a final summary. This hook runs when the Ruby process terminates.
 at_exit do
   begin
@@ -587,10 +588,10 @@ at_exit do
     FlossFunding.debug_log { "[at_exit] building FinalSummary; namespaces=#{FlossFunding.all_namespaces.size}" }
     # 2B. Not silent: build and render the final summary.
     FlossFunding::FinalSummary.new
-  rescue StandardError => e
+  rescue => e
     # Never allow our errors to flip a successful exit into a failure, but record them and
     # switch to inert mode for subsequent runs.
     FlossFunding.error!(e, "at_exit")
   end
 end
-# :nocov:
+# simplecov:enable

@@ -6,6 +6,6 @@ require "floss_funding"
 # Obviously, you could write this code yourself with a different module, and it would accomplish the same thing.
 module FlossFunding
   module Silent
-    include Poke.new(__FILE__, :silent => true)
+    include Poke.new(__FILE__, silent: true)
   end
 end

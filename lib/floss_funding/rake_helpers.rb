@@ -100,7 +100,7 @@ module FlossFunding
     # - If found and the section already contains the lock line, auto-skip silently.
     # - If found and missing the lock line, display the section chunk, prompt with
     #   append as the default, and only add the lock line within that section.
-    # :nocov:
+    # simplecov:disable
     def ensure_gitignore_sentinels(path, header = "# Sentinels", lock_line = ".floss_funding.*.lock")
       header = header.strip
       lock_line = lock_line.strip
@@ -201,11 +201,11 @@ module FlossFunding
         end
       end
     end
-    # :nocov:
 
+    # simplecov:enable
     def ask_continue_on_invalid(invalids, lib_name)
       env = ENV["FF_BADDATA_CHOICE"].to_s.downcase.strip
-      if %w[continue abort].include?(env)
+      if ["continue", "abort"].include?(env)
         return env.to_sym
       end
       puts "floss_funding: Detected invalid config values for #{lib_name.inspect}: #{invalids.size} attribute(s)."

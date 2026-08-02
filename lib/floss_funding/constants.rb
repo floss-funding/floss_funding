@@ -8,7 +8,7 @@ module FlossFunding
     # Can be globally overridden for the entire process by setting
     # ENV['FLOSS_CFG_FUND_ENV_PREFIX'] to a String (including an empty String
     # to indicate no prefix at all).
-    # :nocov:
+    # simplecov:disable
     # DEFAULT_PREFIX can be overridden via ENV. Exercising the "then" branch
     # would require reloading this file with a modified ENV in-process.
     DEFAULT_PREFIX = if ENV.key?("FLOSS_CFG_FUND_ENV_PREFIX")
@@ -17,15 +17,14 @@ module FlossFunding
       # Default prefix used with ENV variables that will hold activation keys
       "FLOSS_FUNDING_"
     end
-    # :nocov:
-
+    # simplecov:enable
     # Global silence switch controlled by ENV.
     # When ENV['FLOSS_CFG_FUND_SILENT'] case-insensitively equals
     # "CATHEDRAL_OR_BAZAAR", SILENT is true; otherwise false.
     SILENT = begin
       v = ENV["FLOSS_CFG_FUND_SILENT"]
       v.to_s.casecmp("CATHEDRAL_OR_BAZAAR") == 0
-    rescue StandardError
+    rescue
       false
     end
   end

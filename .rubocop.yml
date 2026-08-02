@@ -1,5 +1,17 @@
 inherit_gem:
   rubocop-lts: config/rubygem_rspec.yml
+inherit_from:
+  - .rubocop_rspec.yml
+plugins:
+  - rubocop-rspec
+  - rubocop-on-rbs
+  - rubocop-packaging
+# This tells RuboCop to add the exclusions in this file
+# to the default exclusions (and those from other inherited files),
+# rather than overwriting them.
+inherit_mode:
+  merge:
+    - Exclude
 
 AllCops:
   Exclude:
@@ -7,9 +19,30 @@ AllCops:
     - 'spec/fixtures/gemspecs/**/*'
     - 'spec/fixtures/non_gems/**/*'
     - 'spec/fixtures/scenario_gems/**/*'
+RBS:
+  Enabled: true
 
 RSpec/ExampleLength:
   Enabled: false
+
+# These files own process-lifetime caches and global configuration. Their APIs
+# deliberately expose module-level state; FlossFunding synchronizes activation
+# state separately and the finder/normalizer caches are bootstrap-only.
+ThreadSafety/ClassInstanceVariable:
+  Exclude:
+    - 'lib/floss_funding.rb'
+    - 'lib/floss_funding/config_finder.rb'
+    - 'lib/floss_funding/config_loader.rb'
+    - 'lib/floss_funding/file_finder.rb'
+    - 'lib/floss_funding/under_bar.rb'
+
+ThreadSafety/MutableClassInstanceVariable:
+  Exclude:
+    - 'lib/floss_funding.rb'
+
+ThreadSafety/ClassAndModuleAttributes:
+  Exclude:
+    - 'lib/floss_funding/config_finder.rb'
 
 Layout/IndentationConsistency:
   Exclude: ['*.md']

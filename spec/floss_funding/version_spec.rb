@@ -1,5 +1,11 @@
+# frozen_string_literal: true
+
+require "anonymous_loader"
 RSpec.describe FlossFunding::Version do
-  it "has a version number" do
-    expect(described_class::VERSION).not_to be_nil
+  it "executes the version file for coverage without redefining constants" do
+    path = File.expand_path("../../lib/floss_funding/version.rb", __dir__)
+    anonymous_namespace = AnonymousLoader.load(files: path)
+
+    expect(anonymous_namespace::FlossFunding::Version::VERSION).to eq(described_class::VERSION)
   end
 end

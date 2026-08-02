@@ -31,7 +31,7 @@ end
 begin
   # Load default group; avoid test/development auto-require
   Bundler.require(:default)
-rescue StandardError
+rescue
   # Some projects have no :default group or prefer manual requires; ignore
 end
 
@@ -69,9 +69,9 @@ module FFCLI
       invalid << ns.name if ns.has_state?(::FlossFunding::STATES[:invalid])
     end
     {
-      :activated => activated.uniq.sort,
-      :unactivated => unactivated.uniq.sort,
-      :invalid => invalid.uniq.sort,
+      activated: activated.uniq.sort,
+      unactivated: unactivated.uniq.sort,
+      invalid: invalid.uniq.sort
     }
   end
 
@@ -86,10 +86,10 @@ module FFCLI
         lib = ev.library
         next unless lib
         entry = {
-          :gem_name => lib.gem_name,
-          :namespace => lib.namespace,
-          :env_var => lib.env_var_name,
-          :config => lib.config,
+          gem_name: lib.gem_name,
+          namespace: lib.namespace,
+          env_var: lib.env_var_name,
+          config: lib.config
         }
         case ev.state
         when ::FlossFunding::STATES[:activated]
@@ -100,7 +100,7 @@ module FFCLI
             ak == ::FlossFunding::FREE_AS_IN_BEER ||
               ak == ::FlossFunding::BUSINESS_IS_NOT_GOOD_YET ||
               ak == "#{::FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns_name}"
-          rescue StandardError
+          rescue
             false
           end
           if unpaid
@@ -120,9 +120,9 @@ module FFCLI
     uniq_by = ->(arr) { arr.uniq { |h| [h[:gem_name], h[:namespace]] } }
 
     {
-      :activated => uniq_by.call(activated).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
-      :unactivated => uniq_by.call(unactivated).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
-      :invalid => uniq_by.call(invalid).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
+      activated: uniq_by.call(activated).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
+      unactivated: uniq_by.call(unactivated).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
+      invalid: uniq_by.call(invalid).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] }
     }
   end
 
@@ -229,10 +229,10 @@ module FFCLI
       if defined?(::FlossFunding) && defined?(::FlossFunding::Terminal)
         ::FlossFunding::Terminal.columns
       else
-        out = %x(tput cols 2>/dev/null).to_s.strip
+        out = `tput cols 2>/dev/null`.to_s.strip
         Integer(out) unless out.empty?
       end
-    rescue StandardError
+    rescue
       nil
     end
 
@@ -244,10 +244,10 @@ module FFCLI
     end
 
     begin
-      table = Terminal::Table.new(:headings => headings, :rows => rows)
+      table = Terminal::Table.new(headings: headings, rows: rows)
       # Set width if known (re-evaluated every render)
       if cols && cols > 0
-        table.style = {:width => cols}
+        table.style = {width: cols}
       end
       puts table
     rescue RuntimeError => e
@@ -285,7 +285,7 @@ SHORT_ALIAS_MAP = {
   "-anf" => "--all-needing-funding",
   "-mnf" => "--menu-needing-funding",
   "-mf" => "--menu-funded",
-  "-w" => "--wedge",
+  "-w" => "--wedge"
 }.freeze
 
 # Rewrite ARGV in-place so OptionParser can unambiguously handle them.
@@ -375,7 +375,7 @@ when :wedge
     begin
       result = FlossFunding::Wedge.wedge!
       puts "Wedge summary: tried=#{result[:tried]} gems, injected=#{result[:injected]}"
-    rescue StandardError => e
+    rescue => e
       warn("Wedge failed: #{e.class}: #{e.message}")
     end
   else

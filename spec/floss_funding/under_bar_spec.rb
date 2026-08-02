@@ -137,7 +137,7 @@ RSpec.describe FlossFunding::UnderBar do
     context "with invalid inputs" do
       it "raises an error when klass is nil" do
         expect {
-          described_class.env_variable_name(:klass => nil)
+          described_class.env_variable_name(klass: nil)
         }.to raise_error(FlossFunding::Error, /namespace must be a String/)
       end
     end

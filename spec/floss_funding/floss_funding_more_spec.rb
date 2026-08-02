@@ -3,17 +3,27 @@
 RSpec.describe FlossFunding do
   include(ActivationEventsHelper)
 
-  describe "time helpers and activation checking" do
+  describe "time helpers and activation checking", freeze: Time.utc(2025, 8, 1, 0, 0, 0) do
     before do
-      described_class.instance_variable_set(:@loaded_at, Time.utc(2025, 8, 1, 0, 0, 0))
+      @loaded_at = described_class.instance_variable_get(:@loaded_at)
+      @loaded_month = described_class.instance_variable_get(:@loaded_month)
+      @num_valid_words_for_month = described_class.instance_variable_get(:@num_valid_words_for_month)
+      loaded_at = Time.now.utc
+      loaded_month = Month.new(loaded_at.year, loaded_at.month).to_i
+
+      described_class.instance_variable_set(:@loaded_at, loaded_at)
+      described_class.instance_variable_set(:@loaded_month, loaded_month)
+      described_class.instance_variable_set(:@num_valid_words_for_month, loaded_month - FlossFunding::START_MONTH)
     end
 
     after do
-      described_class.instance_variable_set(:@loaded_at, nil)
+      described_class.instance_variable_set(:@loaded_at, @loaded_at)
+      described_class.instance_variable_set(:@loaded_month, @loaded_month)
+      described_class.instance_variable_set(:@num_valid_words_for_month, @num_valid_words_for_month)
     end
 
     it "returns deterministic loaded_at and computes loaded_month" do
-      expect(described_class.loaded_at).to eq(Time.utc(2025, 8, 1, 0, 0, 0))
+      expect(described_class.loaded_at).to eq(Time.now.utc)
       expect(described_class.loaded_month).to be_a(Integer)
     end
 
@@ -29,7 +39,7 @@ RSpec.describe FlossFunding do
     it "check_activation returns true when base word is in the current set" do
       # Force n to a positive value and control base_words set
       described_class.instance_variable_set(:@num_valid_words_for_month, 3)
-      allow(described_class).to receive(:base_words).with(3).and_return(%w[alpha beta gamma])
+      allow(described_class).to receive(:base_words).with(3).and_return(["alpha", "beta", "gamma"])
       expect(described_class.check_activation("beta")).to be(true)
     end
   end
@@ -52,17 +62,17 @@ RSpec.describe FlossFunding do
 
   describe "initiate_begging branches" do
     it "does nothing when state is activated" do
-      ev = make_event("Ns", :activated, :library_name => "g")
-      expect(FlossFunding).not_to receive(:start_begging)
-      expect(FlossFunding).not_to receive(:start_coughing)
+      ev = make_event("Ns", :activated, library_name: "g")
+      expect(described_class).not_to receive(:start_begging)
+      expect(described_class).not_to receive(:start_coughing)
       described_class.initiate_begging(ev)
     end
 
     it "begs when state is unactivated" do
-      ev = make_event("Ns2", :unactivated, :library_name => "g2")
+      ev = make_event("Ns2", :unactivated, library_name: "g2")
       # Ensure lockfile sentinel does not gate this unit test
       allow(FlossFunding::Lockfile).to receive(:on_load).and_return(nil)
-      expect(FlossFunding).to receive(:start_begging)
+      expect(described_class).to receive(:start_begging)
       described_class.initiate_begging(ev)
     end
   end

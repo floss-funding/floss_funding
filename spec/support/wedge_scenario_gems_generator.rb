@@ -40,7 +40,7 @@ module FlossFunding
         File.write(path, content.to_s)
       end
 
-      {:dir => gem_dir}
+      {dir: gem_dir}
     end
 
     def gen_gem1_with_vendored
@@ -68,7 +68,7 @@ module FlossFunding
             # include FlossFunding::Poke.new(__FILE__)
           end
         RUBY
-        File.join("vendor", "vendored_lib", "lib", "vendor_gem.rb") => <<-RUBY,
+        File.join("vendor", "vendored_lib", "lib", "vendor_gem.rb") => <<-RUBY
           # frozen_string_literal: true
 
           # Simulated vendored gem inside gem1_with_vendored
@@ -83,7 +83,7 @@ module FlossFunding
     def gen_gem2_exec_and_lib
       name = "gem2_exec_and_lib"
       files = {
-        File.join("lib", "gem2_exec_and_lib.rb") => <<-RUBY,
+        File.join("lib", "gem2_exec_and_lib.rb") => <<-RUBY
           # frozen_string_literal: true
 
           module Gem2ExecAndLib
@@ -97,7 +97,7 @@ module FlossFunding
     def gen_gem3_exec_and_lib_both_poke
       name = "gem3_exec_and_lib_both_poke"
       files = {
-        File.join("lib", "gem3_exec_and_lib_both_poke.rb") => <<-RUBY,
+        File.join("lib", "gem3_exec_and_lib_both_poke.rb") => <<-RUBY
           # frozen_string_literal: true
 
           module Gem3ExecAndLibBothPoke
@@ -111,7 +111,7 @@ module FlossFunding
     def gen_gem4_with_dummy
       name = "gem4_with_dummy"
       files = {
-        File.join("lib", "gem4_with_dummy.rb") => <<-RUBY,
+        File.join("lib", "gem4_with_dummy.rb") => <<-RUBY
           # frozen_string_literal: true
 
           module Gem4WithDummy

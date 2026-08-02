@@ -206,7 +206,7 @@ GEMSPEC
         write_minimal_project(dir)
         allow(FlossFunding::Config).to receive(:find_project_root).and_return(dir)
         # Force invalids to be present
-        allow(FlossFunding::Validators).to receive(:sanitize_config).and_return([{}, {%w[a b] => nil}].then { |x| [x.first, %w[a b]] })
+        allow(FlossFunding::Validators).to receive(:sanitize_config).and_return([{}, {["a", "b"] => nil}].then { |x| [x.first, ["a", "b"]] })
         stub_env("FF_BADDATA_CHOICE" => "abort")
         expect { rake_app["floss_funding:install"].invoke }.to raise_error(SystemExit)
       end
@@ -216,7 +216,7 @@ GEMSPEC
       Dir.mktmpdir do |dir|
         write_minimal_project(dir)
         allow(FlossFunding::Config).to receive(:find_project_root).and_return(dir)
-        allow(FlossFunding::Validators).to receive(:sanitize_config).and_return([{}, {%w[a b] => nil}].then { |x| [x.first, %w[a b]] })
+        allow(FlossFunding::Validators).to receive(:sanitize_config).and_return([{}, {["a", "b"] => nil}].then { |x| [x.first, ["a", "b"]] })
         stub_env("FF_BADDATA_CHOICE" => "continue")
         expect { rake_app["floss_funding:install"].invoke }.not_to raise_error
       end

@@ -56,12 +56,12 @@ RSpec.describe "Benchmark fixtures ENV segmentation", :skip_ci do # rubocop:disa
     context "when load returns a hash of bad data" do
       let(:bad_data) {
         {
-          :name => "foo_bar",
-          :authors => nil,
-          :homepage => nil,
+          name: "foo_bar",
+          authors: nil,
+          homepage: nil
         }
       }
-      let(:bad_spec) { instance_double(Gem::Specification, :metadata => {}, **bad_data) }
+      let(:bad_spec) { instance_double(Gem::Specification, metadata: {}, **bad_data) }
 
       before do
         allow(Gem::Specification).to receive(:load).and_return(bad_spec)

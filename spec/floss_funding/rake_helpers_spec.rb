@@ -92,7 +92,7 @@ RSpec.describe FlossFunding::RakeHelpers do
           "abort" => :abort,
           "a" => :abort,
           "diff" => :diff,
-          "d" => :diff,
+          "d" => :diff
         }.each do |env_val, sym|
           stub_env("FF_INSTALL_CHOICE" => env_val)
           expect(described_class.ask_overwrite(path)).to eq(sym)
@@ -104,6 +104,12 @@ RSpec.describe FlossFunding::RakeHelpers do
       allow($stdin).to receive(:gets).and_return("")
       # no ENV set, so it will prompt and then use default
       expect(described_class.ask_overwrite("/tmp/x", :append)).to eq(:append)
+    end
+
+    it "re-prompts after an invalid interactive choice" do
+      allow($stdin).to receive(:gets).and_return("wat\n", "d\n")
+
+      expect(described_class.ask_overwrite("/tmp/x")).to eq(:diff)
     end
   end
 
@@ -171,16 +177,22 @@ RSpec.describe FlossFunding::RakeHelpers do
   describe "::ask_continue_on_invalid", :check_output do
     it "honors ENV override values" do
       stub_env("FF_BADDATA_CHOICE" => "continue")
-      expect(described_class.ask_continue_on_invalid(%w[a], "lib")).to eq(:continue)
+      expect(described_class.ask_continue_on_invalid(["a"], "lib")).to eq(:continue)
       stub_env("FF_BADDATA_CHOICE" => "abort")
-      expect(described_class.ask_continue_on_invalid(%w[a], "lib")).to eq(:abort)
+      expect(described_class.ask_continue_on_invalid(["a"], "lib")).to eq(:abort)
     end
 
     it "prompts user when no ENV override and accepts entries" do
       allow($stdin).to receive(:gets).and_return("c\n")
-      expect(described_class.ask_continue_on_invalid(%w[a b], "lib")).to eq(:continue)
+      expect(described_class.ask_continue_on_invalid(["a", "b"], "lib")).to eq(:continue)
       allow($stdin).to receive(:gets).and_return("a\n")
-      expect(described_class.ask_continue_on_invalid(%w[x], "lib")).to eq(:abort)
+      expect(described_class.ask_continue_on_invalid(["x"], "lib")).to eq(:abort)
+    end
+
+    it "re-prompts after an invalid interactive choice" do
+      allow($stdin).to receive(:gets).and_return("wat\n", "c\n")
+
+      expect(described_class.ask_continue_on_invalid(["a"], "lib")).to eq(:continue)
     end
   end
 end

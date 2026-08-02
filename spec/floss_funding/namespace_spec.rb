@@ -79,8 +79,8 @@ RSpec.describe FlossFunding::Namespace do
     include(ActivationEventsHelper)
 
     it "detects presence of events with the given state" do
-      ev_a = make_event("Eta", :activated, :class_name => "Lib")
-      ev_u = make_event("Eta", :unactivated, :class_name => "Lib")
+      ev_a = make_event("Eta", :activated, class_name: "Lib")
+      ev_u = make_event("Eta", :unactivated, class_name: "Lib")
       ns = described_class.new("Eta")
       ns.activation_events = [ev_a, ev_u]
       expect(ns.has_state?(FlossFunding::STATES[:activated])).to be(true)
@@ -93,7 +93,7 @@ RSpec.describe FlossFunding::Namespace do
 
     it "returns library configs from events" do
       cfg = {"a" => 1}
-      ev = make_event("Theta", :activated, :class_name => "Lib", :config => cfg)
+      ev = make_event("Theta", :activated, class_name: "Lib", config: cfg)
       ns = described_class.new("Theta")
       ns.activation_events = [ev]
       result = ns.configs.first.to_h
@@ -136,8 +136,8 @@ RSpec.describe FlossFunding::Namespace do
       ns = described_class.new("Lambda")
       cfg1 = {"a" => 1}
       cfg2 = {"a" => 2}
-      ev1 = make_event("Lambda", :unactivated, :class_name => "Lib1", :config => cfg1)
-      ev2 = make_event("Lambda", :unactivated, :class_name => "Lib2", :config => cfg2)
+      ev1 = make_event("Lambda", :unactivated, class_name: "Lib1", config: cfg1)
+      ev2 = make_event("Lambda", :unactivated, class_name: "Lib2", config: cfg2)
       ns.activation_events = [ev1, ev2]
       merged = ns.merged_config
       expect(merged["a"]).to eq([1, 2])

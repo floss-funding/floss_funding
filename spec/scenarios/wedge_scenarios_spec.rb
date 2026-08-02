@@ -55,7 +55,7 @@ RSpec.describe "Wedge scenario fixtures" do
 
       specs = [
         SpecStruct.new("gem1_with_vendored", nil, nil),
-        SpecStruct.new("vendor_gem", nil, nil),
+        SpecStruct.new("vendor_gem", nil, nil)
       ]
       allow(FlossFunding::Wedge).to receive(:loaded_specs).and_return(specs)
 

@@ -59,7 +59,7 @@ GEMSPEC
       initial = [
         "# Sentinels",
         ".floss_funding.*.lock",
-        "# Next",
+        "# Next"
       ].join("\n") + "\n"
       File.write(gi, initial)
 
@@ -85,7 +85,7 @@ GEMSPEC
         "# Sentinels",
         "other",
         "# OS Detritus",
-        "bar",
+        "bar"
       ].join("\n") + "\n"
       File.write(gi, initial)
 
@@ -107,7 +107,7 @@ GEMSPEC
         "other",
         ".floss_funding.*.lock",
         "# OS Detritus",
-        "bar",
+        "bar"
       ].join("\n") + "\n"
       expect(File.read(gi)).to eq(expected)
     end

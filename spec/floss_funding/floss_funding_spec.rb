@@ -4,85 +4,86 @@ require "spec_helper"
 
 RSpec.describe FlossFunding do
   include(ActivationEventsHelper)
+
   include_context "with stubbed env"
 
   describe "namespace queries and file-based behaviors" do
     before do
-      FlossFunding.namespaces = {}
+      described_class.namespaces = {}
     end
 
     it "all_namespaces behaves as expected" do
       ns1 = FlossFunding::Namespace.new("Ns1")
       ns2 = FlossFunding::Namespace.new("Ns2")
 
-      ev1 = make_event(ns1.name, :activated, :library_name => "g1", :class_name => "Lib1")
-      ev2 = make_event(ns1.name, :unactivated, :library_name => "g1", :class_name => "Lib1")
-      ev3 = make_event(ns2.name, :invalid, :library_name => "g2", :class_name => "Lib2")
+      ev1 = make_event(ns1.name, :activated, library_name: "g1", class_name: "Lib1")
+      ev2 = make_event(ns1.name, :unactivated, library_name: "g1", class_name: "Lib1")
+      ev3 = make_event(ns2.name, :invalid, library_name: "g2", class_name: "Lib2")
 
       ns1.activation_events = [ev1, ev2]
       ns2.activation_events = [ev3]
 
-      FlossFunding.add_or_update_namespace_with_event(ns1, ev1)
-      FlossFunding.add_or_update_namespace_with_event(ns2, ev3)
+      described_class.add_or_update_namespace_with_event(ns1, ev1)
+      described_class.add_or_update_namespace_with_event(ns2, ev3)
 
-      expect(FlossFunding.all_namespaces.map(&:name).sort).to eq(["Ns1", "Ns2"])
-      expect(FlossFunding.all_namespaces.sort_by(&:name).map(&:state)).to eq(["unactivated", "unactivated"])
+      expect(described_class.all_namespaces.map(&:name).sort).to eq(["Ns1", "Ns2"])
+      expect(described_class.all_namespaces.sort_by(&:name).map(&:state)).to eq(["unactivated", "unactivated"])
     end
 
     it "initiate_begging calls start_coughing when event is invalid" do
-      event = make_event("NsZ", :invalid, :key => "deadbeef", :library_name => "gemz", :class_name => "Lib")
+      event = make_event("NsZ", :invalid, key: "deadbeef", library_name: "gemz", class_name: "Lib")
 
       # Ensure lockfile sentinel does not gate this unit test
       allow(FlossFunding::Lockfile).to receive(:on_load).and_return(nil)
 
-      expect(FlossFunding).to receive(:start_coughing).with(
+      expect(described_class).to receive(:start_coughing).with(
         "deadbeef",
         "NsZ",
-        FlossFunding::UnderBar.env_variable_name("NsZ"),
+        FlossFunding::UnderBar.env_variable_name("NsZ")
       )
 
-      FlossFunding.initiate_begging(event)
+      described_class.initiate_begging(event)
     end
   end
 
   describe "branch coverage", :check_output do
     before do
-      FlossFunding.namespaces = {}
-      FlossFunding.silenced = true
+      described_class.namespaces = {}
+      described_class.silenced = true
     end
 
     after do
-      FlossFunding.namespaces = {}
-      FlossFunding.silenced = FlossFunding::Constants::SILENT
+      described_class.namespaces = {}
+      described_class.silenced = FlossFunding::Constants::SILENT
     end
 
     it "covers base_words early return for n == 0" do
-      FlossFunding.instance_variable_set(:@loaded_at, Time.new(2025, 7, 1, 0, 0, 0, "+00:00"))
-      FlossFunding.instance_variable_set(:@loaded_month, FlossFunding::START_MONTH)
-      FlossFunding.instance_variable_set(:@num_valid_words_for_month, 0)
-      expect(FlossFunding.instance_variable_get(:@num_valid_words_for_month)).to eq(0)
-      expect(FlossFunding.base_words).to eq([])
+      described_class.instance_variable_set(:@loaded_at, Time.new(2025, 7, 1, 0, 0, 0, "+00:00"))
+      described_class.instance_variable_set(:@loaded_month, FlossFunding::START_MONTH)
+      described_class.instance_variable_set(:@num_valid_words_for_month, 0)
+      expect(described_class.instance_variable_get(:@num_valid_words_for_month)).to eq(0)
+      expect(described_class.base_words).to be_empty
     end
 
     it "covers check_activation early return when n <= 0" do
-      FlossFunding.instance_variable_set(:@loaded_at, Time.new(2025, 7, 1, 0, 0, 0, "+00:00"))
-      FlossFunding.instance_variable_set(:@loaded_month, FlossFunding::START_MONTH)
-      FlossFunding.instance_variable_set(:@num_valid_words_for_month, 0)
-      expect(FlossFunding.instance_variable_get(:@num_valid_words_for_month)).to eq(0)
-      expect(FlossFunding.check_activation("anything")).to be(false)
+      described_class.instance_variable_set(:@loaded_at, Time.new(2025, 7, 1, 0, 0, 0, "+00:00"))
+      described_class.instance_variable_set(:@loaded_month, FlossFunding::START_MONTH)
+      described_class.instance_variable_set(:@num_valid_words_for_month, 0)
+      expect(described_class.instance_variable_get(:@num_valid_words_for_month)).to eq(0)
+      expect(described_class.check_activation("anything")).to be(false)
     end
 
     it "covers start_coughing guard return when contraindicated" do
       allow(FlossFunding::ContraIndications).to receive(:at_exit_contraindicated?).and_return(true)
       expect {
-        FlossFunding.start_coughing("deadbeef", "NsX", "FLOSS_FUNDING_NSX")
+        described_class.start_coughing("deadbeef", "NsX", "FLOSS_FUNDING_NSX")
       }.not_to output.to_stdout
     end
 
     it "covers start_coughing printing path when not contraindicated" do
       allow(FlossFunding::ContraIndications).to receive(:at_exit_contraindicated?).and_return(false)
       expect {
-        FlossFunding.start_coughing("deadbeef", "NsY", "FLOSS_FUNDING_NSY")
+        described_class.start_coughing("deadbeef", "NsY", "FLOSS_FUNDING_NSY")
       }.to output(/COUGH, COUGH\.|Current \(Invalid\) Activation Key: deadbeef/).to_stdout
     end
   end
@@ -116,53 +117,53 @@ RSpec.describe FlossFunding do
   context "with output", :check_output do
     before do
       # Ensure we don't leak state across these examples; spec_helper also snapshots, but we are explicit here
-      FlossFunding.namespaces = {}
-      FlossFunding.silenced = true
+      described_class.namespaces = {}
+      described_class.silenced = true
     end
 
     after do
-      FlossFunding.namespaces = {}
-      FlossFunding.silenced = FlossFunding::Constants::SILENT
-      FlossFunding.instance_variable_set(:@loaded_at, nil)
+      described_class.namespaces = {}
+      described_class.silenced = FlossFunding::Constants::SILENT
+      described_class.instance_variable_set(:@loaded_at, nil)
     end
 
     it "covers activation_occurrences false path when a namespace has zero events" do
       ns = FlossFunding::Namespace.new("NoEventsNS", nil, [])
-      FlossFunding.namespaces = {ns.name => ns}
+      described_class.namespaces = {ns.name => ns}
 
       # count == 0 so the modifier-if should not append; SimpleCov records the false branch as the 'else' path
-      expect(FlossFunding.activation_occurrences).to eq([])
+      expect(described_class.activation_occurrences).to be_empty
     end
 
     it "covers base_words early return for n == 0" do
       # Make current month equal to START_MONTH, resulting in n == 0
-      FlossFunding.instance_variable_set(:@loaded_at, Time.new(2025, 7, 1, 0, 0, 0, "+00:00"))
-      FlossFunding.instance_variable_set(:@loaded_month, FlossFunding::START_MONTH)
-      FlossFunding.instance_variable_set(:@num_valid_words_for_month, 0)
-      expect(FlossFunding.instance_variable_get(:@num_valid_words_for_month)).to eq(0)
-      expect(FlossFunding.base_words).to eq([])
+      described_class.instance_variable_set(:@loaded_at, Time.new(2025, 7, 1, 0, 0, 0, "+00:00"))
+      described_class.instance_variable_set(:@loaded_month, FlossFunding::START_MONTH)
+      described_class.instance_variable_set(:@num_valid_words_for_month, 0)
+      expect(described_class.instance_variable_get(:@num_valid_words_for_month)).to eq(0)
+      expect(described_class.base_words).to be_empty
     end
 
     it "covers check_activation early return when n <= 0" do
-      FlossFunding.instance_variable_set(:@loaded_at, Time.new(2025, 7, 1, 0, 0, 0, "+00:00"))
-      FlossFunding.instance_variable_set(:@loaded_month, FlossFunding::START_MONTH)
-      FlossFunding.instance_variable_set(:@num_valid_words_for_month, 0)
-      expect(FlossFunding.instance_variable_get(:@num_valid_words_for_month)).to eq(0)
-      expect(FlossFunding.check_activation("anything")).to be(false)
+      described_class.instance_variable_set(:@loaded_at, Time.new(2025, 7, 1, 0, 0, 0, "+00:00"))
+      described_class.instance_variable_set(:@loaded_month, FlossFunding::START_MONTH)
+      described_class.instance_variable_set(:@num_valid_words_for_month, 0)
+      expect(described_class.instance_variable_get(:@num_valid_words_for_month)).to eq(0)
+      expect(described_class.check_activation("anything")).to be(false)
     end
 
     it "covers start_coughing guard return when contraindicated" do
       # Force ContraIndications to return true so start_coughing returns early (no output)
       allow(FlossFunding::ContraIndications).to receive(:at_exit_contraindicated?).and_return(true)
       expect {
-        FlossFunding.start_coughing("deadbeef", "NsX", "FLOSS_FUNDING_NSX")
+        described_class.start_coughing("deadbeef", "NsX", "FLOSS_FUNDING_NSX")
       }.not_to output.to_stdout
     end
 
     it "covers start_coughing printing path when not contraindicated" do
       allow(FlossFunding::ContraIndications).to receive(:at_exit_contraindicated?).and_return(false)
       expect {
-        FlossFunding.start_coughing("deadbeef", "NsY", "FLOSS_FUNDING_NSY")
+        described_class.start_coughing("deadbeef", "NsY", "FLOSS_FUNDING_NSY")
       }.to output(/COUGH, COUGH\.|Current \(Invalid\) Activation Key: deadbeef/).to_stdout
     end
   end

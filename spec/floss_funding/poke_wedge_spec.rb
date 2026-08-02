@@ -5,7 +5,7 @@ RSpec.describe FlossFunding::Poke do
 
   it "when :wedge => true only injects Fingerprint and does not raise" do
     mod = Module.new
-    mod.send(:include, described_class.new(including_path, :wedge => true))
+    mod.send(:include, described_class.new(including_path, wedge: true))
     expect(mod).to respond_to(:floss_funding_fingerprint)
   end
 
@@ -13,7 +13,7 @@ RSpec.describe FlossFunding::Poke do
     it "raises if specified config_file does not exist at library root" do
       stub_const("WedgeTest1", Module.new)
       expect {
-        WedgeTest1.send(:include, described_class.new(including_path, :config_file => ".missing.yml"))
+        WedgeTest1.send(:include, described_class.new(including_path, config_file: ".missing.yml"))
       }.to raise_error(FlossFunding::Error, "Missing library root path due to: Missing required config file: " \
         "\".missing.yml\"; run `bundle exec rake floss_funding:install` to create one.")
     end
@@ -28,7 +28,7 @@ RSpec.describe FlossFunding::Poke do
         File.write(including, "# stub")
         stub_const("WedgeTest2", Module.new)
         expect {
-          WedgeTest2.send(:include, described_class.new(including, :config_file => ".floss_funding.yml"))
+          WedgeTest2.send(:include, described_class.new(including, config_file: ".floss_funding.yml"))
         }.to raise_error(FlossFunding::Error, /missing required keys: funding_uri/)
       end
     end
@@ -42,7 +42,7 @@ RSpec.describe FlossFunding::Poke do
         File.write(including, "# stub")
         stub_const("WedgeNamedMod", Module.new)
         expect {
-          WedgeNamedMod.send(:include, described_class.new(including, :config_file => ".floss_funding.yml"))
+          WedgeNamedMod.send(:include, described_class.new(including, config_file: ".floss_funding.yml"))
         }.not_to raise_error
       end
     end
@@ -53,7 +53,7 @@ RSpec.describe FlossFunding::Poke do
       allow(FlossFunding::ContraIndications).to receive(:poke_contraindicated?).and_return(true)
       mod = Module.new
       expect {
-        mod.send(:include, described_class.new(including_path, :wedge => true))
+        mod.send(:include, described_class.new(including_path, wedge: true))
       }.not_to output(/FLOSS Funding/).to_stdout
     end
   end

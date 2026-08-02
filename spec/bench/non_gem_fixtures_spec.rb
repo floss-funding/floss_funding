@@ -8,16 +8,16 @@ RSpec.describe "Non-gem fixtures behavior" do # rubocop:disable RSpec/DescribeCl
   # Map fixtures with metadata to drive expectations
   let(:fixtures) do
     [
-      {:name => "NgBundler1", :enabler => "NG_BUNDLER_1_ENABLE", :bundler => true, :has_yaml => true},
-      {:name => "NgBundler2", :enabler => "NG_BUNDLER_2_ENABLE", :bundler => true, :has_yaml => true},
-      {:name => "NgBundler3", :enabler => "NG_BUNDLER_3_ENABLE", :bundler => true, :has_yaml => true},
-      {:name => "NgBundler4", :enabler => "NG_BUNDLER_4_ENABLE", :bundler => true, :has_yaml => false},
-      {:name => "NgBundler5", :enabler => "NG_BUNDLER_5_ENABLE", :bundler => true, :has_yaml => false},
-      {:name => "NgPlain1", :enabler => "NG_PLAIN_1_ENABLE", :bundler => false, :has_yaml => true},
-      {:name => "NgPlain2", :enabler => "NG_PLAIN_2_ENABLE", :bundler => false, :has_yaml => true},
-      {:name => "NgPlain3", :enabler => "NG_PLAIN_3_ENABLE", :bundler => false, :has_yaml => true},
-      {:name => "NgPlain4", :enabler => "NG_PLAIN_4_ENABLE", :bundler => false, :has_yaml => false},
-      {:name => "NgPlain5", :enabler => "NG_PLAIN_5_ENABLE", :bundler => false, :has_yaml => false},
+      {name: "NgBundler1", enabler: "NG_BUNDLER_1_ENABLE", bundler: true, has_yaml: true},
+      {name: "NgBundler2", enabler: "NG_BUNDLER_2_ENABLE", bundler: true, has_yaml: true},
+      {name: "NgBundler3", enabler: "NG_BUNDLER_3_ENABLE", bundler: true, has_yaml: true},
+      {name: "NgBundler4", enabler: "NG_BUNDLER_4_ENABLE", bundler: true, has_yaml: false},
+      {name: "NgBundler5", enabler: "NG_BUNDLER_5_ENABLE", bundler: true, has_yaml: false},
+      {name: "NgPlain1", enabler: "NG_PLAIN_1_ENABLE", bundler: false, has_yaml: true},
+      {name: "NgPlain2", enabler: "NG_PLAIN_2_ENABLE", bundler: false, has_yaml: true},
+      {name: "NgPlain3", enabler: "NG_PLAIN_3_ENABLE", bundler: false, has_yaml: true},
+      {name: "NgPlain4", enabler: "NG_PLAIN_4_ENABLE", bundler: false, has_yaml: false},
+      {name: "NgPlain5", enabler: "NG_PLAIN_5_ENABLE", bundler: false, has_yaml: false}
     ]
   end
 

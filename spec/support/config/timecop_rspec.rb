@@ -25,6 +25,6 @@ ENV["GLOBAL_TIME_TRAVEL_TIME"] ||= GLOBAL_DATE
 
 RSpec.configure do |config|
   config.around do |example|
-    Timecop::Rspec.time_machine(:sequential => true).run(example)
+    Timecop::Rspec.time_machine(sequential: true).run(example)
   end
 end

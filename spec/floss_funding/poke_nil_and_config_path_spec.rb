@@ -16,7 +16,7 @@ RSpec.describe "Poke with explicit config_file" do
     # specify only the file name; it must reside at the library root
     expect(FlossFunding::ConfigFinder).not_to receive(:find_config_path)
 
-    inclusion = FlossFunding::Inclusion.new(base, nil, __FILE__, {:config_file => ".floss_funding.yml"})
+    inclusion = FlossFunding::Inclusion.new(base, nil, __FILE__, {config_file: ".floss_funding.yml"})
     expect(File.basename(inclusion.config_path)).to eq(".floss_funding.yml")
     expect(inclusion.config_data["funding_donation_uri"]).to eq(["https://floss-funding.dev/donate"])
     expect(inclusion.configuration["funding_donation_uri"]).to eq(["https://floss-funding.dev/donate"])
@@ -26,7 +26,7 @@ RSpec.describe "Poke with explicit config_file" do
     expect(FlossFunding::ConfigFinder).not_to receive(:find_config_path)
 
     expect {
-      FlossFunding::Inclusion.new(base, nil, nil, {:config_file => ".floss_funding.yml"})
+      FlossFunding::Inclusion.new(base, nil, nil, {config_file: ".floss_funding.yml"})
     }.to raise_error(FlossFunding::Error, /Missing library root path due to: missing including path/)
   end
 end

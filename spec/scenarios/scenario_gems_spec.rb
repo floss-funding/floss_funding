@@ -76,3 +76,4 @@ RSpec.describe "Scenario gems fixtures" do
     expect(names).to include("PokedGemWithDummySpecApp")
   end
 end
+# rubocop:enable RSpec/DescribeClass, RSpec/BeforeAfterAll, RSpec/MultipleExpectations

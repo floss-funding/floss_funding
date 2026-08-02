@@ -1,21 +1,25 @@
-[![Galtzo FLOSS Logo by Aboling0, CC BY-SA 4.0][🖼️galtzo-i]][🖼️galtzo-discord] [![ruby-lang Logo, Yukihiro Matsumoto, Ruby Visual Identity Team, CC BY-SA 2.5][🖼️ruby-lang-i]][🖼️ruby-lang] [![floss_funding Logo by Aboling0, CC BY-SA 4.0][🖼️floss_funding-i]][🖼️floss_funding]
-
-[🖼️galtzo-i]: https://logos.galtzo.com/assets/images/galtzo-floss/avatar-192px.svg
-[🖼️galtzo-discord]: https://discord.gg/3qme4XHNKN
-[🖼️ruby-lang-i]: https://logos.galtzo.com/assets/images/ruby-lang/avatar-192px.svg
-[🖼️ruby-lang]: https://www.ruby-lang.org/
-[🖼️floss_funding-i]: https://logos.galtzo.com/assets/images/galtzo-floss/floss_funding/avatar-192px.svg
-[🖼️floss_funding]: https://github.com/galtzo-floss/floss_funding
+<a href="https://github.com/galtzo-floss"><img alt="galtzo-floss Logo by GitHub" src="https://github.com/galtzo-floss.png?size=192" width="14%" align="right"/></a>
 
 # 🪥 FlossFunding
 
-[![Version][👽versioni]][👽version] [![License: MIT][📄license-img]][📄license-ref] [![Downloads Rank][👽dl-ranki]][👽dl-rank] [![Open Source Helpers][👽oss-helpi]][👽oss-help] [![Coveralls Test Coverage][🔑coveralls-img]][🔑coveralls] [![CodeCov Test Coverage][🔑codecovi♻️]][🔑codecov] [![QLTY Test Coverage][🔑qlty-covi]][🔑qlty-cov] [![QLTY Maintainability][🔑qlty-mnti]][🔑qlty-mnt] [![CI Heads][🚎3-hd-wfi]][🚎3-hd-wf] [![CI Current][🚎11-c-wfi]][🚎11-c-wf] [![CI Truffle Ruby][🚎9-t-wfi]][🚎9-t-wf] [![CI JRuby][🚎10-j-wfi]][🚎10-j-wf] [![Deps Locked][🚎13-🔒️-wfi]][🚎13-🔒️-wf] [![Deps Unlocked][🚎14-🔓️-wfi]][🚎14-🔓️-wf] [![CI Supported][🚎6-s-wfi]][🚎6-s-wf] [![CI Legacy][🚎4-lg-wfi]][🚎4-lg-wf] [![CI Unsupported][🚎7-us-wfi]][🚎7-us-wf] [![CI Ancient][🚎1-an-wfi]][🚎1-an-wf] [![CI Test Coverage][🚎2-cov-wfi]][🚎2-cov-wf] [![CI Style][🚎5-st-wfi]][🚎5-st-wf]
+[![Version][👽versioni]][👽version] [![Ruby Users Forum][✉️ruby-forum-top-img]][✉️ruby-forum] [![GitHub tag (latest SemVer)][⛳️tag-img]][⛳️tag] [![License: MIT][📄license-img]][📄license] [![Total downloads][👽dl-ranki]][👽dl-rank] [![CodeCov Test Coverage][🏀codecovi]][🏀codecov] [![Coveralls Test Coverage][🏀coveralls-img]][🏀coveralls] [![QLTY Test Coverage][🏀qlty-covi]][🏀qlty-cov] [![QLTY Maintainability][🏀qlty-mnti]][🏀qlty-mnt] [![CI Heads][🚎3-hd-wfi]][🚎3-hd-wf] [![CI Runtime Dependencies @ HEAD][🚎12-crh-wfi]][🚎12-crh-wf] [![CI Current][🚎11-c-wfi]][🚎11-c-wf] [![CI Truffle Ruby][🚎9-t-wfi]][🚎9-t-wf] [![CI JRuby][🚎10-j-wfi]][🚎10-j-wf] [![Deps Locked][🚎13-🔒️-wfi]][🚎13-🔒️-wf] [![Deps Unlocked][🚎14-🔓️-wfi]][🚎14-🔓️-wf] [![CI Test Coverage][🚎2-cov-wfi]][🚎2-cov-wf] [![CI Style][🚎5-st-wfi]][🚎5-st-wf] [![Apache SkyWalking Eyes License Compatibility Check][🚎15-🪪-wfi]][🚎15-🪪-wf]
+
+`if ci_badges.map(&:color).detect { it != "green"}` ☝️ [let me know on Discord][✉️discord-invite] or [RubyForum][✉️ruby-forum], as I may have missed the notification.
 
 ---
 
-[![Liberapay Goal Progress][⛳liberapay-img]][⛳liberapay] [![Sponsor Me on Github][🖇sponsor-img]][🖇sponsor] [![Buy me a coffee][🖇buyme-small-img]][🖇buyme] [![Donate on Polar][🖇polar-img]][🖇polar] [![Donate to my FLOSS or refugee efforts at ko-fi.com][🖇kofi-img]][🖇kofi] [![Donate to my FLOSS or refugee efforts using Patreon][🖇patreon-img]][🖇patreon]
+`if ci_badges.map(&:color).all? { it == "green"}` 👇️ send money so I can do more of this. FLOSS maintenance is now my full-time job.
 
-## 🌻 Synopsis
+[![OpenCollective Backers][🖇osc-backers-i]][🖇osc-backers] [![OpenCollective Sponsors][🖇osc-sponsors-i]][🖇osc-sponsors] [![Sponsor Me on Github][🖇sponsor-img]][🖇sponsor] [![Liberapay Goal Progress][⛳liberapay-img]][⛳liberapay] [![Donate on PayPal][🖇paypal-img]][🖇paypal] [![Buy me a coffee][🖇buyme-small-img]][🖇buyme] [![Donate at ko-fi.com][🖇kofi-img]][🖇kofi]
+
+<details markdown="1">
+ <summary>👣 How will this project approach the September 2025 hostile takeover of RubyGems? 🚑️</summary>
+
+I've summarized my thoughts in [this blog post](https://dev.to/galtzo/hostile-takeover-of-rubygems-my-thoughts-5hlo).
+
+</details>
+
+## 🌻 Synopsis <a href="https://discord.gg/3qme4XHNKN"><img alt="Galtzo FLOSS Logo by Aboling0, CC BY-SA 4.0" src="https://logos.galtzo.com/assets/images/galtzo-floss/avatar-128px.svg" width="8%" align="right"/></a> <a href="https://ruby-toolbox.com"><img alt="ruby-lang Logo, Yukihiro Matsumoto, Ruby Visual Identity Team, CC BY-SA 2.5" src="https://logos.galtzo.com/assets/images/ruby-lang/avatar-128px.svg" width="8%" align="right"/></a>
 
 This tool can help library maintainers earn money from their open source work in one line of code, because maintainers have teeth, and need to pay their dentists.
 
@@ -93,214 +97,104 @@ This tool makes it far easier to get paid for your work down there at the bottom
 
 Activation keys use a cipher encryption algorithm against a 2400-word dictionary, with some other data, like the project's namespace, and the current month, thrown in, to make valid activation keys slightly difficult to discover manually. Once a key is made it is valid forever. There is no revocation. The activation keys are _opaque_, rather than _private_. They are not tied to you in any way. Other people may use the same one. And that's fine! They don't do anything except silence some STDOUT nagging.
 
-## Project summary
-
-- Purpose
-  - Help FLOSS maintainers get funded without changing licenses or adding telemetry. Libraries add one line to include a small module that reminds users to fund the software they rely on.
-  - Default is consent and privacy-preserving: no network calls, no tracking, and easy opt-out when appropriate.
-
-- Methodology (how it works)
-  - Inclusion: Libraries include FlossFunding::Poke.new(__FILE__) in a module or class; this fingerprints the library and records activation events when it loads.
-  - Activation keys via ENV: A user or CI sets ENV["FLOSS_FUNDING_<NAMESPACE>"] to an activation key value. Keys can be unpaid silence tokens (e.g., Free-as-in-beer), explicit opt-out tokens (Not-financially-supporting-<namespace>), or a paid 64-hex-byte key.
-  - Gentle messaging: On library load, if unactivated or invalid, a single-line friendly message can be printed (on-load nag). At process end, a short end-of-run summary can highlight one library with next steps (at-exit spotlight) plus a brief table of activated/unactivated counts.
-  - Sentinels: YAML lockfiles in the project root prevent over–nagging:
-    - .floss_funding.ruby.on_load.lock limits on-load messages per library within a window.
-    - .floss_funding.ruby.at_exit.lock ensures a given library isn’t repeatedly spotlighted at exit within a window.
-  - Configuration: Optional .floss_funding.yml lets a library suggest donation amount and provide a funding URL. Defaults exist for resilience.
-
-- Philosophy
-  - Respect and empathy: Nags are mild, infrequent, and silent by default in many environments. Opt-out is always available and is treated as an "activated" state for silence.
-  - Zero network by design: All behavior is local and deterministic. This is a social, not technical, contract encouraging support.
-  - Ecosystem-agnostic future: Filenames include the ecosystem (e.g., .ruby) so the approach can be ported to other languages without collisions.
-  - Safety first: Any failure paths are defensive; the library should never break your build or flip a successful exit into a failure.
-
-## TO DO List
-
-`floss_funding` ruby gem is a work in progress.
-
-- [x] install take task `floss_funding:install`
-  - [x] support for ruby gem implementers
-  - [ ] support for apps with dependencies that use floss_funding
-- [x] validation of activation keys
-- [x] working silencing
-- [x] working configuration
-- [x] working CLI `floss_funding`
-
-Website coming soon.
-
-- [ ] A website to generate activation keys for gems
-    - [ ] List all known gems that can be activated with floss_funding
-    - [ ] Account creation with email address, for those who want to keep a record of their generated activation keys
-    - [ ] (Optional) Enter Gem Name
-    - [ ] Affirm they have purchased an activation key
-    - [ ] (Optional) Receive activation key specific to namespace & month generated
-    - [x] Activation key will remain valid for that namespace forever (tested out to the June, 5425 C.E.)
-
-I expect the current release of this gem to be compatible with Ruby 1.9.2+,
-but it is only tested on CI against Ruby 2.3+,
-due to the inherent limitations of GitHub Actions.
-
-| 🚚 _Amazing_ test matrix was brought to you by | 🔎 appraisal2 🔎                                                                    |
-|------------------------------------------------|-------------------------------------------------------------------------------------|
-| 👟 Check it out!                               | ✨ [github.com/appraisal-rb/appraisal2][💎appraisal2] ✨ |
-
 ## 💡 Info you can shake a stick at
 
-### Federated DVCS
+| Tokens to Remember | [![Gem name][⛳️name-img]][⛳️gem-name] [![Gem namespace][⛳️namespace-img]][⛳️gem-namespace] |
+|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Works with JRuby | [![JRuby 9.2 Compat][💎jruby-9.2i]][🚎jruby-9.2-wf] [![JRuby 9.3 Compat][💎jruby-9.3i]][🚎jruby-9.3-wf] <br/> [![JRuby 9.4 Compat][💎jruby-9.4i]][🚎jruby-9.4-wf] [![JRuby 10.0 Compat][💎jruby-10.0i]][🚎jruby-10.0-wf] [![JRuby current Compat][💎jruby-c-i]][🚎10-j-wf] [![JRuby HEAD Compat][💎jruby-headi]][🚎3-hd-wf]|
+| Works with Truffle Ruby | [![Truffle Ruby 22.3 Compat][💎truby-22.3i]][🚎truby-22.3-wf] [![Truffle Ruby 23.0 Compat][💎truby-23.0i]][🚎truby-23.0-wf] [![Truffle Ruby 23.1 Compat][💎truby-23.1i]][🚎truby-23.1-wf] <br/> [![Truffle Ruby 24.2 Compat][💎truby-24.2i]][🚎truby-24.2-wf] [![Truffle Ruby 25.0 Compat][💎truby-25.0i]][🚎truby-25.0-wf] [![Truffle Ruby 33.0 Compat][💎truby-33.0i]][🚎truby-33.0-wf] [![Truffle Ruby current Compat][💎truby-c-i]][🚎9-t-wf] [![Truffle Ruby HEAD Compat][💎truby-headi]][🚎3-hd-wf]|
+| Works with MRI Ruby 4 | [![Ruby current Compat][💎ruby-c-i]][🚎11-c-wf] [![Ruby HEAD Compat][💎ruby-headi]][🚎3-hd-wf]|
+| Works with MRI Ruby 3 | [![Ruby 3.0 Compat][💎ruby-3.0i]][🚎ruby-3.0-wf] [![Ruby 3.1 Compat][💎ruby-3.1i]][🚎ruby-3.1-wf] [![Ruby 3.2 Compat][💎ruby-3.2i]][🚎ruby-3.2-wf] [![Ruby 3.3 Compat][💎ruby-3.3i]][🚎ruby-3.3-wf] [![Ruby 3.4 Compat][💎ruby-3.4i]][🚎ruby-3.4-wf]|
+| Works with MRI Ruby 2 | ![Ruby 2.0 Compat][💎ruby-2.0i] ![Ruby 2.1 Compat][💎ruby-2.1i] ![Ruby 2.2 Compat][💎ruby-2.2i] ![Ruby 2.3 Compat][💎ruby-2.3i] <br/> [![Ruby 2.4 Compat][💎ruby-2.4i]][🚎ruby-2.4-wf] [![Ruby 2.5 Compat][💎ruby-2.5i]][🚎ruby-2.5-wf] [![Ruby 2.6 Compat][💎ruby-2.6i]][🚎ruby-2.6-wf] [![Ruby 2.7 Compat][💎ruby-2.7i]][🚎ruby-2.7-wf]|
+| Works with MRI Ruby 1 | ![Ruby 1.9 Compat][💎ruby-1.9i]|
+| Support & Community | [![Join Me on Daily.dev's RubyFriends][✉️ruby-friends-img]][✉️ruby-friends] [![Get help from RubyForum][✉️ruby-forum-img]][✉️ruby-forum] [![Live Chat on Discord][✉️discord-invite-img-ftb]][✉️discord-invite] [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork] [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor] |
+| Source | [![Source on GitLab.com][📜src-gl-img]][📜src-gl] [![Source on CodeBerg.org][📜src-cb-img]][📜src-cb] [![Source on GitHub.com][📜src-gh-img]][📜src-gh] [![The best SHA: dQw4w9WgXcQ!][🧮kloc-img]][🧮kloc] |
+| Documentation | [![Current release on RubyDoc.info][📜docs-cr-rd-img]][🚎yard-current] [![YARD on Galtzo.com][📜docs-head-rd-img]][🚎yard-head] [![Maintainer Blog][🚂maint-blog-img]][🚂maint-blog] [![GitLab Wiki][📜gl-wiki-img]][📜gl-wiki] [![GitHub Wiki][📜gh-wiki-img]][📜gh-wiki] |
+| Compliance | [![License: MIT][📄license-img]][📄license] [![Apache license compatibility: Category A][📄license-compat-img]][📄license-compat] [![📄ilo-declaration-img]][📄ilo-declaration] [![Security Policy][🔐security-img]][🔐security] [![Contributor Covenant 2.1][🪇conduct-img]][🪇conduct] [![SemVer 2.0.0][📌semver-img]][📌semver] |
+| Style | [![Enforced Code Style Linter][💎rlts-img]][💎rlts] [![Keep-A-Changelog 1.0.0][📗keep-changelog-img]][📗keep-changelog] [![Gitmoji Commits][📌gitmoji-img]][📌gitmoji] [![Compatibility appraised by: appraisal2][💎appraisal2-img]][💎appraisal2] |
+| Maintainer 🎖️ | [![Follow Me on LinkedIn][💖🖇linkedin-img]][💖🖇linkedin] [![Follow Me on Ruby.Social][💖🐘ruby-mast-img]][💖🐘ruby-mast] [![Follow Me on Bluesky][💖🦋bluesky-img]][💖🦋bluesky] [![Contact Maintainer][🚂maint-contact-img]][🚂maint-contact] [![My technical writing][💖💁🏼‍♂️devto-img]][💖💁🏼‍♂️devto] |
+| `...` 💖 | [![Find Me on WellFound:][💖✌️wellfound-img]][💖✌️wellfound] [![Find Me on CrunchBase][💖💲crunchbase-img]][💖💲crunchbase] [![My LinkTree][💖🌳linktree-img]][💖🌳linktree] [![More About Me][💖💁🏼‍♂️aboutme-img]][💖💁🏼‍♂️aboutme] [🧊][💖🧊berg] [🐙][💖🐙hub] [🛖][💖🛖hut] [🧪][💖🧪lab] |
 
-<details>
-  <summary>Find this repo on other forges (Coming soon!)</summary>
+### Compatibility
 
-| Federated [DVCS][💎d-in-dvcs] Repository              | Status                                                            | Issues                    | PRs                      | Wiki                      | CI                       | Discussions                  |
-|-------------------------------------------------------|-------------------------------------------------------------------|---------------------------|--------------------------|---------------------------|--------------------------|------------------------------|
-| 🧪 [galtzo-floss/floss_funding on GitLab][📜src-gl]   | The Truth                                                         | [💚][🤝gl-issues]         | [💚][🤝gl-pulls]         | [💚][📜wiki]              | 🏀 Tiny Matrix           | ➖                            |
-| 🧊 [galtzo-floss/floss_funding on CodeBerg][📜src-cb] | An Ethical Mirror ([Donate][🤝cb-donate])                         | [💚][🤝cb-issues]         | [💚][🤝cb-pulls]         | ➖                         | ⭕️ No Matrix             | ➖                            |
-| 🐙 [galtzo-floss/floss_funding on GitHub][📜src-gh]   | A Dirty Mirror                                                    | [💚][🤝gh-issues]         | [💚][🤝gh-pulls]         | ➖                         | 💯 Full Matrix           | [💚][gh-discussions]         |
-| 🎮️ [Discord Server][✉️discord-invite]                | [![Live Chat on Discord][✉️discord-invite-img]][✉️discord-invite] | [Let's][✉️discord-invite] | [talk][✉️discord-invite] | [about][✉️discord-invite] | [this][✉️discord-invite] | [library!][✉️discord-invite] |
+Compatible with MRI Ruby 1.9.2+, and concordant releases of JRuby, and TruffleRuby.
+CI workflows and Appraisals are generated for MRI Ruby 2.4+.
+This test floor is configured by `ruby.test_minimum` in `.kettle-jem.yml` and
+may be higher than the gem's runtime compatibility floor when legacy Rubies are
+not practical for the current toolchain.
+
+<a href="https://github.com/kettle-dev"><img alt="kettle-dev Logo by Aboling0, CC BY-SA 4.0" src="https://logos.galtzo.com/assets/images/kettle-dev/avatar-128px.svg" width="14%" align="right"/></a>
+
+The _amazing_ test matrix is powered by the kettle-dev stack.
+
+<details markdown="1">
+<summary>How kettle-dev manages complexity in tests</summary>
+
+| Gem | Source | Role | Total downloads |
+|-----|--------|------|---------------------|
+| [appraisal2](https://clickgems.clickhouse.com/dashboard/appraisal2) | [GitHub](https://github.com/appraisal-rb/appraisal2) | multi-dependency Appraisal matrix generation | [![Total downloads for appraisal2](https://img.shields.io/gem/dt/appraisal2.svg?style=flat-square)](https://clickgems.clickhouse.com/dashboard/appraisal2) |
+| [appraisal2-rubocop](https://clickgems.clickhouse.com/dashboard/appraisal2-rubocop) | [GitHub](https://github.com/appraisal-rb/appraisal2-rubocop) | RuboCop Appraisal generator integration | [![Total downloads for appraisal2-rubocop](https://img.shields.io/gem/dt/appraisal2-rubocop.svg?style=flat-square)](https://clickgems.clickhouse.com/dashboard/appraisal2-rubocop) |
+| [kettle-dev](https://clickgems.clickhouse.com/dashboard/kettle-dev) | [GitHub](https://github.com/kettle-dev/kettle-dev) | development, release, and CI workflow tooling | [![Total downloads for kettle-dev](https://img.shields.io/gem/dt/kettle-dev.svg?style=flat-square)](https://clickgems.clickhouse.com/dashboard/kettle-dev) |
+| [kettle-jem](https://clickgems.clickhouse.com/dashboard/kettle-jem) | [GitHub](https://github.com/kettle-dev/kettle-jem) | Appraisals & CI workflow templates | [![Total downloads for kettle-jem](https://img.shields.io/gem/dt/kettle-jem.svg?style=flat-square)](https://clickgems.clickhouse.com/dashboard/kettle-jem) |
+| [kettle-soup-cover](https://clickgems.clickhouse.com/dashboard/kettle-soup-cover) | [GitHub](https://github.com/kettle-dev/kettle-soup-cover) | SimpleCov coverage policy and reporting | [![Total downloads for kettle-soup-cover](https://img.shields.io/gem/dt/kettle-soup-cover.svg?style=flat-square)](https://clickgems.clickhouse.com/dashboard/kettle-soup-cover) |
+| [kettle-test](https://clickgems.clickhouse.com/dashboard/kettle-test) | [GitHub](https://github.com/kettle-dev/kettle-test) | standard test runner and coverage harness | [![Total downloads for kettle-test](https://img.shields.io/gem/dt/kettle-test.svg?style=flat-square)](https://clickgems.clickhouse.com/dashboard/kettle-test) |
+| [rubocop-lts](https://clickgems.clickhouse.com/dashboard/rubocop-lts) | [GitHub](https://github.com/rubocop-lts/rubocop-lts) | Ruby-version-aware linting | [![Total downloads for rubocop-lts](https://img.shields.io/gem/dt/rubocop-lts.svg?style=flat-square)](https://clickgems.clickhouse.com/dashboard/rubocop-lts) |
+| [turbo_tests2](https://clickgems.clickhouse.com/dashboard/turbo_tests2) | [GitHub](https://github.com/galtzo-floss/turbo_tests2) | parallel test execution | [![Total downloads for turbo_tests2](https://img.shields.io/gem/dt/turbo_tests2.svg?style=flat-square)](https://clickgems.clickhouse.com/dashboard/turbo_tests2) |
 
 </details>
 
-[gh-discussions]: https://github.com/galtzo-floss/floss_funding/discussions
+### Federated DVCS
+
+<details markdown="1">
+ <summary>Find this repo on federated forges (Coming soon!)</summary>
+
+| Federated [DVCS][💎d-in-dvcs] Repository | Status | Issues | PRs | Wiki | CI |
+|-------------------------------------------------|-------------------------------------------|-------------------|------------------|-----------------|----------------|
+| 🧪 [galtzo-floss/floss_funding on GitLab][📜src-gl] | The Truth | [💚][🤝gl-issues] | [💚][🤝gl-pulls] | [💚][📜gl-wiki] | 🐭 Tiny Matrix |
+| 🧊 [galtzo-floss/floss_funding on CodeBerg][📜src-cb] | An Ethical Mirror ([Donate][🤝cb-donate]) | [💚][🤝cb-issues] | [💚][🤝cb-pulls] | ➖ | ⭕️ No Matrix |
+| 🐙 [galtzo-floss/floss_funding on GitHub][📜src-gh] | Another Mirror | [💚][🤝gh-issues] | [💚][🤝gh-pulls] | [💚][📜gh-wiki] | 💯 Full Matrix |
+
+</details>
 
 ### Enterprise Support [![Tidelift](https://tidelift.com/badges/package/rubygems/floss_funding)](https://tidelift.com/subscription/pkg/rubygems-floss_funding?utm_source=rubygems-floss_funding&utm_medium=referral&utm_campaign=readme)
 
-<details>
-  <summary>Need enterprise-level guarantees?</summary>
+Available as part of the Tidelift Subscription.
+
+<details markdown="1">
+ <summary>Need enterprise-level guarantees?</summary>
+
+The maintainers of this and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source packages you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use.
 
 [![Get help from me on Tidelift][🏙️entsup-tidelift-img]][🏙️entsup-tidelift]
 
-- 💡Subscribe for support guarantees covering _all_ FLOSS dependencies
+- 💡Subscribe for support guarantees covering _all_ your FLOSS dependencies
 - 💡Tidelift is part of [Sonar][🏙️entsup-tidelift-sonar]
 - 💡Tidelift pays maintainers to maintain the software you depend on!<br/>📊`@`Pointy Haired Boss: An [enterprise support][🏙️entsup-tidelift] subscription is "[never gonna let you down][🧮kloc]", and *supports* open source maintainers
 
 Alternatively:
 
-- [![Live Chat on Discord][✉️discord-invite-img]][✉️discord-invite]
+- [![Ruby Users Forum][✉️ruby-forum-img]][✉️ruby-forum]
+- [![Live Chat on Discord][✉️discord-invite-img-ftb]][✉️discord-invite]
 - [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork]
 - [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor]
 
 </details>
 
-| Tokens to Remember      | [![Gem name][⛳️name-img]][⛳️gem-name] [![Gem namespace][⛳️namespace-img]][⛳️gem-namespace]                                                                                                                                                                                                                                             |
-|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Works with JRuby        | ![JRuby 9.1 Compat][💎jruby-9.1i] ![JRuby 9.2 Compat][💎jruby-9.2i] <br/> [![JRuby 9.3 Compat][💎jruby-9.3i]][🚎10-j-wf] [![JRuby 9.4 Compat][💎jruby-9.4i]][🚎10-j-wf] [![JRuby 10.0 Compat][💎jruby-c-i]][🚎11-c-wf] [![JRuby HEAD Compat][💎jruby-headi]][🚎3-hd-wf]                                                                |
-| Works with Truffle Ruby | ![Truffle Ruby 22.3 Compat][💎truby-22.3i] <br/> [![Truffle Ruby 23.0 Compat][💎truby-23.0i]][🚎9-t-wf] [![Truffle Ruby 23.1 Compat][💎truby-23.1i]][🚎9-t-wf] [![Truffle Ruby 24.1 Compat][💎truby-c-i]][🚎11-c-wf]                                                                                                                   |
-| Works with MRI Ruby 3   | [![Ruby 3.0 Compat][💎ruby-3.0i]][🚎4-lg-wf] [![Ruby 3.1 Compat][💎ruby-3.1i]][🚎6-s-wf] [![Ruby 3.2 Compat][💎ruby-3.2i]][🚎6-s-wf] [![Ruby 3.3 Compat][💎ruby-3.3i]][🚎6-s-wf] [![Ruby 3.4 Compat][💎ruby-c-i]][🚎11-c-wf] [![Ruby HEAD Compat][💎ruby-headi]][🚎3-hd-wf]                                                            |
-| Works with MRI Ruby 2   | ![Ruby 2.0 Compat][💎ruby-2.0i] ![Ruby 2.1 Compat][💎ruby-2.1i] ![Ruby 2.2 Compat][💎ruby-2.2i] <br/> [![Ruby 2.3 Compat][💎ruby-2.3i]][🚎1-an-wf] [![Ruby 2.4 Compat][💎ruby-2.4i]][🚎1-an-wf] [![Ruby 2.5 Compat][💎ruby-2.5i]][🚎1-an-wf] [![Ruby 2.6 Compat][💎ruby-2.6i]][🚎7-us-wf] [![Ruby 2.7 Compat][💎ruby-2.7i]][🚎7-us-wf] |
-| Works with MRI Ruby 1   | ![Ruby 1.9 Compat][💎ruby-1.9i]                                                                                                                                                                                                                                                                                                        |
-| Source                  | [![Source on GitLab.com][📜src-gl-img]][📜src-gl] [![Source on CodeBerg.org][📜src-cb-img]][📜src-cb] [![Source on Github.com][📜src-gh-img]][📜src-gh] [![The best SHA: dQw4w9WgXcQ!][🧮kloc-img]][🧮kloc]                                                                                                                            |
-| Documentation           | [![Current release on RubyDoc.info][📜docs-cr-rd-img]][🚎yard-current] [![YARD on Galtzo.com][📜docs-head-rd-img]][🚎yard-head] [![Maintainer Blog][🚂maint-blog-img]][🚂maint-blog] [![Wiki][📜wiki-img]][📜wiki]                                                                                                                     |
-| Compliance              | [![License: MIT][📄license-img]][📄license-ref] [![📄ilo-declaration-img]][📄ilo-declaration] [![Security Policy][🔐security-img]][🔐security] [![Contributor Covenant 2.1][🪇conduct-img]][🪇conduct] [![SemVer 2.0.0][📌semver-img]][📌semver]                                                                                       |
-| Style                   | [![Enforced Code Style Linter][💎rlts-img]][💎rlts] [![Keep-A-Changelog 1.0.0][📗keep-changelog-img]][📗keep-changelog] [![Gitmoji Commits][📌gitmoji-img]][📌gitmoji] [![Compatibility appraised by: appraisal2][💎appraisal2-img]][💎appraisal2]                                                                                     |
-| Support                 | [![Live Chat on Discord][✉️discord-invite-img]][✉️discord-invite] [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork] [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor]                                                                                          |
-| Maintainer 🎖️          | [![Follow Me on LinkedIn][💖🖇linkedin-img]][💖🖇linkedin] [![Follow Me on Ruby.Social][💖🐘ruby-mast-img]][💖🐘ruby-mast] [![Follow Me on Bluesky][💖🦋bluesky-img]][💖🦋bluesky] [![Contact Maintainer][🚂maint-contact-img]][🚂maint-contact] [![My technical writing][💖💁🏼‍♂️devto-img]][💖💁🏼‍♂️devto]                         |
-| `...` 💖                | [![Find Me on WellFound:][💖✌️wellfound-img]][💖✌️wellfound] [![Find Me on CrunchBase][💖💲crunchbase-img]][💖💲crunchbase] [![My LinkTree][💖🌳linktree-img]][💖🌳linktree] [![More About Me][💖💁🏼‍♂️aboutme-img]][💖💁🏼‍♂️aboutme] [🧊][💖🧊berg] [🐙][💖🐙hub]  [🛖][💖🛖hut] [🧪][💖🧪lab]                                      |
-
 ## ✨ Installation
 
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add floss_funding
+```console
+bundle add floss_funding
+```
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install floss_funding
-
-### 🔒 Secure Installation
-
-<details>
-  <summary>For Medium or High Security Installations</summary>
-
-This gem is cryptographically signed, and has verifiable [SHA-256 and SHA-512][💎SHA_checksums] checksums by
-[stone_checksums][💎stone_checksums]. Be sure the gem you install hasn’t been tampered with
-by following the instructions below.
-
-Add my public key (if you haven’t already, expires 2045-04-29) as a trusted certificate:
-
 ```console
-gem cert --add <(curl -Ls https://raw.github.com/galtzo-floss/certs/main/pboling.pem)
+gem install floss_funding
 ```
 
-You only need to do that once.  Then proceed to install with:
-
-```console
-gem install floss_funding -P HighSecurity
-```
-
-The `HighSecurity` trust profile will verify signed gems, and not allow the installation of unsigned dependencies.
-
-If you want to up your security game full-time:
-
-```console
-bundle config set --global trust-policy MediumSecurity
-```
-
-`MediumSecurity` instead of `HighSecurity` is necessary if not all the gems you use are signed.
-
-NOTE: Be prepared to track down certs for signed gems and add them the same way you added mine.
-
-</details>
-
-## Terminology
-
-- Nag: Non-debug, non-error, behavioral output from FlossFunding.
-  - on_load nag: a single-line message emitted during inclusion/load about missing or invalid activation.
-  - at_exit nag: the featured library information card rendered at process exit.
-
-## 🔧 Basic Usage
-
-Usage pattern options when including in to a library namespace:
-
-1. Traditional namespace (uses the including module's name):
-    ```ruby
-    include FlossFunding::Poke.new(__FILE__)
-    ```
-2. Arbitrary custom namespace (can add version, or anything else):
-    ```ruby
-    include FlossFunding::Poke.new(__FILE__, :namespace => "Custom::Namespace::V4")
-    ```
-3. Explicitly disable gemspec parsing, and config discovery (including library_name) by passing `nil` and `wedge: true`:
-    ```ruby
-    include FlossFunding::Poke.new(nil, :wedge => true)
-    ```
-4. Provide a custom config file name located at the library root:
-   module MyGemLibrary
-    ```ruby
-    include FlossFunding::Poke.new(__FILE__, :config_file => ".my_custom.yml")
-    ```
-
-In all cases, the first parameter should be a String file path (e.g., `__FILE__`) or `nil` to disable discovery.
-
-## CLI
-
-The gem ships a CLI executable you can run from a Bundler project root:
-
-- floss_funding -p / --progress
-  - Shows a progress bar of Activated libraries vs Activated + Unactivated libraries in the current project.
-  - The bar reflects progress made toward activating all fingerprinted libraries.
-  - Edge cases:
-    - If 0 of N libraries are activated, the bar shows 0% and remains at the start, e.g., Funding: | | 0% (0/N)
-    - If there are no fingerprinted libraries at all (0/0), a simple fallback line is printed: Funding: 0% (0/0)
-
-Example:
-
-```
-$ ./exe/floss_funding -t
-
-+------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-| Needs Funding (Unactivated + Invalid)                                        | Funded by You (Activated)                                                   |
-+------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-| floss_funding [FlossFunding]                                                 |                                                                             |
-+------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-
-$ ./exe/floss_funding -p
-Funding: | | 0% (0/1)
-```
-
-- floss_funding -t / --table
-  - Shows a two-pane table of libraries by activation state (Unactivated + Invalid on the left; Activated on the right).
-
-## Configuration
+## ⚙️ Configuration
 
 ### Silence via global Environment Variable
 
@@ -341,59 +235,79 @@ suggested_donation_amount: 10
 floss_funding_url: https://example.com/fund
 ```
 
-## Environment variables
+## 🔧 Basic Usage
 
-These environment variables let you control FlossFunding behavior at runtime. Each variable is optional; unset variables use safe defaults.
+Usage pattern options when including in to a library namespace:
 
-Note: This section documents the FLOSS_CFG_FUND_* variables specifically requested. The library also honors additional variables (e.g., activation key envs and some FLOSS_CFG_FUND_* controls) which are described elsewhere in the README and code comments.
+1. Traditional namespace (uses the including module's name):
+    ```ruby
+    include FlossFunding::Poke.new(__FILE__)
+    ```
+2. Arbitrary custom namespace (can add version, or anything else):
+    ```ruby
+    include FlossFunding::Poke.new(__FILE__, namespace: "Custom::Namespace::V4")
+    ```
+3. Explicitly disable gemspec parsing, and config discovery (including library_name) by passing `nil` and `wedge: true`:
+    ```ruby
+    include FlossFunding::Poke.new(nil, wedge: true)
+    ```
+4. Provide a custom config file name located at the library root:
+   module MyGemLibrary
+    ```ruby
+    include FlossFunding::Poke.new(__FILE__, config_file: ".my_custom.yml")
 
-### FLOSS_CFG_FUND_LOGFILE
-- Purpose: Redirects FlossFunding debug output to a file when debugging is enabled.
-- Type: file path (string)
-- Default: unset (debug messages, if any, go to STDOUT)
-- Behavior:
-  - When set to a non-empty path, FlossFunding attempts to create/truncate the file on first use and logs debug messages via Ruby's Logger at DEBUG level.
-  - Directory creation is best-effort (mkdir -p). Failures fall back to STDOUT without raising.
-- Example:
-  - FLOSS_CFG_FUND_LOGFILE=tmp/log/floss_funding.debug.log
+    ```
 
-### FLOSS_CFG_FUND_ON_LOAD_SEC_PER_NAG_MAX
-- Purpose: Limits how often a given library can emit an on-load (include-time) nag message.
-- Type: integer seconds
-- Default: 86400 (24 hours)
-- Behavior:
-  - A YAML lockfile .floss_funding.ruby.on_load.lock in the project root records the last on-load nag per library. If the recorded time is within this many seconds, the on-load nag is suppressed.
-  - Values are clamped to a safe range internally.
-- Example:
-  - FLOSS_CFG_FUND_ON_LOAD_SEC_PER_NAG_MAX=3600  # at most one on-load nag per hour per library
-
-### FLOSS_CFG_FUND_AT_EXIT_SEC_PER_NAG_MAX
-- Purpose: Limits how often the at-exit spotlight (the featured info card at process end) can highlight a library.
-- Type: integer seconds
-- Default: 2400 (40 minutes)
-- Behavior:
-  - A YAML lockfile .floss_funding.ruby.at_exit.lock in the project root records the last at-exit spotlight per library. If within this many seconds, that library won't be spotlighted again.
-  - Values are clamped to a safe range internally.
-- Example:
-  - FLOSS_CFG_FUND_AT_EXIT_SEC_PER_NAG_MAX=600  # at most one at-exit spotlight per 10 minutes per library
-
-### FLOSS_CFG_FUND_WEDGE_DANGEROUS
-- Purpose: Enables an aggressive mode for FlossFunding::Wedge that attempts to require gems before injecting, to increase chances of finding their namespaces.
-- Type: string; recognized value: "1"
-- Default: unset (safe mode)
-- Behavior:
-  - When set to "1", the wedge will attempt to require each loaded gem before resolving constants, but only if FlossFunding DEBUG is true. If DEBUG is false, wedge prints a warning and remains safe.
-  - This file is not auto-required by the gem; wedge must be explicitly required/used.
-- Example:
-  - FLOSS_CFG_FUND_WEDGE_DANGEROUS=1
-  - With DEBUG enabled (see README for DEBUG), running: ruby -rfloss_funding/wedge -e 'FlossFunding::Wedge.wedge!'
+In all cases, the first parameter should be a String file path (e.g., `__FILE__`) or `nil` to disable discovery.
 
 ## 🦷 FLOSS Funding
 
-> How wonderful it is that nobody need wait a single moment before starting to improve the world.<br/>
->—Anne Frank
+While galtzo-floss tools are free software and will always be, the project would benefit immensely from some funding.
+Raising a monthly budget of... "dollars" would make the project more sustainable.
 
-I’m driven by a passion to foster a thriving open-source community – a space where people can tackle complex problems, no matter how small.  Revitalizing libraries that have fallen into disrepair, and building new libraries focused on solving real-world challenges, are my passions — totaling 79 hours of FLOSS coding over just the past seven days, a pretty regular week for me.  I was recently affected by layoffs, and the tech jobs market is unwelcoming. I’m reaching out here because your support would significantly aid my efforts to provide for my family, and my farm (11 🐔 chickens, 2 🐶 dogs, 3 🐰 rabbits, 8 🐈‍ cats).
+We welcome both individual and corporate sponsors! We also offer a
+wide array of funding channels to account for your preferences.
+Currently, [Open Collective][🖇osc] is our preferred funding platform.
+
+**If you're working in a company that's making significant use of galtzo-floss tools we'd
+appreciate it if you suggest to your company to become a galtzo-floss sponsor.**
+
+You can support the development of galtzo-floss tools via
+[GitHub Sponsors][🖇sponsor],
+[Liberapay][⛳liberapay],
+[PayPal][🖇paypal],
+[Open Collective][🖇osc]
+and [Tidelift][🏙️entsup-tidelift].
+
+| 📍 NOTE |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| If doing a sponsorship in the form of donation is problematic for your company <br/> from an accounting standpoint, we'd recommend the use of Tidelift, <br/> where you can get a support-like subscription instead. |
+
+### Open Collective for Individuals
+
+Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/galtzo-floss#backer)]
+
+NOTE: [kettle-readme-backers][kettle-readme-backers] updates this list every day, automatically.
+
+<!-- OPENCOLLECTIVE-INDIVIDUALS:START -->
+No backers yet. Be the first!
+<!-- OPENCOLLECTIVE-INDIVIDUALS:END -->
+
+### Open Collective for Organizations
+
+Become a sponsor and get your logo on our README on GitHub with a link to your site. [[Become a sponsor](https://opencollective.com/galtzo-floss#sponsor)]
+
+NOTE: [kettle-readme-backers][kettle-readme-backers] updates this list every day, automatically.
+
+<!-- OPENCOLLECTIVE-ORGANIZATIONS:START -->
+No sponsors yet. Be the first!
+<!-- OPENCOLLECTIVE-ORGANIZATIONS:END -->
+
+[kettle-readme-backers]: https://github.com/galtzo-floss/floss_funding/blob/main/bin/kettle-readme-backers
+
+### Another way to support open-source
+
+I’m driven by a passion to foster a thriving open-source community – a space where people can tackle complex problems, no matter how small. Revitalizing libraries that have fallen into disrepair, and building new libraries focused on solving real-world challenges, are my passions. I was recently affected by layoffs, and the tech jobs market is unwelcoming. I’m reaching out here because your support would significantly aid my efforts to provide for my family, and my farm (11 🐔 chickens, 2 🐶 dogs, 3 🐰 rabbits, 8 🐈‍ cats).
 
 If you work at a company that uses my work, please encourage them to support me as a corporate sponsor. My work on gems you use might show up in `bundle fund`.
 
@@ -401,7 +315,7 @@ I’m developing a new library, [floss_funding][🖇floss-funding-gem], designed
 
 **[Floss-Funding.dev][🖇floss-funding.dev]: 👉️ No network calls. 👉️ No tracking. 👉️ No oversight. 👉️ Minimal crypto hashing. 💡 Easily disabled nags**
 
-[![Liberapay Goal Progress][⛳liberapay-img]][⛳liberapay] [![Donate on PayPal][🖇paypal-img]][🖇paypal] [![Sponsor Me on Github][🖇sponsor-img]][🖇sponsor] [![Buy me a coffee][🖇buyme-small-img]][🖇buyme] [![Donate on Polar][🖇polar-img]][🖇polar] [![Donate to my FLOSS or refugee efforts at ko-fi.com][🖇kofi-img]][🖇kofi] [![Donate to my FLOSS or refugee efforts using Patreon][🖇patreon-img]][🖇patreon]
+[![OpenCollective Backers][🖇osc-backers-i]][🖇osc-backers] [![OpenCollective Sponsors][🖇osc-sponsors-i]][🖇osc-sponsors] [![Sponsor Me on Github][🖇sponsor-img]][🖇sponsor] [![Liberapay Goal Progress][⛳liberapay-img]][⛳liberapay] [![Donate on PayPal][🖇paypal-img]][🖇paypal] [![Buy me a coffee][🖇buyme-small-img]][🖇buyme] [![Donate to my FLOSS efforts at ko-fi.com][🖇kofi-img]][🖇kofi]
 
 ## 🔐 Security
 
@@ -410,7 +324,7 @@ See [SECURITY.md][🔐security].
 ## 🤝 Contributing
 
 If you need some ideas of where to help, you could work on adding more code coverage,
-or if it is already 💯 (see [below](#code-coverage)) check [reek](REEK), [issues][🤝gh-issues], or [PRs][🤝gh-pulls],
+or if it is already 💯 (see [below](#code-coverage)) check [issues][🤝gh-issues] or [PRs][🤝gh-pulls],
 or use the gem and think about how it could be better.
 
 We [![Keep A Changelog][📗keep-changelog-img]][📗keep-changelog] so if you make changes, remember to update it.
@@ -423,11 +337,16 @@ See [CONTRIBUTING.md][🤝contributing].
 
 ### Code Coverage
 
-[![Coverage Graph][🔑codecov-g♻️]][🔑codecov]
+<details markdown="1">
+<summary>Coverage service badges</summary>
 
-[![Coveralls Test Coverage][🔑coveralls-img]][🔑coveralls]
+[![Coverage Graph][🏀codecov-g]][🏀codecov]
 
-[![QLTY Test Coverage][🔑qlty-covi]][🔑qlty-cov]
+[![Coveralls Test Coverage][🏀coveralls-img]][🏀coveralls]
+
+[![QLTY Test Coverage][🏀qlty-covi]][🏀qlty-cov]
+
+</details>
 
 ### 🪇 Code of Conduct
 
@@ -442,31 +361,23 @@ Made with [contributors-img][🖐contrib-rocks].
 
 Also see GitLab Contributors: [https://gitlab.com/galtzo-floss/floss_funding/-/graphs/main][🚎contributors-gl]
 
-## ⭐️ Star History
+<details markdown="1">
+ <summary>⭐️ Star History</summary>
 
-<a href="https://star-history.com/#galtzo-floss/floss_funding&Date">
+<a href="https://star-history.com/galtzo-floss/floss_funding&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=galtzo-floss/floss_funding&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=galtzo-floss/floss_funding&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=galtzo-floss/floss_funding&type=Date" />
+ <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=galtzo-floss/floss_funding&type=Date&theme=dark" />
+ <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=galtzo-floss/floss_funding&type=Date" />
+ <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=galtzo-floss/floss_funding&type=Date" />
  </picture>
 </a>
 
+</details>
+
 ## 📌 Versioning
 
-This Library adheres to [![Semantic Versioning 2.0.0][📌semver-img]][📌semver].
-Violations of this scheme should be reported as bugs.
-Specifically, if a minor or patch version is released that breaks backward compatibility,
-a new version should be immediately released that restores compatibility.
-Breaking changes to the public API will only be introduced with new major versions.
-
-> dropping support for a platform is both obviously and objectively a breaking change <br/>
->—Jordan Harband ([@ljharb](https://github.com/ljharb), maintainer of SemVer) [in SemVer issue 716][📌semver-breaking]
-
-I understand that policy doesn't work universally ("exceptions to every rule!"),
-but it is the policy here.
-As such, in many cases it is good to specify a dependency on this library using
-the [Pessimistic Version Constraint][📌pvc] with two digits of precision.
+This library follows [![Semantic Versioning 2.0.0][📌semver-img]][📌semver] for its public API where practical.
+For most applications, prefer the [Pessimistic Version Constraint][📌pvc] with two digits of precision.
 
 For example:
 
@@ -474,12 +385,11 @@ For example:
 spec.add_dependency("floss_funding", "~> 1.0")
 ```
 
-<details>
+<details markdown="1">
 <summary>📌 Is "Platform Support" part of the public API? More details inside.</summary>
 
-SemVer should, but doesn't explicitly, say that dropping support for specific Platforms
-is a *breaking change* to an API.
-It is obvious to many, but not all, and since the spec is silent, the bike shedding is endless.
+Dropping support for a platform can be a breaking change for affected users.
+If a release changes supported platforms, it should be called out clearly in the changelog and versioned with that impact in mind.
 
 To get a better understanding of how SemVer is intended to work over a project's lifetime,
 read this article from the creator of SemVer:
@@ -493,81 +403,97 @@ See [CHANGELOG.md][📌changelog] for a list of releases.
 ## 📄 License
 
 The gem is available as open source under the terms of
-the [MIT License][📄license] [![License: MIT][📄license-img]][📄license-ref].
-See [LICENSE.txt][📄license] for the official [Copyright Notice][📄copyright-notice-explainer].
+the [MIT](https://github.com/galtzo-floss/floss_funding/blob/main/MIT.md) [![License: MIT][📄license-img]][📄license-ref].
 
 ### © Copyright
 
-<ul>
-    <li>
-        Copyright (c) 2025 Peter H. Boling, of
-        <a href="https://discord.gg/3qme4XHNKN">
-            Galtzo.com
-            <picture>
-              <img src="https://logos.galtzo.com/assets/images/galtzo-floss/avatar-128px-blank.svg" alt="Galtzo.com Logo (Wordless) by Aboling0, CC BY-SA 4.0" width="24">
-            </picture>
-        </a>, and floss_funding contributors.
-        Three files, and marked in the header of each, have been graciously stolen from the rubocop gem. Two lightly, and one heavily, edited for purpose. RuboCop is under the same MIT license, but those files are are Copyright (c) 2012-23 Bozhidar Batsov. *1
-    </li>
-    <li>*1) If they were extracted into a general purpose `config_finder`, I'd use that instead, and I may do that at some point.</li>
-</ul>
+See [LICENSE.md][📄license] for the official copyright notice.
+
+<details markdown="1">
+<summary>Copyright holders</summary>
+
+- Copyright (c) 2025-2026 Peter H. Boling
+
+</details>
 
 ## 🤑 A request for help
 
-Maintainers have teeth, and need to pay their dentists.
-After getting laid off in an RIF in March, and filled with many dozens of rejections,
-I'm now spending ~80 hours a week building open source tools.
+Maintainers have teeth and need to pay their dentists.
+After getting laid off in an RIF in March, and encountering difficulty finding a new one,
+I began spending most of my time building open source tools.
 I'm hoping to be able to pay for my kids' health insurance this month,
 so if you value the work I am doing, I need your support.
-Please consider sponsoring me.
+Please consider sponsoring me or the project.
 
-[![Sponsor me on GitHub Sponsors][🖇sponsor-bottom-img]][🖇sponsor] 💌 [![Sponsor me on Liberapay][⛳liberapay-bottom-img]][⛳liberapay-img] 💌 [![Donate on PayPal][🖇paypal-bottom-img]][🖇paypal-img]
+To join the community or get help, use the RubyForum or Discord.
 
-To say "thanks for maintaining such a great tool" 👇️ Join the Discord or ☝️ send money.
+[![Ruby Users Forum][✉️ruby-forum-img]][✉️ruby-forum]
+[![Live Chat on Discord][✉️discord-invite-img-ftb]][✉️discord-invite]
 
-To join the community or get help 👇️ Join the Discord.
+To say "thanks!" ☝️ Join the community or 👇️ send money.
 
-[![Live Chat on Discord][✉️discord-invite-img]][✉️discord-invite]
+[![Sponsor galtzo-floss/floss_funding on Open Source Collective][🖇osc-all-bottom-img]][🖇osc] 💌 [![Sponsor me on GitHub Sponsors][🖇sponsor-bottom-img]][🖇sponsor] 💌 [![Sponsor me on Liberapay][⛳liberapay-bottom-img]][⛳liberapay] 💌 [![Donate on PayPal][🖇paypal-bottom-img]][🖇paypal]
+
+### Please give the project a star ⭐ ♥.
+
+Many parts of this project are actively managed by a [kettle-jem](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/kettle-jem) smart template utilizing [StructuredMerge.org](https://structuredmerge.org) merge contracts.
 
 Thanks for RTFM. ☺️
 
-[⛳liberapay-img]: https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay&color=a51611
+[⛳liberapay-img]: https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay&color=a51611&style=flat
+[⛳liberapay-bottom-img]: https://img.shields.io/liberapay/goal/pboling.svg?style=for-the-badge&logo=liberapay&color=a51611
 [⛳liberapay]: https://liberapay.com/pboling/donate
+[🖇osc-all-img]: https://img.shields.io/opencollective/all/galtzo-floss
+[🖇osc-sponsors-img]: https://img.shields.io/opencollective/sponsors/galtzo-floss
+[🖇osc-backers-img]: https://img.shields.io/opencollective/backers/galtzo-floss
+[🖇osc-backers]: https://opencollective.com/galtzo-floss#backer
+[🖇osc-backers-i]: https://opencollective.com/galtzo-floss/backers/badge.svg?style=flat
+[🖇osc-sponsors]: https://opencollective.com/galtzo-floss#sponsor
+[🖇osc-sponsors-i]: https://opencollective.com/galtzo-floss/sponsors/badge.svg?style=flat
+[🖇osc-all-bottom-img]: https://img.shields.io/opencollective/all/galtzo-floss?style=for-the-badge
+[🖇osc-sponsors-bottom-img]: https://img.shields.io/opencollective/sponsors/galtzo-floss?style=for-the-badge
+[🖇osc-backers-bottom-img]: https://img.shields.io/opencollective/backers/galtzo-floss?style=for-the-badge
+[🖇osc]: https://opencollective.com/galtzo-floss
 [🖇sponsor-img]: https://img.shields.io/badge/Sponsor_Me!-pboling.svg?style=social&logo=github
+[🖇sponsor-bottom-img]: https://img.shields.io/badge/Sponsor_Me!-pboling-blue?style=for-the-badge&logo=github
 [🖇sponsor]: https://github.com/sponsors/pboling
-[🖇polar-img]: https://img.shields.io/badge/polar-donate-a51611.svg
-[🖇polar]: https://polar.sh/pboling
-[🖇kofi-img]: https://img.shields.io/badge/ko--fi-✓-a51611.svg
-[🖇kofi]: https://ko-fi.com/O5O86SNP4
-[🖇patreon-img]: https://img.shields.io/badge/patreon-donate-a51611.svg
-[🖇patreon]: https://patreon.com/galtzo
-[🖇buyme-small-img]: https://img.shields.io/badge/buy_me_a_coffee-✓-a51611.svg?style=flat
+[🖇kofi-img]: https://img.shields.io/badge/ko--fi-%E2%9C%93-a51611.svg?style=flat
+[🖇kofi]: https://ko-fi.com/pboling
+[🖇buyme-small-img]: https://img.shields.io/badge/buy_me_a_coffee-%E2%9C%93-a51611.svg?style=flat
 [🖇buyme-img]: https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20latte&emoji=&slug=pboling&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff
 [🖇buyme]: https://www.buymeacoffee.com/pboling
 [🖇paypal-img]: https://img.shields.io/badge/donate-paypal-a51611.svg?style=flat&logo=paypal
+[🖇paypal-bottom-img]: https://img.shields.io/badge/donate-paypal-a51611.svg?style=for-the-badge&logo=paypal&color=0A0A0A
 [🖇paypal]: https://www.paypal.com/paypalme/peterboling
 [🖇floss-funding.dev]: https://floss-funding.dev
 [🖇floss-funding-gem]: https://github.com/galtzo-floss/floss_funding
 [✉️discord-invite]: https://discord.gg/3qme4XHNKN
-[✉️discord-invite-img]: https://img.shields.io/discord/1373797679469170758?style=for-the-badge
+[✉️discord-invite-img-ftb]: https://img.shields.io/discord/1373797679469170758?style=for-the-badge&logo=discord
+[✉️ruby-friends-img]: https://img.shields.io/badge/daily.dev-%F0%9F%92%8E_Ruby_Friends-0A0A0A?style=for-the-badge&logo=dailydotdev&logoColor=white
+[✉️ruby-friends]: https://app.daily.dev/squads/rubyfriends
+[✉️ruby-forum-top-img]: https://img.shields.io/discourse/topics?server=https%3A%2F%2Fwww.rubyforum.org&style=flat&logo=discourse&label=Ruby%20Users%20Forum
+[✉️ruby-forum-img]: https://img.shields.io/discourse/topics?server=https%3A%2F%2Fwww.rubyforum.org&style=for-the-badge&logo=discourse&label=Ruby%20Users%20Forum
+[✉️ruby-forum]: https://www.rubyforum.org/tag/galtzo-floss
 
 [✇bundle-group-pattern]: https://gist.github.com/pboling/4564780
 [⛳️gem-namespace]: https://github.com/galtzo-floss/floss_funding
-[⛳️namespace-img]: https://img.shields.io/badge/namespace-FlossFunding-brightgreen.svg?style=flat&logo=ruby&logoColor=white
-[⛳️gem-name]: https://rubygems.org/gems/floss_funding
-[⛳️name-img]: https://img.shields.io/badge/name-floss__funding-brightgreen.svg?style=flat&logo=rubygems&logoColor=red
+[⛳️namespace-img]: https://img.shields.io/badge/namespace-FlossFunding-3C2D2D.svg?style=square&logo=ruby&logoColor=white
+[⛳️gem-name]: https://clickgems.clickhouse.com/dashboard/floss_funding
+[⛳️name-img]: https://img.shields.io/badge/name-floss__funding-3C2D2D.svg?style=square&logo=rubygems&logoColor=red
+[⛳️tag-img]: https://img.shields.io/github/tag/galtzo-floss/floss_funding.svg
+[⛳️tag]: https://github.com/galtzo-floss/floss_funding/releases
 [🚂maint-blog]: http://www.railsbling.com/tags/floss_funding
 [🚂maint-blog-img]: https://img.shields.io/badge/blog-railsbling-0093D0.svg?style=for-the-badge&logo=rubyonrails&logoColor=orange
 [🚂maint-contact]: http://www.railsbling.com/contact
 [🚂maint-contact-img]: https://img.shields.io/badge/Contact-Maintainer-0093D0.svg?style=flat&logo=rubyonrails&logoColor=red
 [💖🖇linkedin]: http://www.linkedin.com/in/peterboling
-[💖🖇linkedin-img]: https://img.shields.io/badge/PeterBoling-LinkedIn-0B66C2?style=flat&logo=newjapanprowrestling
-[💖✌️wellfound]: https://wellfound.com/u/peter-boling/u/peter-boling
+[💖🖇linkedin-img]: https://img.shields.io/badge/LinkedIn-Profile-0B66C2?style=flat&logo=newjapanprowrestling
+[💖✌️wellfound]: https://wellfound.com/u/peter-boling
 [💖✌️wellfound-img]: https://img.shields.io/badge/peter--boling-orange?style=flat&logo=wellfound
 [💖💲crunchbase]: https://www.crunchbase.com/person/peter-boling
 [💖💲crunchbase-img]: https://img.shields.io/badge/peter--boling-purple?style=flat&logo=crunchbase
 [💖🐘ruby-mast]: https://ruby.social/@galtzo
-[💖🐘ruby-mast-img]: https://img.shields.io/mastodon/follow/109447111526622197?domain=https%3A%2F%2Fruby.social&style=flat&logo=mastodon&label=Ruby%20%40galtzo
+[💖🐘ruby-mast-img]: https://img.shields.io/mastodon/follow/109447111526622197?domain=https://ruby.social&style=flat&logo=mastodon&label=Ruby%20@galtzo
 [💖🦋bluesky]: https://bsky.app/profile/galtzo.com
 [💖🦋bluesky-img]: https://img.shields.io/badge/@galtzo.com-0285FF?style=flat&logo=bluesky&logoColor=white
 [💖🌳linktree]: https://linktr.ee/galtzo
@@ -584,68 +510,79 @@ Thanks for RTFM. ☺️
 [👨🏼‍🏫expsup-upwork-img]: https://img.shields.io/badge/UpWork-13544E?style=for-the-badge&logo=Upwork&logoColor=white
 [👨🏼‍🏫expsup-codementor]: https://www.codementor.io/peterboling?utm_source=github&utm_medium=button&utm_term=peterboling&utm_campaign=github
 [👨🏼‍🏫expsup-codementor-img]: https://img.shields.io/badge/CodeMentor-Get_Help-1abc9c?style=for-the-badge&logo=CodeMentor&logoColor=white
-[🏙️entsup-tidelift]: https://tidelift.com/subscription
+[🏙️entsup-tidelift]: https://tidelift.com/subscription/pkg/rubygems-floss_funding?utm_source=rubygems-floss_funding&utm_medium=referral&utm_campaign=readme
 [🏙️entsup-tidelift-img]: https://img.shields.io/badge/Tidelift_and_Sonar-Enterprise_Support-FD3456?style=for-the-badge&logo=sonar&logoColor=white
 [🏙️entsup-tidelift-sonar]: https://blog.tidelift.com/tidelift-joins-sonar
 [💁🏼‍♂️peterboling]: http://www.peterboling.com
 [🚂railsbling]: http://www.railsbling.com
 [📜src-gl-img]: https://img.shields.io/badge/GitLab-FBA326?style=for-the-badge&logo=Gitlab&logoColor=orange
-[📜src-gl]: https://gitlab.com/galtzo-floss/floss_funding/
+[📜src-gl]: https://gitlab.com/galtzo-floss/floss_funding
 [📜src-cb-img]: https://img.shields.io/badge/CodeBerg-4893CC?style=for-the-badge&logo=CodeBerg&logoColor=blue
 [📜src-cb]: https://codeberg.org/galtzo-floss/floss_funding
-[📜src-gh-img]: https://img.shields.io/badge/GitHub-238636?style=for-the-badge&logo=Github&logoColor=green
+[📜src-gh-img]: https://img.shields.io/badge/GitHub-238636?style=for-the-badge&logo=GitHub&logoColor=green
 [📜src-gh]: https://github.com/galtzo-floss/floss_funding
 [📜docs-cr-rd-img]: https://img.shields.io/badge/RubyDoc-Current_Release-943CD2?style=for-the-badge&logo=readthedocs&logoColor=white
 [📜docs-head-rd-img]: https://img.shields.io/badge/YARD_on_Galtzo.com-HEAD-943CD2?style=for-the-badge&logo=readthedocs&logoColor=white
-[📜wiki]: https://gitlab.com/galtzo-floss/floss_funding/-/wikis/home
-[📜wiki-img]: https://img.shields.io/badge/wiki-examples-943CD2.svg?style=for-the-badge&logo=Wiki&logoColor=white
-[👽dl-rank]: https://rubygems.org/gems/floss_funding
-[👽dl-ranki]: https://img.shields.io/gem/rd/floss_funding.svg
-[👽oss-help]: https://www.codetriage.com/galtzo-floss/floss_funding
-[👽oss-helpi]: https://www.codetriage.com/galtzo-floss/floss_funding/badges/users.svg
-[👽version]: https://rubygems.org/gems/floss_funding
+[📜gl-wiki]: https://gitlab.com/galtzo-floss/floss_funding/-/wikis/home
+[📜gh-wiki]: https://github.com/galtzo-floss/floss_funding/wiki
+[📜gl-wiki-img]: https://img.shields.io/badge/wiki-gitlab-943CD2.svg?style=for-the-badge&logo=gitlab&logoColor=white
+[📜gh-wiki-img]: https://img.shields.io/badge/wiki-github-943CD2.svg?style=for-the-badge&logo=github&logoColor=white
+[👽dl-rank]: https://clickgems.clickhouse.com/dashboard/floss_funding
+[👽dl-ranki]: https://img.shields.io/gem/dt/floss_funding.svg
+[👽version]: https://clickgems.clickhouse.com/dashboard/floss_funding
 [👽versioni]: https://img.shields.io/gem/v/floss_funding.svg
-[🔑qlty-mnt]: https://qlty.sh/gh/galtzo-floss/projects/floss_funding
-[🔑qlty-mnti]: https://qlty.sh/gh/galtzo-floss/projects/floss_funding/maintainability.svg
-[🔑qlty-cov]: https://qlty.sh/gh/galtzo-floss/projects/floss_funding/metrics/code?sort=coverageRating
-[🔑qlty-covi]: https://qlty.sh/gh/galtzo-floss/projects/floss_funding/coverage.svg
-[🔑codecov]: https://codecov.io/gh/galtzo-floss/floss_funding
-[🔑codecovi♻️]: https://codecov.io/gh/galtzo-floss/floss_funding/graph/badge.svg?token=hRnUCPqxMu
-[🔑coveralls]: https://coveralls.io/github/galtzo-floss/floss_funding?branch=main
-[🔑coveralls-img]: https://coveralls.io/repos/github/galtzo-floss/floss_funding/badge.svg?branch=main
-[🖐codeQL]: https://github.com/galtzo-floss/floss_funding/security/code-scanning
-[🖐codeQL-img]: https://github.com/galtzo-floss/floss_funding/actions/workflows/codeql-analysis.yml/badge.svg
-[🚎1-an-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml
-[🚎1-an-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml/badge.svg
+[🏀qlty-mnt]: https://qlty.sh/gh/galtzo-floss/projects/floss_funding
+[🏀qlty-mnti]: https://qlty.sh/gh/galtzo-floss/projects/floss_funding/maintainability.svg
+[🏀qlty-cov]: https://qlty.sh/gh/galtzo-floss/projects/floss_funding/metrics/code?sort=coverageRating
+[🏀qlty-covi]: https://qlty.sh/gh/galtzo-floss/projects/floss_funding/coverage.svg
+[🏀codecov]: https://codecov.io/gh/galtzo-floss/floss_funding
+[🏀codecovi]: https://codecov.io/gh/galtzo-floss/floss_funding/graph/badge.svg
+[🏀coveralls]: https://coveralls.io/github/galtzo-floss/floss_funding?branch=main
+[🏀coveralls-img]: https://coveralls.io/repos/github/galtzo-floss/floss_funding/badge.svg?branch=main
+[🚎ruby-2.4-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/ruby-2.4.yml
+[🚎ruby-2.5-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/ruby-2.5.yml
+[🚎ruby-2.6-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/ruby-2.6.yml
+[🚎ruby-2.7-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/ruby-2.7.yml
+[🚎ruby-3.0-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/ruby-3.0.yml
+[🚎ruby-3.1-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/ruby-3.1.yml
+[🚎ruby-3.2-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/ruby-3.2.yml
+[🚎ruby-3.3-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/ruby-3.3.yml
+[🚎ruby-3.4-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/ruby-3.4.yml
+[🚎jruby-9.2-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby-9.2.yml
+[🚎jruby-9.3-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby-9.3.yml
+[🚎jruby-9.4-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby-9.4.yml
+[🚎jruby-10.0-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby-10.0.yml
+[🚎truby-22.3-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/truffleruby-22.3.yml
+[🚎truby-23.0-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/truffleruby-23.0.yml
+[🚎truby-23.1-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/truffleruby-23.1.yml
+[🚎truby-24.2-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/truffleruby-24.2.yml
+[🚎truby-25.0-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/truffleruby-25.0.yml
+[🚎truby-33.0-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/truffleruby-33.0.yml
 [🚎2-cov-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/coverage.yml
 [🚎2-cov-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/coverage.yml/badge.svg
 [🚎3-hd-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/heads.yml
 [🚎3-hd-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/heads.yml/badge.svg
-[🚎4-lg-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/legacy.yml
-[🚎4-lg-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/legacy.yml/badge.svg
 [🚎5-st-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/style.yml
 [🚎5-st-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/style.yml/badge.svg
-[🚎6-s-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/supported.yml
-[🚎6-s-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/supported.yml/badge.svg
-[🚎7-us-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/unsupported.yml
-[🚎7-us-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/unsupported.yml/badge.svg
-[🚎8-ho-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/hoary.yml
-[🚎8-ho-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/hoary.yml/badge.svg
 [🚎9-t-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/truffle.yml
 [🚎9-t-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/truffle.yml/badge.svg
 [🚎10-j-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml
 [🚎10-j-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml/badge.svg
 [🚎11-c-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml
 [🚎11-c-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml/badge.svg
+[🚎12-crh-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/dep-heads.yml
+[🚎12-crh-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/dep-heads.yml/badge.svg
 [🚎13-🔒️-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/locked_deps.yml
 [🚎13-🔒️-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/locked_deps.yml/badge.svg
 [🚎14-🔓️-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/unlocked_deps.yml
 [🚎14-🔓️-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/unlocked_deps.yml/badge.svg
+[🚎15-🪪-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/license-eye.yml
+[🚎15-🪪-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/license-eye.yml/badge.svg
 [💎ruby-1.9i]: https://img.shields.io/badge/Ruby-1.9_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-2.0i]: https://img.shields.io/badge/Ruby-2.0_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-2.1i]: https://img.shields.io/badge/Ruby-2.1_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-2.2i]: https://img.shields.io/badge/Ruby-2.2_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=white
-[💎ruby-2.3i]: https://img.shields.io/badge/Ruby-2.3-DF00CA?style=for-the-badge&logo=ruby&logoColor=white
+[💎ruby-2.3i]: https://img.shields.io/badge/Ruby-2.3_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-2.4i]: https://img.shields.io/badge/Ruby-2.4-DF00CA?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-2.5i]: https://img.shields.io/badge/Ruby-2.5-DF00CA?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-2.6i]: https://img.shields.io/badge/Ruby-2.6-DF00CA?style=for-the-badge&logo=ruby&logoColor=white
@@ -654,17 +591,21 @@ Thanks for RTFM. ☺️
 [💎ruby-3.1i]: https://img.shields.io/badge/Ruby-3.1-CC342D?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-3.2i]: https://img.shields.io/badge/Ruby-3.2-CC342D?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-3.3i]: https://img.shields.io/badge/Ruby-3.3-CC342D?style=for-the-badge&logo=ruby&logoColor=white
+[💎ruby-3.4i]: https://img.shields.io/badge/Ruby-3.4-CC342D?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-c-i]: https://img.shields.io/badge/Ruby-current-CC342D?style=for-the-badge&logo=ruby&logoColor=green
 [💎ruby-headi]: https://img.shields.io/badge/Ruby-HEAD-CC342D?style=for-the-badge&logo=ruby&logoColor=blue
-[💎truby-22.3i]: https://img.shields.io/badge/Truffle_Ruby-22.3_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=pink
+[💎truby-22.3i]: https://img.shields.io/badge/Truffle_Ruby-22.3-34BCB1?style=for-the-badge&logo=ruby&logoColor=pink
 [💎truby-23.0i]: https://img.shields.io/badge/Truffle_Ruby-23.0-34BCB1?style=for-the-badge&logo=ruby&logoColor=pink
 [💎truby-23.1i]: https://img.shields.io/badge/Truffle_Ruby-23.1-34BCB1?style=for-the-badge&logo=ruby&logoColor=pink
+[💎truby-24.2i]: https://img.shields.io/badge/Truffle_Ruby-24.2-34BCB1?style=for-the-badge&logo=ruby&logoColor=pink
+[💎truby-25.0i]: https://img.shields.io/badge/Truffle_Ruby-25.0-34BCB1?style=for-the-badge&logo=ruby&logoColor=pink
+[💎truby-33.0i]: https://img.shields.io/badge/Truffle_Ruby-33.0-34BCB1?style=for-the-badge&logo=ruby&logoColor=pink
 [💎truby-c-i]: https://img.shields.io/badge/Truffle_Ruby-current-34BCB1?style=for-the-badge&logo=ruby&logoColor=green
 [💎truby-headi]: https://img.shields.io/badge/Truffle_Ruby-HEAD-34BCB1?style=for-the-badge&logo=ruby&logoColor=blue
-[💎jruby-9.1i]: https://img.shields.io/badge/JRuby-9.1_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=red
-[💎jruby-9.2i]: https://img.shields.io/badge/JRuby-9.2_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=red
+[💎jruby-9.2i]: https://img.shields.io/badge/JRuby-9.2-FBE742?style=for-the-badge&logo=ruby&logoColor=red
 [💎jruby-9.3i]: https://img.shields.io/badge/JRuby-9.3-FBE742?style=for-the-badge&logo=ruby&logoColor=red
 [💎jruby-9.4i]: https://img.shields.io/badge/JRuby-9.4-FBE742?style=for-the-badge&logo=ruby&logoColor=red
+[💎jruby-10.0i]: https://img.shields.io/badge/JRuby-10.0-FBE742?style=for-the-badge&logo=ruby&logoColor=red
 [💎jruby-c-i]: https://img.shields.io/badge/JRuby-current-FBE742?style=for-the-badge&logo=ruby&logoColor=green
 [💎jruby-headi]: https://img.shields.io/badge/JRuby-HEAD-FBE742?style=for-the-badge&logo=ruby&logoColor=blue
 [🤝gh-issues]: https://github.com/galtzo-floss/floss_funding/issues
@@ -674,40 +615,54 @@ Thanks for RTFM. ☺️
 [🤝cb-issues]: https://codeberg.org/galtzo-floss/floss_funding/issues
 [🤝cb-pulls]: https://codeberg.org/galtzo-floss/floss_funding/pulls
 [🤝cb-donate]: https://donate.codeberg.org/
-[🤝contributing]: CONTRIBUTING.md
-[🔑codecov-g♻️]: https://codecov.io/gh/galtzo-floss/floss_funding/graphs/tree.svg?token=hRnUCPqxMu
+[🤝contributing]: https://github.com/galtzo-floss/floss_funding/blob/main/CONTRIBUTING.md
+[🏀codecov-g]: https://codecov.io/gh/galtzo-floss/floss_funding/graph/badge.svg
 [🖐contrib-rocks]: https://contrib.rocks
 [🖐contributors]: https://github.com/galtzo-floss/floss_funding/graphs/contributors
 [🖐contributors-img]: https://contrib.rocks/image?repo=galtzo-floss/floss_funding
 [🚎contributors-gl]: https://gitlab.com/galtzo-floss/floss_funding/-/graphs/main
-[🪇conduct]: CODE_OF_CONDUCT.md
+[🪇conduct]: https://github.com/galtzo-floss/floss_funding/blob/main/CODE_OF_CONDUCT.md
 [🪇conduct-img]: https://img.shields.io/badge/Contributor_Covenant-2.1-259D6C.svg
 [📌pvc]: http://guides.rubygems.org/patterns/#pessimistic-version-constraint
 [📌semver]: https://semver.org/spec/v2.0.0.html
 [📌semver-img]: https://img.shields.io/badge/semver-2.0.0-259D6C.svg?style=flat
 [📌semver-breaking]: https://github.com/semver/semver/issues/716#issuecomment-869336139
 [📌major-versions-not-sacred]: https://tom.preston-werner.com/2022/05/23/major-version-numbers-are-not-sacred.html
-[📌changelog]: CHANGELOG.md
+[📌changelog]: https://github.com/galtzo-floss/floss_funding/blob/main/CHANGELOG.md
 [📗keep-changelog]: https://keepachangelog.com/en/1.0.0/
 [📗keep-changelog-img]: https://img.shields.io/badge/keep--a--changelog-1.0.0-34495e.svg?style=flat
-[📌gitmoji]:https://gitmoji.dev
-[📌gitmoji-img]:https://img.shields.io/badge/gitmoji_commits-%20😜%20😍-34495e.svg?style=flat-square
+[📌gitmoji]: https://gitmoji.dev
+[📌gitmoji-img]: https://img.shields.io/badge/gitmoji_commits-%20%F0%9F%98%9C%20%F0%9F%98%8D-34495e.svg?style=flat-square
 [🧮kloc]: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 [🧮kloc-img]: https://img.shields.io/badge/KLOC-0.262-FFDD67.svg?style=for-the-badge&logo=YouTube&logoColor=blue
-[🔐security]: SECURITY.md
+[🔐security]: https://github.com/galtzo-floss/floss_funding/blob/main/SECURITY.md
 [🔐security-img]: https://img.shields.io/badge/security-policy-259D6C.svg?style=flat
 [📄copyright-notice-explainer]: https://opensource.stackexchange.com/questions/5778/why-do-licenses-such-as-the-mit-license-specify-a-single-year
-[📄license]: LICENSE.txt
-[📄license-ref]: https://opensource.org/licenses/MIT
+[📄license]: LICENSE.md
+[📄license-ref]: https://github.com/galtzo-floss/floss_funding/blob/main/MIT.md
 [📄license-img]: https://img.shields.io/badge/License-MIT-259D6C.svg
+[📄license-compat]: https://www.apache.org/legal/resolved.html#category-a
+[📄license-compat-img]: https://img.shields.io/badge/Apache_Compatible:_Category_A-%E2%9C%93-259D6C.svg?style=flat&logo=Apache
+
 [📄ilo-declaration]: https://www.ilo.org/declaration/lang--en/index.htm
 [📄ilo-declaration-img]: https://img.shields.io/badge/ILO_Fundamental_Principles-✓-259D6C.svg?style=flat
 [🚎yard-current]: http://rubydoc.info/gems/floss_funding
-[🚎yard-head]: https://rspec-stubbed-env.galtzo.com
+[🚎yard-head]: https://floss-funding.galtzo.com
 [💎stone_checksums]: https://github.com/galtzo-floss/stone_checksums
 [💎SHA_checksums]: https://gitlab.com/galtzo-floss/floss_funding/-/tree/main/checksums
 [💎rlts]: https://github.com/rubocop-lts/rubocop-lts
-[💎rlts-img]: https://img.shields.io/badge/code_style_%26_linting-rubocop--lts-34495e.svg?plastic&logo=ruby&logoColor=white
+[💎rlts-img]: https://img.shields.io/badge/code_style_&_linting-rubocop--lts-34495e.svg?plastic&logo=ruby&logoColor=white
 [💎appraisal2]: https://github.com/appraisal-rb/appraisal2
 [💎appraisal2-img]: https://img.shields.io/badge/appraised_by-appraisal2-34495e.svg?plastic&logo=ruby&logoColor=white
 [💎d-in-dvcs]: https://railsbling.com/posts/dvcs/put_the_d_in_dvcs/
+
+<!-- kettle-jem:metadata:start -->
+| Field | Value |
+|---|---|
+| Package | floss_funding |
+| Description | 🪥 Help overlooked open source projects - the ones at the bottom of the stack, and the dev dependencies - by funding them. |
+| Homepage | https://github.com/galtzo-floss/floss_funding |
+| Source | https://github.com/galtzo-floss/floss_funding |
+| License | `MIT` |
+| Funding | https://github.com/sponsors/pboling, https://ko-fi.com/pboling, https://liberapay.com/pboling/donate, https://opencollective.com/galtzo-floss, https://thanks.dev/u/gh/pboling, https://tidelift.com/funding/github/rubygems/floss_funding, https://www.buymeacoffee.com/pboling |
+<!-- kettle-jem:metadata:end -->

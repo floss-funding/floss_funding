@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-# :nocov:
+# simplecov:disable
 require "uri"
 
 module FlossFunding
   module Validators
     MAX_LEN = 512
-    URL_KEYS = %w[
-      funding_uri
-      funding_subscription_uri
-      funding_donation_uri
-      homepage
+    URL_KEYS = [
+      "funding_uri",
+      "funding_subscription_uri",
+      "funding_donation_uri",
+      "homepage"
     ].freeze
 
     module_function
@@ -29,7 +29,7 @@ module FlossFunding
       return false if value.length > MAX_LEN
       begin
         u = URI.parse(value)
-        return false unless %w[http https].include?(u.scheme)
+        return false unless ["http", "https"].include?(u.scheme)
         return false if u.host.nil? || u.host.empty?
         true
       rescue URI::InvalidURIError, ArgumentError
@@ -63,7 +63,10 @@ module FlossFunding
             out[key] = [v]
           else
             val = deep_sanitize(v, new_path, invalids)
-            out[key] = val unless val.nil? || (val.respond_to?(:empty?) && val.empty?)
+            next if val.nil?
+            next if val.respond_to?(:empty?) && val.empty?
+
+            out[key] = val
           end
         end
         out
@@ -82,7 +85,10 @@ module FlossFunding
             arr << v
           when Hash, Array
             val = deep_sanitize(v, new_path, invalids)
-            arr << val unless val.nil? || (val.respond_to?(:empty?) && val.empty?)
+            next if val.nil?
+            next if val.respond_to?(:empty?) && val.empty?
+
+            arr << val
           else
             arr << v
           end
@@ -108,4 +114,4 @@ module FlossFunding
     end
   end
 end
-# :nocov:
+# simplecov:enable

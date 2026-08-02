@@ -20,7 +20,7 @@ module FlossFunding
         begin
           ci_val = ENV.fetch("CI", "")
           return true if ci_val.respond_to?(:casecmp) && ci_val.casecmp("true") == 0
-        rescue StandardError
+        rescue
           # If accessing ENV somehow fails, err on the side of silencing
           return true
         end
@@ -28,14 +28,14 @@ module FlossFunding
         # Environment sanity check: if Dir.pwd raises, become inert
         begin
           Dir.pwd
-        rescue StandardError
+        rescue
           return true
         end
 
         # Non-TTY environments: suppress poke/setup side effects (mirror at-exit logic)
         begin
-          return true unless STDOUT.tty?
-        rescue StandardError
+          return true unless $stdout.tty?
+        rescue
           return true
         end
 
@@ -68,8 +68,8 @@ module FlossFunding
 
         # Non-TTY environments: suppress at-exit output
         begin
-          return true unless STDOUT.tty?
-        rescue StandardError
+          return true unless $stdout.tty?
+        rescue
           return true
         end
 
@@ -90,7 +90,7 @@ module FlossFunding
             values.any? do |v|
               begin
                 v.respond_to?(:call) ? !!v.call : false
-              rescue StandardError
+              rescue
                 # If callable raises, treat it as contraindicated to avoid unknown global state
                 true
               end

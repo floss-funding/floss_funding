@@ -12,10 +12,10 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
   # Parse CSV: returns array of hashes {namespace:, key_2025:, key_5425:}
   def parsed_keys(csv_path)
     rows = []
-    File.readlines(csv_path, :chomp => true).each do |line|
+    File.readlines(csv_path, chomp: true).each do |line|
       next if line.strip.empty?
       ns, k2025, k5425 = line.split(",", 3)
-      rows << {:namespace => ns, :key_2025 => k2025, :key_5425 => k5425}
+      rows << {namespace: ns, key_2025: k2025, key_5425: k5425}
     end
     rows
   end
@@ -109,7 +109,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     # Sanity check: since there are 100 gems, each 10% section should map to exactly 10 enabled gems
     expect(enabled_count).to eq(percentage)
 
-    results << {:percentage => percentage, :seconds => elapsed}
+    results << {percentage: percentage, seconds: elapsed}
   end
 
   it "benchmarks load time across 0%..100% in 10% increments (#{GLOBAL_DATE})" do
@@ -129,7 +129,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     RSpec.configuration.reporter.message("FlossFunding bench (Gemfile load via fixtures) at 2025-08-15:\n#{formatted}")
   end
 
-  it "benchmarks load time across 0%..100% in 10% increments with ENV setup outside timing at 5425-07-15", :freeze => Time.local(5425, 7, 15, 12, 0, 0) do
+  it "benchmarks load time across 0%..100% in 10% increments with ENV setup outside timing at 5425-07-15", freeze: Time.local(5425, 7, 15, 12, 0, 0) do
     results = []
     keys_rows = parsed_keys(valid_keys_csv)
 

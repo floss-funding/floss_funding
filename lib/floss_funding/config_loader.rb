@@ -60,7 +60,7 @@ module FlossFunding
         YAML.safe_load(File.read(file)) || {}
       rescue Errno::ENOENT
         raise ConfigNotFoundError, "Configuration file not found: #{file}"
-      rescue StandardError
+      rescue
         {}
       end
 
