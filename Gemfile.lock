@@ -9,7 +9,7 @@ PATH
       terminal-table (~> 4.0)
 
 PATH
-  remote: /home/pboling/src/my/galtzo-floss/month-serializer
+  remote: /var/home/pboling/src/my/galtzo-floss/month-serializer
   specs:
     month-serializer (1.0.2)
       month (>= 1.4.0)
@@ -159,17 +159,13 @@ GEM
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     logger (1.7.0)
-    mini_portile2 (2.8.9)
     mister_bin (0.9.0)
       colsole (~> 1.0.0)
       docopt_ng (~> 0.7.1)
       reline (~> 0.6)
     month (2.1.0)
     mutex_m (0.3.0)
-    nokogiri (1.18.9)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
-    nokogiri (1.18.9-x86_64-linux-gnu)
+    nokogiri (1.19.4-x86_64-linux-gnu)
       racc (~> 1.4)
     nomono (1.1.4)
     openssl (4.0.2)
