@@ -18,10 +18,10 @@ git_source(:gitlab) { |repo_name| "https://gitlab.com/#{repo_name}" }
 # Include dependencies from floss_funding.gemspec
 gemspec
 
-gem "kettle-family", "~> 1.2", ">= 1.2.22"
+gem "kettle-family", "~> 1.2", ">= 1.2.23"
 
 # Local workspace dependency wiring for *_local.gemfile overrides
-gem "nomono", "~> 1.1", ">= 1.1.3", require: false # ruby >= 3.2.0
+gem "nomono", "~> 1.1", ">= 1.1.4", require: false # ruby >= 3.2.0
 
 # Direct sibling dependencies (env-switched via GALTZO_FLOSS_DEV)
 direct_sibling_gems = [
@@ -56,22 +56,6 @@ if direct_sibling_gems.any? &&
       end
     end
   end
-end
-
-# Appraisal-RB sibling dependencies (env-switched via APPRAISAL_RB_DEV)
-appraisal_rb_dev = ENV.fetch("APPRAISAL_RB_DEV", "")
-appraisal_rb_local =
-  !appraisal_rb_dev.empty? && !["false", "0", "no", "off"].include?(appraisal_rb_dev.downcase)
-
-if appraisal_rb_local
-  require "nomono/bundler"
-
-  eval_nomono_gems(
-    gems: ["gem_mine"],
-    prefix: "APPRAISAL_RB",
-    path_env: "APPRAISAL_RB_DEV",
-    root: ["src", "my", "appraisal-rb"]
-  )
 end
 
 # Templating (env-switched: STRUCTUREDMERGE_DEV=/path/to/structuredmerge/ruby/gems for local paths)
