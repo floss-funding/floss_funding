@@ -1,5 +1,5 @@
 {
-  "spec/floss_funding/version_spec.rb:3249253899": [
-    [4, 1, 43, "RSpec/SpecFilePathFormat: Spec path should end with `floss_funding/error/version*_spec.rb`.", 3443445231]
+  "gemfiles/modular/templating.gemfile:3018447732": [
+    [14, 3, 47, "Bundler/DuplicatedGem: Gem `tree_sitter_language_pack` requirements already given on line 10 of the Gemfile.", 3843603197]
   ]
 }
