@@ -155,4 +155,10 @@ module FlossFunding
     def self.reset_caches!: () -> void
   end
   VERSION: String
+  module Error
+    module Version
+      VERSION: String
+    end
+    VERSION: String
+  end
 end
