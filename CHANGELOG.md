@@ -52,6 +52,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - Use gem_mine for generated test fixtures instead of the private fixture scaffold.
 
+- Prepare project for kettle-jem templates: updated 12 project files across dependencies (12).
+
 ### Deprecated
 
 ### Removed
