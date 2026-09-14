@@ -20,12 +20,11 @@ RSpec.describe FlossFunding::Poke do
     end
 
     it "sets up the correct environment variable name based on the module's name", :check_output do
-      configure_contraindications!(:at_exit => {:stdout_tty => true})
+      configure_contraindications!(at_exit: {stdout_tty: true})
       Dir.mktmpdir do |dir|
         File.write(File.join(dir, "Gemfile"), "source 'https://rubygems.org'")
         Dir.chdir(dir) do
           FlossFunding::ConfigFinder.clear_caches!
-          FlossFunding::Lockfile.install!
           # First include: allow any output, we're only asserting the sentinel gates the 2nd
           TraditionalTest::InnerModule.send(:include, described_class.new(__FILE__))
           # Second include (same lockfile lifetime) should be gated: no second nag
@@ -43,23 +42,22 @@ RSpec.describe FlossFunding::Poke do
 
     it "uses the provided namespace" do
       # Include once to ensure extension happens
-      CustomTest::InnerModule.send(:include, described_class.new(__FILE__, :namespace => "MyNamespace::V4"))
+      CustomTest::InnerModule.send(:include, described_class.new(__FILE__, namespace: "MyNamespace::V4"))
       # We can't directly test the namespace used, but we can check that the module
       # has been extended with FlossFunding::Fingerprint methods
       expect(CustomTest::InnerModule).to respond_to(:floss_funding_fingerprint)
     end
 
     it "sets up the correct environment variable name based on the provided namespace", :check_output do
-      configure_contraindications!(:at_exit => {:stdout_tty => true})
+      configure_contraindications!(at_exit: {stdout_tty: true})
       Dir.mktmpdir do |dir|
         File.write(File.join(dir, "Gemfile"), "source 'https://rubygems.org'")
         Dir.chdir(dir) do
           FlossFunding::ConfigFinder.clear_caches!
-          FlossFunding::Lockfile.install!
           # First include: allow any output, we're only asserting the sentinel gates the 2nd
-          CustomTest::InnerModule.send(:include, described_class.new(__FILE__, :namespace => "MyNamespace::V4"))
+          CustomTest::InnerModule.send(:include, described_class.new(__FILE__, namespace: "MyNamespace::V4"))
           # Second include (same lockfile lifetime) should be gated: no second nag
-          expect { CustomTest::InnerModule.send(:include, described_class.new(__FILE__, :namespace => "MyNamespace::V4")) }.not_to output(/MY_NAMESPACE_V4/).to_stdout
+          expect { CustomTest::InnerModule.send(:include, described_class.new(__FILE__, namespace: "MyNamespace::V4")) }.not_to output(/MY_NAMESPACE_V4/).to_stdout
         end
       end
     end
@@ -73,7 +71,7 @@ RSpec.describe FlossFunding::Poke do
     it "accepts a namespace parameter" do
       # This test just verifies that the method accepts parameters
       # The actual functionality is tested in the custom namespace tests
-      expect { described_class.new(__FILE__, :namespace => "Test") }.not_to raise_error
+      expect { described_class.new(__FILE__, namespace: "Test") }.not_to raise_error
     end
   end
 end
@@ -96,7 +94,7 @@ RSpec.describe FlossFunding::Poke do
       test_mod = Module.new
 
       output = capture(:stdout) do
-        test_mod.send(:include, described_class.new(__FILE__, :silent => true))
+        test_mod.send(:include, described_class.new(__FILE__, silent: true))
       end
 
       # Should be truly silent and not extend Check methods

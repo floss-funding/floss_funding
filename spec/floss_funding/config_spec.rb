@@ -10,7 +10,7 @@ RSpec.describe FlossFunding::Config do
 
   describe "#normalize_to_array variants" do
     it "returns [] for nil" do
-      expect(described_class.send(:normalize_to_array, nil)).to eq([])
+      expect(described_class.send(:normalize_to_array, nil)).to be_empty
     end
 
     it "returns compacted array for array input" do

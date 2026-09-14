@@ -3,6 +3,7 @@
 require "ruby-progressbar"
 require "terminal-table"
 require "rainbow"
+require "floss_funding/terminal_helpers"
 
 module FlossFunding
   # Builds and renders an end-of-process summary without exposing any attributes.
@@ -19,10 +20,12 @@ module FlossFunding
       @activated_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:activated])
       @unactivated_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:unactivated])
       @invalid_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:invalid])
+      @detained_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:detained])
 
       @activated_libs = pick_unique_libs_with_state(::FlossFunding::STATES[:activated])
       @unactivated_libs = pick_unique_libs_with_state(::FlossFunding::STATES[:unactivated])
       @invalid_libs = pick_unique_libs_with_state(::FlossFunding::STATES[:invalid])
+      @detained_libs = pick_unique_libs_with_state(::FlossFunding::STATES[:detained])
 
       @all_libs = unique_libraries(@events.map(&:library))
 
@@ -46,7 +49,7 @@ module FlossFunding
     end
 
     def render
-      # 3. Choose a random library from unactivated + invalid that hasn't nagged recently (at_exit lockfile)
+      # 3. Choose a random library from unactivated + invalid + detained that hasn't nagged recently (at_exit lockfile)
       showcased_lib = random_unpaid_or_invalid_library
 
       lines = []
@@ -55,9 +58,17 @@ module FlossFunding
         lines << "Unactivated/Invalid library spotlight:"
         lines << library_details_block(showcased_lib)
 
+        # DEBUG: Explain why the at_exit lockfile allowed this spotlight
+        if ::FlossFunding::DEBUG && defined?(@at_exit_lock_debug_info) && @at_exit_lock_debug_info.is_a?(Array) && !@at_exit_lock_debug_info.empty?
+          lines << ""
+          lines << "[DEBUG] Spotlight allowed reason (at_exit lockfile):"
+          @at_exit_lock_debug_info.each { |ln| lines << "  #{ln}" }
+        end
+
         # 4. Render a summary of counts
         root = ::FlossFunding.project_root
-        root_label = (root.nil? || root.to_s.empty?) ? "(unknown)" : root.to_s
+        root_str = root.to_s unless root.nil?
+        root_label = (root_str.nil? || root_str.empty?) ? "(unknown)" : File.basename(root_str)
         lines << "FLOSS Funding Summary: #{root_label}"
         lines << build_summary_table
         ::FlossFunding.debug_log { "[FinalSummary] counts ns: activated=#{@activated_ns_names.size} unactivated=#{@unactivated_ns_names.size} invalid=#{@invalid_ns_names.size}; libs: activated=#{@activated_libs.size} unactivated=#{@unactivated_libs.size} invalid=#{@invalid_libs.size}" }
@@ -67,32 +78,44 @@ module FlossFunding
 
         # 5. Show a progressbar of activated libraries over total fingerprinted libraries
         total = @all_libs.size
-        if total > 0
-          progressbar = ProgressBar.create(:title => "Activated Libraries", :total => total)
-          @activated_libs.size.times { progressbar.increment }
-          # Ensure we end with a newline after progress bar output
-          puts ""
-        end
+        ::FlossFunding.progress_bar(@activated_libs.size, total)
       end
-    rescue StandardError => e
+    rescue => e
       # Record the failure and switch library to inert mode.
       ::FlossFunding.error!(e, "FinalSummary#render")
     end
 
-    # :nocov:
+    # simplecov:disable
     # NOTE: Presently unused helper retained for readability; behavior trivially formats
     # a string and provides no additional execution value for tests.
     def counts_line(label, namespaces_count, libraries_count)
       "#{label}: namespaces=#{namespaces_count} / libraries=#{libraries_count}"
     end
-    # :nocov:
+
+    # simplecov:enable
+    # Fallback rendering when terminal-table cannot render due to width constraints.
+    # Produces a very basic key: value list with the same information.
+    def build_summary_kv_list(statuses, ns_counts, lib_counts)
+      lines = []
+      lines << "namespaces:"
+      statuses.each do |st|
+        lines << sprintf("  %-12s %s", "#{st}:", ns_counts[st].to_s)
+      end
+      lines << "libraries:"
+      statuses.each do |st|
+        lines << sprintf("  %-12s %s", "#{st}:", lib_counts[st].to_s)
+      end
+      lines.join("\n")
+    end
 
     # Build a terminal-table summary with colored columns per status.
     def build_summary_table
       # Determine which statuses to show (skip invalid if no invalids at all)
       invalid_total = @invalid_ns_names.size + @invalid_libs.size
+      detained_total = @detained_ns_names.size + @detained_libs.size
       statuses = ::FlossFunding::STATE_VALUES.dup
       statuses.delete(::FlossFunding::STATES[:invalid]) if invalid_total.zero?
+      statuses.delete(::FlossFunding::STATES[:detained]) if detained_total.zero?
 
       # Headings: first column empty (row labels), then status columns
       headings = [""] + statuses.map { |st| colorize_heading(st) }
@@ -105,10 +128,17 @@ module FlossFunding
       rows << (["namespaces"] + statuses.map { |st| colorize_cell(st, ns_counts[st]) })
       rows << (["libraries"] + statuses.map { |st| colorize_cell(st, lib_counts[st]) })
 
-      Terminal::Table.new(:headings => headings, :rows => rows).to_s
+      begin
+        tbl = ::Terminal::Table.new(headings: headings, rows: rows)
+        ::FlossFunding::Terminal.apply_width!(tbl)
+        tbl.to_s
+      rescue RuntimeError => e
+        ::FlossFunding.debug_log { "[FinalSummary] terminal-table failed: #{e.message}" } if defined?(::FlossFunding)
+        build_summary_kv_list(statuses, ns_counts, lib_counts)
+      end
     end
 
-    # :nocov:
+    # simplecov:disable
     # NOTE: This helper simply composes cached counts; branches are trivial and
     # already exercised indirectly by build_summary_table tests. Excluded to
     # improve determinism under varying pool compositions.
@@ -119,21 +149,23 @@ module FlossFunding
           ::FlossFunding::STATES[:activated] => @activated_ns_names.size,
           ::FlossFunding::STATES[:unactivated] => @unactivated_ns_names.size,
           ::FlossFunding::STATES[:invalid] => @invalid_ns_names.size,
+          ::FlossFunding::STATES[:detained] => @detained_ns_names.size
         }
       when :libraries
         {
           ::FlossFunding::STATES[:activated] => @activated_libs.size,
           ::FlossFunding::STATES[:unactivated] => @unactivated_libs.size,
           ::FlossFunding::STATES[:invalid] => @invalid_libs.size,
+          ::FlossFunding::STATES[:detained] => @detained_libs.size
         }
       else
         {}
       end
     end
-    # :nocov:
 
+    # simplecov:enable
     # Try to detect if terminal background is dark (true), light (false), or unknown (nil)
-    # :nocov:
+    # simplecov:disable
     # NOTE: Background detection depends on terminal env. All meaningful branches
     # are indirectly exercised in colorization tests; the rescue path is excluded
     # to avoid platform-specific flakiness.
@@ -143,11 +175,11 @@ module FlossFunding
       parts = cfg.split(";")
       bg = parts.last.to_i
       bg <= 7
-    rescue StandardError
+    rescue
       nil
     end
-    # :nocov:
 
+    # simplecov:enable
     def colorize_heading(status)
       txt = status.to_s
       apply_color(txt, status)
@@ -173,6 +205,10 @@ module FlossFunding
         light_hex = "#87cefa"  # light sky blue
         dark_hex = "#00008b"  # dark blue
         default = ->(t) { Rainbow(t).blue }
+      when ::FlossFunding::STATES[:detained]
+        light_hex = "#ffd1dc"  # light pink
+        dark_hex = "#c71585"  # medium violet red
+        default = ->(t) { Rainbow(t).magenta }
       else
         return text
       end
@@ -185,7 +221,7 @@ module FlossFunding
       else # light background -> use darker hues
         Rainbow(text).color(dark_hex).to_s
       end
-    rescue StandardError => e
+    rescue => e
       # Log and fall back when color support fails; not a fatal error
       ::FlossFunding.debug_log { "[WARN][FinalSummary#apply_color] #{e.class}: #{e.message}" }
       text.to_s
@@ -200,14 +236,14 @@ module FlossFunding
 
       funding_url = begin
         Array(cfg && (cfg.respond_to?(:to_h) ? cfg.to_h["floss_funding_url"] : cfg["floss_funding_url"]))
-      rescue StandardError
+      rescue
         []
       end
       funding_url = funding_url.first || "https://floss-funding.dev"
 
       suggested_amount = begin
         Array(cfg && (cfg.respond_to?(:to_h) ? cfg.to_h["suggested_donation_amount"] : cfg["suggested_donation_amount"]))
-      rescue StandardError
+      rescue
         []
       end
       suggested_amount = suggested_amount.first || 5
@@ -226,12 +262,39 @@ module FlossFunding
 
     def random_unpaid_or_invalid_library
       # Build pool of unique libraries in unactivated or invalid states
-      libs = (@unactivated_libs + @invalid_libs).uniq
+      libs = (@unactivated_libs + @invalid_libs + @detained_libs).uniq
       return if libs.empty?
 
       # Filter using at_exit lockfile to exclude recently featured libraries
       lock = ::FlossFunding::Lockfile.at_exit
       filtered = libs.reject { |lib| lock && lock.nagged?(lib) }
+
+      # Prepare DEBUG context (why allowed)
+      if ::FlossFunding::DEBUG
+        @at_exit_lock_debug_info = []
+        root = ::FlossFunding.project_root
+        if lock.nil?
+          root_str = (root.nil? || root.to_s.empty?) ? "(unknown)" : root.to_s
+          @at_exit_lock_debug_info << "No at_exit lockfile available (project_root=#{root_str}); allowing spotlight"
+        else
+          path = begin
+            lock.path
+          rescue
+            nil
+          end
+          @at_exit_lock_debug_info << "Lockfile: #{path || "(unknown path)"}"
+          begin
+            max_age = lock.respond_to?(:max_age_seconds) ? lock.max_age_seconds : nil
+            @at_exit_lock_debug_info << "Window seconds: #{max_age}" if max_age
+          rescue
+            # ignore
+          end
+          @at_exit_lock_debug_info << "Candidates total: #{libs.size}"
+          @at_exit_lock_debug_info << "Rejected by lock: #{libs.size - filtered.size}"
+          @at_exit_lock_debug_info << "Eligible after filter: #{filtered.size}"
+        end
+      end
+
       # If all candidates were recently nagged, do not spotlight any library this run.
       return if filtered.empty?
       pool = filtered
@@ -244,6 +307,28 @@ module FlossFunding
         evt_state = ::FlossFunding::STATES[:unactivated]
         event_stub = Struct.new(:state).new(evt_state)
         lock.record_nag(chosen, event_stub, "at_exit")
+
+        # Add chosen-specific DEBUG info
+        if ::FlossFunding::DEBUG
+          key_name = begin
+            if lock.respond_to?(:send)
+              lock.send(:key_name_for, chosen)
+            else
+              (chosen.respond_to?(:library_name) ? chosen.library_name.to_s : "(unknown)")
+            end
+          rescue
+            (chosen.respond_to?(:library_name) ? chosen.library_name.to_s : "(unknown)")
+          end
+          @at_exit_lock_debug_info << "Chosen: #{key_name} (not previously nagged within window)"
+        end
+      elsif ::FlossFunding::DEBUG
+        # When there is no lock, also note the chosen library
+        key_name = begin
+          chosen.respond_to?(:library_name) ? chosen.library_name.to_s : "(unknown)"
+        rescue
+          "(unknown)"
+        end
+        @at_exit_lock_debug_info << "Chosen: #{key_name}"
       end
 
       chosen

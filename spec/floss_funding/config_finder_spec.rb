@@ -5,13 +5,13 @@ RSpec.describe FlossFunding::ConfigFinder do
     it "returns the DEFAULT_FILE (or repo-root dotfile fallback) when no project/user config files are found" do
       described_class.clear_caches!
       allow(described_class).to receive_messages(
-        :find_project_dotfile => nil,
-        :find_user_dotfile => nil,
-        :find_user_xdg_config => nil,
+        find_project_dotfile: nil,
+        find_user_dotfile: nil,
+        find_user_xdg_config: nil
       )
 
       path = described_class.find_config_path(Dir.pwd)
-      repo_root_dotfile = File.join(FlossFunding::FLOSS_FUNDING_HOME, ".floss_funding.yml")
+      repo_root_dotfile = File.join(FlossFunding::FF_ROOT, ".floss_funding.yml")
       expected = File.exist?(repo_root_dotfile) ? repo_root_dotfile : FlossFunding::ConfigFinder::DEFAULT_FILE
       expect(path).to eq(expected)
     end
@@ -19,12 +19,12 @@ RSpec.describe FlossFunding::ConfigFinder do
     it "returns DEFAULT_FILE when repo-root dotfile does not exist (exercises else branch)" do
       described_class.clear_caches!
       allow(described_class).to receive_messages(
-        :find_project_dotfile => nil,
-        :find_user_dotfile => nil,
-        :find_user_xdg_config => nil,
+        find_project_dotfile: nil,
+        find_user_dotfile: nil,
+        find_user_xdg_config: nil
       )
 
-      repo_root_dotfile = File.join(FlossFunding::FLOSS_FUNDING_HOME, ".floss_funding.yml")
+      repo_root_dotfile = File.join(FlossFunding::FF_ROOT, ".floss_funding.yml")
       # Stub File.exist? only for the repo_root_dotfile path to false
       allow(File).to receive(:exist?).and_call_original
       allow(File).to receive(:exist?).with(repo_root_dotfile).and_return(false)

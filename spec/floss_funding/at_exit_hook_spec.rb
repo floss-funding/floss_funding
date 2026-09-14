@@ -2,6 +2,7 @@
 
 require "open3"
 require "rbconfig"
+require "tmpdir"
 
 require "spec_helper"
 
@@ -10,21 +11,26 @@ RSpec.describe "at_exit hook behavior" do
     ruby = RbConfig.ruby
     lib_dir = File.expand_path("../../lib", __dir__) # project/lib
 
-    # Ensure the at_exit lockfile is fresh so a spotlight can be shown
-    lock_path = File.expand_path("../../.floss_funding.ruby.at_exit.lock", __dir__)
-    File.delete(lock_path) if File.exist?(lock_path)
-
     script = File.expand_path("../fixtures/at_exit_hook_script.rb", __dir__)
 
-    stdout, stderr, status = Open3.capture3(ruby, "-I", lib_dir, script)
+    Dir.mktmpdir("floss-funding-at-exit") do |project_root|
+      File.write(File.join(project_root, "Gemfile"), "source 'https://rubygems.org'\n")
+      child_env = {
+        "CI" => nil,
+        "FLOSS_CFG_FUND_SILENT" => nil,
+        "HOME" => project_root,
+        "XDG_CONFIG_HOME" => File.join(project_root, "xdg")
+      }
+      stdout, stderr, status = Open3.capture3(child_env, ruby, "-I", lib_dir, script, chdir: project_root)
 
-    # Ensure the child process ran successfully
-    expect(status.exitstatus).to eq(0), "Child process failed: #{stderr}\nSTDOUT: #{stdout}"
+      # Ensure the child process ran successfully
+      expect(status.exitstatus).to eq(0), "Child process failed: #{stderr}\nSTDOUT: #{stdout}"
 
-    # Validate at_exit output from the child process (basic behavior)
-    expect(stdout).to include("FLOSS Funding Summary:")
-    # Expect the table headers to include activated/unactivated
-    expect(stdout).to include("activated")
-    expect(stdout).to include("unactivated")
+      # Validate at_exit output from the child process (basic behavior)
+      expect(stdout).to include("FLOSS Funding Summary:")
+      # Expect the table headers to include activated/unactivated
+      expect(stdout).to include("activated")
+      expect(stdout).to include("unactivated")
+    end
   end
 end

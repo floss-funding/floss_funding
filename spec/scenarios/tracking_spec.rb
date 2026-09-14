@@ -9,6 +9,10 @@ require_relative "../fixtures/traditional_test"
 RSpec.describe "FlossFunding tracking functionality" do
   include_context "with stubbed env"
 
+  before do
+    allow(FlossFunding::ContraIndications).to receive(:poke_contraindicated?).and_return(false)
+  end
+
   # No mutable lists to reset; lists are computed from activation events
 
   describe "tracking libraries" do
@@ -117,7 +121,7 @@ RSpec.describe "FlossFunding tracking functionality" do
         expect(Array(merged_config["library_name"]).compact).to include("floss_funding")
 
         # Exercise base_words early return branch
-        expect(FlossFunding.base_words(0)).to eq([])
+        expect(FlossFunding.base_words(0)).to be_empty
       end
     end
   end

@@ -9,10 +9,10 @@ RSpec.describe "exe/floss_funding" do
   def run_cli(*args, env: {})
     # Use Bundler to ensure the same dependency context as the development environment
     default_env = {
-      "BUNDLE_GEMFILE" => File.expand_path("../../Gemfile", __dir__),
+      "BUNDLE_GEMFILE" => File.expand_path("../../Gemfile", __dir__)
     }
     cmd = ["bundle", "exec", RbConfig.ruby, exe_path, *args]
-    Open3.capture3(default_env.merge(env), *cmd, :chdir => File.expand_path("../..", __dir__))
+    Open3.capture3(default_env.merge(env), *cmd, chdir: File.expand_path("../..", __dir__))
   end
 
   describe "--help" do
@@ -67,7 +67,17 @@ RSpec.describe "exe/floss_funding" do
       expect(status.exitstatus).to eq(0), "stderr: #{stderr}\nstdout: #{stdout}"
       expect(stderr).to eq("")
       # Progress may print a bar or fallback text; assert on a stable prefix
-      expect(stdout).to match(/Funding:|Progress|Activated vs/)
+      expect(stdout).to match(/FUNDED🦷%:|Progress|Activated vs/)
+    end
+
+    it "shows 0% when 0 of 1 libraries are activated (no false 100%)" do
+      stdout, stderr, status = run_cli("-p")
+      expect(status.exitstatus).to eq(0), "stderr: #{stderr}\nstdout: #{stdout}"
+      expect(stderr).to eq("")
+      # In a typical repo with no activation keys, floss_funding itself is unactivated: 0/1
+      # Ensure it does not incorrectly show 100%
+      expect(stdout).to include("(0/1)")
+      expect(stdout).not_to include("100% (1/1)")
     end
   end
 

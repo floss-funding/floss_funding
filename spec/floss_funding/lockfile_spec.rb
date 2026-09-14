@@ -19,7 +19,9 @@ RSpec.describe FlossFunding::Lockfile do
         FlossFunding::ConfigFinder.clear_caches!
         expect(FlossFunding::ConfigFinder.project_root).to eq(dir)
 
-        described_class.install!
+        # Access the lockfiles to initialize and persist them
+        described_class.on_load
+        described_class.at_exit
         on_load_path = File.join(dir, ".floss_funding.ruby.on_load.lock")
         at_exit_path = File.join(dir, ".floss_funding.ruby.at_exit.lock")
 
@@ -42,7 +44,8 @@ RSpec.describe FlossFunding::Lockfile do
       File.write(File.join(dir, "Gemfile"), "gemfile")
       Dir.chdir(dir) do
         FlossFunding::ConfigFinder.clear_caches!
-        described_class.install!
+        # Access the lockfiles to initialize and persist them
+        described_class.on_load
 
         # Build a minimal fake library/event
         ns = FlossFunding::Namespace.new("My::Lib", Module.new)
@@ -62,12 +65,12 @@ RSpec.describe FlossFunding::Lockfile do
 
   it "enforces min/max bounds on lockfile lifetimes via env" do
     # too small -> coerced to 600
-    stub_env("FLOSS_CFG_FUNDING_ON_LOAD_SEC_PER_NAG_MAX" => "1")
+    stub_env("FLOSS_CFG_FUND_ON_LOAD_SEC_PER_NAG_MAX" => "1")
     ol = described_class.on_load
     expect(ol.send(:send, :max_age_seconds)).to eq(600)
 
     # too large -> capped at 7 days
-    stub_env("FLOSS_CFG_FUNDING_AT_EXIT_SEC_PER_NAG_MAX" => 10_000_000.to_s)
+    stub_env("FLOSS_CFG_FUND_AT_EXIT_SEC_PER_NAG_MAX" => 10_000_000.to_s)
     ae = described_class.at_exit
     expect(ae.send(:send, :max_age_seconds)).to eq(604_800)
   end

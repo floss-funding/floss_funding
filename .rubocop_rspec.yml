@@ -1,0 +1,118 @@
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/InstanceVariable:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/ExpectInHook:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/examples/*'
+    - 'spec/integration/*'
+    - 'spec/system/*'
+    - 'spec/e2e/*'
+    - 'spec/exe/floss_funding_spec.rb'
+    - 'spec/floss_funding/at_exit_hook_spec.rb'
+    - 'spec/floss_funding/errored_inert_spec.rb'
+    - 'spec/floss_funding/gitignore_sentinels_spec.rb'
+    - 'spec/floss_funding/namespaces_spec.rb'
+    - 'spec/floss_funding/poke_nil_and_config_path_spec.rb'
+    - 'spec/floss_funding/silent_spec.rb'
+    - 'spec/scenarios/tracking_spec.rb'
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/SpecFilePathSuffix:
+  Exclude:
+    - 'spec/README.md'
+
+RSpec/NoExpectationExample:
+  Exclude:
+    - 'spec/README.md'
+
+RSpec/MultipleDescribes:
+  Exclude:
+    - 'spec/README.md'
+    - 'spec/floss_funding/config_finder_spec.rb'
+    - 'spec/floss_funding/poke_spec.rb'
+
+RSpec/RepeatedExampleGroupDescription:
+  Exclude:
+    - 'spec/README.md'
+    - 'spec/floss_funding/poke_spec.rb'
+
+RSpec/Output:
+  Exclude:
+    - 'spec/support/**/*'
+    - 'spec/config/**/*'
+    - 'spec/fixtures/**/*'
+    - 'spec/check_output_tag_spec.rb'
+    - 'spec/spec_helper.rb'
+
+# FinalSummary renders during construction, so these examples must replace a
+# private per-instance selector before observing the rendered result.
+RSpec/AnyInstance:
+  Exclude:
+    - 'spec/floss_funding/final_summary_spec.rb'
+    - 'spec/floss_funding/namespace_spec.rb'
+
+# This spec uses defined?(FlossFunding::Inclusion) to distinguish the constant
+# from RSpec's described_class helper method.
+RSpec/DescribedClass:
+  Exclude:
+    - 'spec/floss_funding/project_spec.rb'
+
+# These fixtures verify behavior that requires process-wide mutations.
+Env/Assign:
+  Exclude:
+    - 'spec/bench/**/*'
+
+# Wedge and Poke verify runtime namespace discovery. Their fixtures must define
+# and remove temporary constants; stub_const cannot exercise that behavior.
+RSpec/RemoveConst:
+  Exclude:
+    - 'spec/bench/**/*'
+    - 'spec/floss_funding/silent_spec.rb'
+    - 'spec/floss_funding/wedge_spec.rb'
+    - 'spec/scenarios/wedge_scenarios_spec.rb'
+
+RSpec/LeakyConstantDeclaration:
+  Exclude:
+    - 'spec/floss_funding/poke_spec.rb'
+    - 'spec/floss_funding/wedge_spec.rb'
+
+Lint/ConstantDefinitionInBlock:
+  Exclude:
+    - 'spec/floss_funding/poke_spec.rb'
+    - 'spec/floss_funding/wedge_spec.rb'
+
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - 'spec/floss_funding/default_prefix_spec.rb'
+    - 'spec/floss_funding/project_spec.rb'
+
+ThreadSafety/DirChdir:
+  Exclude:
+    - 'spec/floss_funding/poke_spec.rb'
+
+ThreadSafety/NewThread:
+  Exclude:
+    - 'spec/scenarios/tracking_spec.rb'

@@ -2,6 +2,7 @@
 
 RSpec.describe FlossFunding::FinalSummary do
   include(ActivationEventsHelper)
+
   include_context "with stubbed env"
 
   before do
@@ -36,9 +37,9 @@ RSpec.describe FlossFunding::FinalSummary do
   describe "rendering with activated and unactivated and invalid", :check_output do
     before do
       # Build three namespaces: A(activated), U(unactivated), I(invalid)
-      a1 = make_event("NsA", :activated, :library_name => "gem_a")
-      u1 = make_event("NsU", :unactivated, :library_name => "gem_u")
-      i1 = make_event("NsI", :invalid, :library_name => "gem_i")
+      a1 = make_event("NsA", :activated, library_name: "gem_a")
+      u1 = make_event("NsU", :unactivated, library_name: "gem_u")
+      i1 = make_event("NsI", :invalid, library_name: "gem_i")
 
       @ns_a = register_ns("NsA", [a1])
       @ns_u = register_ns("NsU", [u1])
@@ -54,19 +55,17 @@ RSpec.describe FlossFunding::FinalSummary do
       default_cfg = FlossFunding::Configuration.new({
         "floss_funding_url" => ["https://example.invalid/f"],
         "suggested_donation_amount" => [42],
-        "library_name" => ["g"],
+        "library_name" => ["g"]
       })
       allow(FlossFunding).to receive(:configurations).and_return({
         "NsA" => [default_cfg],
         "NsU" => [default_cfg],
-        "NsI" => [default_cfg],
+        "NsI" => [default_cfg]
       })
 
       # Silence the progressbar’s own console output; we only verify it is created and increments
-      @fake_pb = instance_double("PB", :increment => nil)
-      expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 3).and_return(@fake_pb)
-      # Expect it to increment exactly for activated libraries (1 time)
-      expect(@fake_pb).to receive(:increment).once
+      # Expect the shared progress bar helper to be invoked with activated vs total
+      expect(FlossFunding).to receive(:progress_bar).with(1, 3)
     end
 
     it "prints spotlight for chosen ns and shows counts including invalid" do
@@ -97,7 +96,7 @@ RSpec.describe FlossFunding::FinalSummary do
 
   describe "invalid line suppression (no invalid events)", :check_output do
     it "omits invalid line when there are zero invalid namespaces and libraries" do
-      u1 = make_event("OnlyU", :unactivated, :library_name => "gem_u")
+      u1 = make_event("OnlyU", :unactivated, library_name: "gem_u")
       register_ns("OnlyU", [u1])
 
       allow(FlossFunding).to receive(:configurations).and_return({"OnlyU" => [FlossFunding::Configuration.new({})]})
@@ -108,8 +107,7 @@ RSpec.describe FlossFunding::FinalSummary do
       lib_for_spotlight = FlossFunding::Library.new("gem_u", ns_obj, nil, "OnlyU", __FILE__, nil, nil, ns_obj.env_var_name, cfg, nil)
       allow_any_instance_of(described_class).to receive(:random_unpaid_or_invalid_library).and_return(lib_for_spotlight)
 
-      fake_pb = instance_double("PB", :increment => nil)
-      expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 1).and_return(fake_pb)
+      expect(FlossFunding).to receive(:progress_bar).with(0, 1)
 
       output = capture_stdout { described_class.new }
       expect(output).to include("unactivated")
@@ -121,7 +119,7 @@ RSpec.describe FlossFunding::FinalSummary do
 
   describe "uses defaults when configuration missing or non-hashlike", :check_output do
     it "falls back to default URL and amount and omits empty libraries line" do
-      ev = make_event("CfgLess", :unactivated, :library_name => nil)
+      ev = make_event("CfgLess", :unactivated, library_name: nil)
       register_ns("CfgLess", [ev])
 
       # Return a weird configuration object that causes rescue to [] in details lookup
@@ -133,8 +131,7 @@ RSpec.describe FlossFunding::FinalSummary do
       lib_for_spotlight = FlossFunding::Library.new(nil, ns_obj, nil, "CfgLess", __FILE__, nil, nil, ns_obj.env_var_name, cfg, nil)
       allow_any_instance_of(described_class).to receive(:random_unpaid_or_invalid_library).and_return(lib_for_spotlight)
 
-      fake_pb = instance_double("PB", :increment => nil)
-      expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 1).and_return(fake_pb)
+      expect(FlossFunding).to receive(:progress_bar).with(0, 1)
 
       output = capture_stdout { described_class.new }
       expect(output).to include("Funding URL: https://floss-funding.dev")
@@ -152,9 +149,77 @@ RSpec.describe FlossFunding::FinalSummary do
     end
   end
 
+  describe "table and spotlight fallbacks" do
+    it "uses the key-value summary when terminal-table raises" do
+      summary = described_class.allocate
+      summary.instance_variable_set(:@invalid_ns_names, [])
+      summary.instance_variable_set(:@invalid_libs, [])
+      summary.instance_variable_set(:@detained_ns_names, [])
+      summary.instance_variable_set(:@detained_libs, [])
+      summary.instance_variable_set(:@activated_ns_names, ["Activated"])
+      summary.instance_variable_set(:@unactivated_ns_names, ["Unactivated"])
+      summary.instance_variable_set(:@activated_libs, [Object.new])
+      summary.instance_variable_set(:@unactivated_libs, [Object.new])
+      allow(Terminal::Table).to receive(:new).and_raise(RuntimeError, "no terminal")
+
+      expect(summary.send(:build_summary_table)).to include("namespaces:", "libraries:")
+    end
+
+    it "records and renders lockfile debug information for an eligible library" do
+      stub_const("FlossFunding::DEBUG", true)
+      summary = described_class.allocate
+      library = double(library_name: "eligible")
+      lock = double(path: "/tmp/at_exit.lock", max_age_seconds: 60)
+      allow(lock).to receive(:nagged?).with(library).and_return(false)
+      allow(lock).to receive(:record_nag)
+      allow(lock).to receive(:key_name_for).with(library).and_return("eligible")
+      allow(FlossFunding::Lockfile).to receive(:at_exit).and_return(lock)
+      allow(FlossFunding).to receive(:project_root).and_return("/tmp/project")
+      summary.instance_variable_set(:@unactivated_libs, [library])
+      summary.instance_variable_set(:@invalid_libs, [])
+      summary.instance_variable_set(:@detained_libs, [])
+
+      expect(summary.send(:random_unpaid_or_invalid_library)).to eq(library)
+      expect(summary.instance_variable_get(:@at_exit_lock_debug_info)).to include(
+        "Lockfile: /tmp/at_exit.lock",
+        "Window seconds: 60",
+        "Chosen: eligible (not previously nagged within window)"
+      )
+    end
+
+    it "does not select a spotlight when every candidate is already nagged" do
+      summary = described_class.allocate
+      library = double(library_name: "recent")
+      lock = double
+      allow(lock).to receive(:nagged?).with(library).and_return(true)
+      allow(FlossFunding::Lockfile).to receive(:at_exit).and_return(lock)
+      summary.instance_variable_set(:@unactivated_libs, [library])
+      summary.instance_variable_set(:@invalid_libs, [])
+      summary.instance_variable_set(:@detained_libs, [])
+
+      expect(summary.send(:random_unpaid_or_invalid_library)).to be_nil
+    end
+
+    it "returns the original text for an unknown color status" do
+      summary = described_class.allocate
+      output = StringIO.new
+      allow(output).to receive(:tty?).and_return(true)
+      allow($stdout).to receive(:tty?).and_return(true)
+
+      expect(summary.send(:apply_color, "plain", :unknown)).to eq("plain")
+    end
+  end
+
   # rubocop:disable RSpec/ExpectOutput
   # rubocop:disable RSpec/MultipleExpectations
   describe "colorization and background detection helpers" do
+    around do |example|
+      rainbow_enabled = Rainbow.enabled
+      Rainbow.enabled = true
+      example.run
+      Rainbow.enabled = rainbow_enabled
+    end
+
     it "returns plain text when not a TTY" do
       # Build an instance (state doesn’t matter here)
       fs = described_class.allocate
@@ -177,16 +242,10 @@ RSpec.describe FlossFunding::FinalSummary do
         true
       end
       $stdout = sio
-      begin
-        include_context "with stubbed env"
-      rescue StandardError
-        # ignore if not available in this scope
-      end
-      ENV["COLORFGBG"] = "15;0" # background 0 (black) => dark
+      stub_env("COLORFGBG" => "15;0") # background 0 (black) => dark
       out = fs.send(:apply_color, "ok", FlossFunding::STATES[:activated])
       expect(out).to be_a(String)
       expect(out).not_to eq("ok")
-      ENV.delete("COLORFGBG")
       $stdout = orig_stdout
     end
 
@@ -198,11 +257,10 @@ RSpec.describe FlossFunding::FinalSummary do
         true
       end
       $stdout = sio
-      ENV["COLORFGBG"] = "0;15" # background 15 (white) => light
+      stub_env("COLORFGBG" => "0;15") # background 15 (white) => light
       out = fs.send(:apply_color, "ok", FlossFunding::STATES[:invalid])
       expect(out).to be_a(String)
       expect(out).not_to eq("ok")
-      ENV.delete("COLORFGBG")
       $stdout = orig_stdout
     end
 

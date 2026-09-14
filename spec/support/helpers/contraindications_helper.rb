@@ -19,14 +19,14 @@
 # to control ENV safely; otherwise ENV will be set directly.
 module ContraIndicationsSpecHelper
   DEFAULTS = {
-    :poke => {
-      :ci => false,
-      :pwd_raises => false,
-      :stdout_tty => true,
+    poke: {
+      ci: false,
+      pwd_raises: false,
+      stdout_tty: true
     },
-    :at_exit => {
-      :stdout_tty => true,
-    },
+    at_exit: {
+      stdout_tty: true
+    }
   }.freeze
 
   # Deep merge utility for small Hash shapes
@@ -65,7 +65,7 @@ module ContraIndicationsSpecHelper
 
     # STDOUT tty? for poke path
     if cfg[:poke].key?(:stdout_tty)
-      allow(STDOUT).to receive(:tty?).and_return(!!cfg[:poke][:stdout_tty])
+      allow($stdout).to receive(:tty?).and_return(!!cfg[:poke][:stdout_tty])
     end
 
     # At-exit contraindications
@@ -78,7 +78,7 @@ module ContraIndicationsSpecHelper
     end
 
     if cfg[:at_exit].key?(:stdout_tty)
-      allow(STDOUT).to receive(:tty?).and_return(!!cfg[:at_exit][:stdout_tty])
+      allow($stdout).to receive(:tty?).and_return(!!cfg[:at_exit][:stdout_tty])
     end
 
     if cfg[:at_exit].key?(:configurations)

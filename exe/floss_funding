@@ -31,7 +31,7 @@ end
 begin
   # Load default group; avoid test/development auto-require
   Bundler.require(:default)
-rescue StandardError
+rescue
   # Some projects have no :default group or prefer manual requires; ignore
 end
 
@@ -45,6 +45,13 @@ rescue LoadError
     warn("Error: could not load floss_funding library (#{e.message}).")
     exit(2)
   end
+end
+
+# Terminal helpers (width detection via tput each render)
+begin
+  require "floss_funding/terminal_helpers"
+rescue LoadError
+  # Best effort; CLI will still operate without width hints
 end
 
 # Helpers to extract data from FlossFunding global state
@@ -62,9 +69,9 @@ module FFCLI
       invalid << ns.name if ns.has_state?(::FlossFunding::STATES[:invalid])
     end
     {
-      :activated => activated.uniq.sort,
-      :unactivated => unactivated.uniq.sort,
-      :invalid => invalid.uniq.sort,
+      activated: activated.uniq.sort,
+      unactivated: unactivated.uniq.sort,
+      invalid: invalid.uniq.sort
     }
   end
 
@@ -79,14 +86,28 @@ module FFCLI
         lib = ev.library
         next unless lib
         entry = {
-          :gem_name => lib.gem_name,
-          :namespace => lib.namespace,
-          :env_var => lib.env_var_name,
-          :config => lib.config,
+          gem_name: lib.gem_name,
+          namespace: lib.namespace,
+          env_var: lib.env_var_name,
+          config: lib.config
         }
         case ev.state
         when ::FlossFunding::STATES[:activated]
-          activated << entry
+          # Treat unpaid/opt-out keys as not-funded for progress and listing purposes
+          unpaid = begin
+            ak = ev.activation_key.to_s
+            ns_name = lib.namespace.to_s
+            ak == ::FlossFunding::FREE_AS_IN_BEER ||
+              ak == ::FlossFunding::BUSINESS_IS_NOT_GOOD_YET ||
+              ak == "#{::FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns_name}"
+          rescue
+            false
+          end
+          if unpaid
+            unactivated << entry
+          else
+            activated << entry
+          end
         when ::FlossFunding::STATES[:invalid]
           invalid << entry
         else
@@ -99,9 +120,9 @@ module FFCLI
     uniq_by = ->(arr) { arr.uniq { |h| [h[:gem_name], h[:namespace]] } }
 
     {
-      :activated => uniq_by.call(activated).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
-      :unactivated => uniq_by.call(unactivated).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
-      :invalid => uniq_by.call(invalid).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
+      activated: uniq_by.call(activated).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
+      unactivated: uniq_by.call(unactivated).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
+      invalid: uniq_by.call(invalid).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] }
     }
   end
 
@@ -165,17 +186,6 @@ module FFCLI
     end
   end
 
-  def progress_bar(activated_count, total_count)
-    require "ruby-progressbar"
-    total = [total_count, 0].max
-    activated = [[activated_count, 0].max, total].min
-    bar = ProgressBar.create(:title => "Funding", :total => total, :format => "%t: |%B| %p%% (%c/%C)")
-    bar.progress = activated
-    bar.finish
-  rescue LoadError
-    puts "Funding: #{activated_count}/#{total_count}"
-  end
-
   def table_libraries(libs)
     begin
       require "rainbow"
@@ -214,11 +224,16 @@ module FFCLI
       right = right.map { |label| Rainbow(label).green.to_s }
     end
 
-    # Determine terminal width if available to help terminal-table size itself
-    begin
-      cols = IO.console.winsize[1]
-    rescue StandardError
-      cols = nil
+    # Determine terminal width using tput for cross-platform compatibility
+    cols = begin
+      if defined?(::FlossFunding) && defined?(::FlossFunding::Terminal)
+        ::FlossFunding::Terminal.columns
+      else
+        out = `tput cols 2>/dev/null`.to_s.strip
+        Integer(out) unless out.empty?
+      end
+    rescue
+      nil
     end
 
     headings = ["Needs Funding (Unactivated + Invalid)", "Funded by You (Activated)"]
@@ -228,11 +243,31 @@ module FFCLI
       [left[i] || "", right[i] || ""]
     end
 
-    table = Terminal::Table.new(:headings => headings, :rows => rows)
-    # Let terminal-table compute widths, but hint total width if we know it
-    table.style = {:width => cols} if cols && cols > 0
-
-    puts table
+    begin
+      table = Terminal::Table.new(headings: headings, rows: rows)
+      # Set width if known (re-evaluated every render)
+      if cols && cols > 0
+        table.style = {width: cols}
+      end
+      puts table
+    rescue RuntimeError => e
+      # terminal-table can raise when width calculation exceeds available cols.
+      # Fall back to a very basic, non-tabular listing.
+      warn_msg = e.message.to_s
+      ::FlossFunding.debug_log { "[CLI][table] terminal-table failed: #{warn_msg}" } if defined?(::FlossFunding)
+      puts headings[0]
+      if left.empty?
+        puts "  (none)"
+      else
+        left.each { |label| puts "  - #{label}" }
+      end
+      puts headings[1]
+      if right.empty?
+        puts "  (none)"
+      else
+        right.each { |label| puts "  - #{label}" }
+      end
+    end
   end
 end
 
@@ -250,7 +285,7 @@ SHORT_ALIAS_MAP = {
   "-anf" => "--all-needing-funding",
   "-mnf" => "--menu-needing-funding",
   "-mf" => "--menu-funded",
-  "-w" => "--wedge",
+  "-w" => "--wedge"
 }.freeze
 
 # Rewrite ARGV in-place so OptionParser can unambiguously handle them.
@@ -332,7 +367,7 @@ when :menu_activated
 when :progress
   activated_count = libs[:activated].size
   total_count = activated_count + libs[:unactivated].size
-  FFCLI.progress_bar(activated_count, total_count)
+  FlossFunding.progress_bar(activated_count, total_count)
 when :table
   FFCLI.table_libraries(libs)
 when :wedge
@@ -340,7 +375,7 @@ when :wedge
     begin
       result = FlossFunding::Wedge.wedge!
       puts "Wedge summary: tried=#{result[:tried]} gems, injected=#{result[:injected]}"
-    rescue StandardError => e
+    rescue => e
       warn("Wedge failed: #{e.class}: #{e.message}")
     end
   else

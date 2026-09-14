@@ -11,29 +11,37 @@ require "fileutils"
 
 # external gems
 require "month/serializer"
+require_relative "floss_funding/version"
+
 Month.include(Month::Serializer)
 
 # Just the version from this gem
-require "floss_funding/version"
 
 # Load runtime control switch constants separately for easier test isolation
 require "floss_funding/constants"
 require "floss_funding/lockfile"
+require "floss_funding/validators"
+require "floss_funding/rake_helpers"
 
 # Now declare some constants
 module FlossFunding
-  # Debug toggle controlled by ENV; set true when ENV['FLOSS_FUNDING_DEBUG'] case-insensitively equals "true".
-  DEBUG = ENV.fetch("FLOSS_FUNDING_DEBUG", "").casecmp("true") == 0
+  # Debug toggle controlled by ENV; set true when ENV['FLOSS_CFG_FUND_DEBUG'] case-insensitively equals "true".
+  DEBUG = begin
+    v = ENV.fetch("FLOSS_CFG_FUND_DEBUG", nil)
+    v.to_s.casecmp("true") == 0
+  rescue
+    false
+  end
 
   # The file name to look for in the project root.
   # @return [String]
   CONFIG_FILE_NAME = ".floss_funding.yml"
 
-  FLOSS_FUNDING_HOME = File.realpath(File.join(File.dirname(__FILE__), ".."))
+  FF_ROOT = File.realpath(File.join(File.dirname(__FILE__), ".."))
 
   # Minimum required keys for a valid .floss_funding.yml file
   # Used to validate presence when integrating without :wedge mode
-  REQUIRED_YAML_KEYS = %w[library_name funding_uri].freeze
+  REQUIRED_YAML_KEYS = ["library_name", "funding_uri"].freeze
 
   # Base error class for all FlossFunding-specific failures.
   class Error < StandardError; end
@@ -51,9 +59,10 @@ module FlossFunding
   NOT_FINANCIALLY_SUPPORTING = "Not-financially-supporting"
 
   STATES = {
-    :activated => "activated",
-    :unactivated => "unactivated",
-    :invalid => "invalid",
+    activated: "activated",
+    unactivated: "unactivated",
+    invalid: "invalid",
+    detained: "detained"
   }.freeze
   STATE_VALUES = STATES.values.freeze
 
@@ -108,9 +117,10 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
   # A warning would be printed about the invalid key,
   # which may be a gentle way to discover that your system time is broken.
   #
-  # Time source for month arithmetic; overridable for tests.
+  # Time source for month arithmetic (UTC); overridable for tests.
+  # Always stored as a UTC Time to avoid local timezone issues.
   # @return [Time]
-  @loaded_at = Time.now.freeze
+  @loaded_at = Time.now.utc.freeze
 
   # Current Month index for time-based key validity
   # @return [Integer]
@@ -135,7 +145,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       words = []
       begin
         File.foreach(::FlossFunding::BASE_WORDS_PATH) { |line| words << line.chomp }
-      rescue StandardError
+      rescue
         warn("[FlossFunding] Unable to read base words file: #{::FlossFunding::BASE_WORDS_PATH}")
         words = []
       end
@@ -143,11 +153,51 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     end
 
   class << self
+    # Display a concise progress indicator for activated vs total libraries.
+    # Falls back gracefully if ruby-progressbar is not available or when total is zero.
+    # - In TTY: renders a progress bar and ensures a trailing newline.
+    # - In non-TTY: prints a stable summary with counts to avoid spinner artifacts.
+    # @param activated_count [Integer]
+    # @param total_count [Integer]
+    def progress_bar(activated_count, total_count)
+      begin
+        require "ruby-progressbar"
+      rescue LoadError
+        # Fallback without ruby-progressbar: print a concise summary with percentage and counts
+        total_i = total_count.to_i
+        if total_i <= 0
+          puts "FUNDED🦷%: 0% (0/0)"
+        else
+          pct = ((activated_count.to_f / total_i.to_f) * 100).round
+          puts "FUNDED🦷%: #{pct}% (#{activated_count}/#{total_i})"
+        end
+        return
+      end
+
+      total = [total_count, 0].max
+      activated = [[activated_count, 0].max, total].min
+      if total.zero?
+        # Avoid creating a progressbar with zero total; print a stable fallback
+        puts "FUNDED🦷%: 0% (0/0)"
+        return
+      end
+
+      bar = ProgressBar.create(title: "FUNDED🦷%", total: total, format: "%t: |%B| %p%% (%c/%C)")
+      bar.progress = activated
+      # Ensure we end with a newline after progress bar output without forcing completion
+      if $stdout.tty?
+        puts ""
+      else
+        # In non-TTY (e.g., CI capture), provide a stable summary with counts
+        puts "(#{activated}/#{total})"
+      end
+    end
+
     # Register a minimal activation event for wedge-injected libraries to ensure
     # they are counted in the final summary without performing config discovery.
     # @param base [Module] the including module
     # @param custom_namespace [String, nil] optional override namespace
-    def register_wedge(base, custom_namespace = nil)
+    def register_wedge(base, custom_namespace = nil, contraindicated = false)
       # Derive namespace string
       ns_name = (custom_namespace.is_a?(String) && custom_namespace.strip != "") ? custom_namespace : base.name.to_s
 
@@ -161,7 +211,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       # Minimal configuration: include required keys so downstream consumers have something sensible
       cfg_hash = {
         "library_name" => ["wedge_#{derived_lib_name}"],
-        "funding_uri" => ["https://floss-funding.dev"],
+        "funding_uri" => ["https://floss-funding.dev"]
       }
       config = ::FlossFunding::Configuration.new(cfg_hash)
 
@@ -176,7 +226,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         nil,                     # config_path
         namespace.env_var_name,  # env_var_name
         config,                  # configuration
-        nil,                     # silent
+        nil                     # silent
       )
 
       # Event with the derived state and key
@@ -184,14 +234,14 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         library,
         namespace.activation_key,
         namespace.state,
-        nil,
+        nil
       )
 
       add_or_update_namespace_with_event(namespace, event)
-      initiate_begging(event)
+      initiate_begging(event) unless contraindicated
 
       event
-    rescue StandardError => e
+    rescue => e
       # Never raise; wedge registration is best-effort only
       ::FlossFunding.error!(e, "register_wedge")
       nil
@@ -225,7 +275,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       msg = if block_given?
         yield
       else
-        args.map(&:to_s).join(" ")
+        args.join(" ")
       end
       # Prefer Logger to file when configured and available; otherwise STDOUT
       logger = debug_logger
@@ -233,12 +283,12 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         begin
           logger.debug(msg.to_s)
           return
-        rescue StandardError
+        rescue
           # fall back to STDOUT below
         end
       end
       puts(msg)
-    rescue StandardError
+    rescue
       # Never fail the caller due to logging issues
       nil
     end
@@ -258,7 +308,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         debug_log { msg }
         bt = (error.backtrace || [])[0, 5].join("\n")
         debug_log { "#{lbl} backtrace:\n#{bt}" } unless bt.empty?
-      rescue StandardError
+      rescue
         # ignore logging failures
       ensure
         @mutex.synchronize { @errored = true }
@@ -266,12 +316,12 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       true
     end
 
-    # Lazily build a Logger instance when FLOSS_CFG_FUNDING_LOGFILE is set and 'logger' is available.
+    # Lazily build a Logger instance when FLOSS_CFG_FUND_LOGFILE is set and 'logger' is available.
     # Returns a Logger or nil when unavailable or initialization failed.
     def debug_logger
       path = begin
-        ENV["FLOSS_CFG_FUNDING_LOGFILE"]
-      rescue StandardError
+        ENV["FLOSS_CFG_FUND_LOGFILE"]
+      rescue
         nil
       end
       return if path.nil? || path.to_s.strip.empty?
@@ -280,7 +330,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         require "logger"
       rescue LoadError
         return
-      rescue StandardError => e
+      rescue => e
         # Log but do not set inert for logger init failures
         debug_log { "[WARN][debug_logger] #{e.class}: #{e.message}" }
         return
@@ -293,7 +343,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         begin
           dir = File.dirname(path)
           FileUtils.mkdir_p(dir) unless dir.nil? || dir.empty? || Dir.exist?(dir)
-        rescue StandardError
+        rescue
           # ignore; Logger.new may still succeed if dir already exists or is current dir
         end
 
@@ -301,16 +351,16 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
           # Truncate the debug log file on first initialization to keep runs readable
           begin
             File.open(path, "w") { |f| f.truncate(0) }
-          rescue StandardError => e
+          rescue => e
             debug_log { "[WARN][debug_logger] unable to truncate #{path}: #{e.class}: #{e.message}" }
           end
 
           logger = Logger.new(path)
           logger.level = Logger::DEBUG
           # Keep output minimal: message only with newline
-          logger.formatter = proc { |_severity, _datetime, _progname, message| (message.to_s.end_with?("\n") ? message.to_s : message.to_s + "\n") }
+          logger.formatter = proc { |_severity, _datetime, _progname, message| message.to_s.end_with?("\n") ? message.to_s : message.to_s + "\n" }
           @debug_logger = logger
-        rescue StandardError
+        rescue
           @debug_logger = nil
         end
 
@@ -351,7 +401,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         begin
           lib_name = (event.library ? event.library.library_name : nil)
           ::FlossFunding.debug_log { "[registry] add_or_update ns=#{namespace.name.inspect} events=#{ns_obj.activation_events.size} state=#{event.state} lib=#{lib_name.inspect}" }
-        rescue StandardError
+        rescue
           # ignore log errors
         end
       end
@@ -481,6 +531,11 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
           lock.record_nag(library, event, "on_load") if lock
           ::FlossFunding.start_coughing(activation_key, ns, env_var_name)
         end
+      when ::FlossFunding::STATES[:detained]
+        unless lock && lock.nagged?(library)
+          lock.record_nag(library, event, "on_load") if lock
+          puts %(FLOSS Funding: Configuration for #{library_name} (#{ns}) contains invalid values and has been detained; details will be shown at exit.) unless ::FlossFunding::ContraIndications.at_exit_contraindicated?
+        end
       else
         unless lock && lock.nagged?(library)
           lock.record_nag(library, event, "on_load") if lock
@@ -507,25 +562,18 @@ require "floss_funding/poke"
 require "floss_funding/final_summary"
 # require "floss_funding/wedge" # Used independently, loaded discretely
 
-# Initialize lockfile on library load (after project_root helpers are available)
-begin
-  FlossFunding::Lockfile.install!
-rescue StandardError => e
-  FlossFunding.error!(e, "Lockfile.install!")
-end
-
-# Dog Food
+# Dog Food test #2
 FlossFunding.send(
   :include,
   FlossFunding::Poke.new(
     __FILE__,
-    :namespace => "FlossFunding",
-    :silent => false,
-    :wedge => true,
-  ),
+    namespace: "FlossFunding",
+    silent: false,
+    wedge: true
+  )
 )
 
-# :nocov:
+# simplecov:disable
 # Add END hook to display a final summary. This hook runs when the Ruby process terminates.
 at_exit do
   begin
@@ -540,10 +588,10 @@ at_exit do
     FlossFunding.debug_log { "[at_exit] building FinalSummary; namespaces=#{FlossFunding.all_namespaces.size}" }
     # 2B. Not silent: build and render the final summary.
     FlossFunding::FinalSummary.new
-  rescue StandardError => e
+  rescue => e
     # Never allow our errors to flip a successful exit into a failure, but record them and
     # switch to inert mode for subsequent runs.
     FlossFunding.error!(e, "at_exit")
   end
 end
-# :nocov:
+# simplecov:enable

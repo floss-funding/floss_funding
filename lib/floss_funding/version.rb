@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 module FlossFunding
-  # Version information for the FlossFunding gem.
+  # Version namespace for this gem.
   module Version
-    # The current gem version.
-    # @return [String]
-    VERSION = "1.0.0-beta.1"
+    # Current gem version.
+    VERSION = "1.0.0.pre.beta.1"
   end
+  # Current gem version exposed at the traditional constant location.
+  VERSION = Version::VERSION # Traditional Constant Location
 end

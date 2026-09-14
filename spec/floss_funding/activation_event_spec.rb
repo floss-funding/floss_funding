@@ -5,7 +5,7 @@ RSpec.describe FlossFunding::ActivationEvent do
     subject(:instance) { described_class.new(lib, key, state, silent) }
 
     let(:state) { "unactivated" }
-    let(:lib) { instance_double("Lib", :namespace => "Ns") }
+    let(:lib) { instance_double(FlossFunding::Library, namespace: "Ns") }
     let(:key) { "" }
     let(:silent) { nil }
 
@@ -59,14 +59,14 @@ RSpec.describe FlossFunding::ActivationEvent do
     end
 
     context "with valid string state, silent is callable" do
-      let(:silent) { ->() { 42 } }
+      let(:silent) { -> { 42 } }
 
       it "sets silent to callable" do
         expect(instance.silent.call).to eq(42)
       end
     end
 
-    context "with deterministic time", :deterministic_time => Time.utc(1999, 12, 12, 12, 12, 12) do
+    context "with deterministic time", deterministic_time: Time.utc(1999, 12, 12, 12, 12, 12) do
       it "sets occurred_at" do
         expect(instance.occurred_at).to eq(Time.utc(1999, 12, 12, 12, 12, 12))
       end

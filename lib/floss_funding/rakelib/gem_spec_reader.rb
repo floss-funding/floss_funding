@@ -15,10 +15,10 @@ module FlossFunding
           metadata = spec.metadata || {}
           puts "metadata: #{metadata.inspect}" if DEBUG
           extracted = {
-            :library_name => spec.name,
-            :homepage => spec.homepage,
-            :authors => spec.authors,
-            :email => spec.email,
+            library_name: spec.name,
+            homepage: spec.homepage,
+            authors: spec.authors,
+            email: spec.email
           }
           # Gemspec metadata is keyed exactly the gem author keyed it.
           # Thus, support both symbol and string keys.
@@ -26,7 +26,7 @@ module FlossFunding
           extracted[:funding_uri] ||= metadata[:funding_uri]
           puts "extracted: #{extracted.inspect}" if DEBUG
           extracted
-        rescue StandardError => error
+        rescue => error
           warn("[floss_funding] Error reading gemspec in #{library_root}:\n  #{error.class}:\n  #{error.message}")
           {}
         end

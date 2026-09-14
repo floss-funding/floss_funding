@@ -32,10 +32,10 @@ RSpec.describe FlossFunding::Inclusion do
     context "when silent is nil" do
       it "creates Namespace, Library, ActivationEvent and registers them" do
         allow(base).to receive(:name).and_return("Pkg::Lib")
-        inclusion = described_class.new(base, nil, __FILE__, :silent => nil)
+        inclusion = described_class.new(base, nil, __FILE__, silent: nil)
         expect(inclusion.base).to eq(base)
         expect(inclusion.including_path).to eq(__FILE__)
-        expect(inclusion.silent).to eq(nil)
+        expect(inclusion.silent).to be_nil
         expect(inclusion.namespace).to be_a(FlossFunding::Namespace)
         expect(inclusion.library).to be_a(FlossFunding::Library)
         expect(inclusion.event).to be_a(FlossFunding::ActivationEvent)
@@ -45,8 +45,8 @@ RSpec.describe FlossFunding::Inclusion do
     context "when silent callable" do
       it "creates Namespace, Library, ActivationEvent and registers them" do
         allow(base).to receive(:name).and_return("Pkg::Lib")
-        callable = ->() { 42 }
-        inclusion = described_class.new(base, nil, __FILE__, :silent => callable)
+        callable = -> { 42 }
+        inclusion = described_class.new(base, nil, __FILE__, silent: callable)
         expect(inclusion.base).to eq(base)
         expect(inclusion.including_path).to eq(__FILE__)
         expect(inclusion.silent).to eq(callable)
@@ -60,7 +60,7 @@ RSpec.describe FlossFunding::Inclusion do
       it "raises error" do
         allow(base).to receive(:name).and_return("Pkg::Lib")
         expect {
-          described_class.new(base, nil, __FILE__, :silent => 42)
+          described_class.new(base, nil, __FILE__, silent: 42)
         }.to raise_error(FlossFunding::Error, /silent must be nil or respond to call/)
       end
     end

@@ -5,7 +5,7 @@
 # namespace inclusion event to give the summary something to report.
 
 # Force TTY to ensure at_exit output is not contraindicated in this subprocess
-class << STDOUT
+class << $stdout
   def tty?
     true
   end
@@ -18,6 +18,6 @@ module MiniAtExitTest
   module Inner; end
 end
 
-MiniAtExitTest::Inner.send(:include, FlossFunding::Poke.new(__FILE__, :wedge => true))
+MiniAtExitTest::Inner.send(:include, FlossFunding::Poke.new(__FILE__, wedge: true))
 
 # Let the process exit normally; the at_exit hook should render the summary.

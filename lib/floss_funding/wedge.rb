@@ -2,6 +2,7 @@
 
 # external gems
 require "terminal-table"
+require "floss_funding/terminal_helpers"
 
 # this gem
 require "floss_funding"
@@ -22,7 +23,12 @@ module FlossFunding
     # This could be extremely dangerous, because some gems are destructive on load.
     # Fortunately this entire wedge file is not loaded at all by the floss_funding gem.
     # Wedge must be loaded explicitly; preferably in a clean testing environment.
-    maybe_dangerous = ENV.fetch("FLOSS_FUNDING_WEDGE_DANGEROUS", "0") == "1"
+    maybe_dangerous = begin
+      v = ENV.fetch("FLOSS_CFG_FUND_WEDGE_DANGEROUS", nil)
+      v == "1"
+    rescue
+      false
+    end
     DANGEROUS =
       if maybe_dangerous
         if DEBUG
@@ -40,7 +46,7 @@ module FlossFunding
       # @return [Hash] summary with keys :tried, :injected, :details
       def wedge!
         ::FlossFunding.debug_log { "[Wedge] Starting wedge! DEBUG=#{::FlossFunding::DEBUG}" }
-        results = {:tried => 0, :injected => 0, :details => []}
+        results = {tried: 0, injected: 0, details: []}
 
         specs = loaded_specs
         ::FlossFunding.debug_log { "[Wedge] Loaded specs count=#{specs.length}" }
@@ -74,20 +80,20 @@ module FlossFunding
             begin
               inc_path = spec.loaded_from || guess_including_path(spec)
               ::FlossFunding.debug_log { "[Wedge] Including Poke into #{ns} with path=#{inc_path.inspect}" }
-              mod.send(:include, ::FlossFunding::Poke.new(inc_path, :wedge => true))
+              mod.send(:include, ::FlossFunding::Poke.new(inc_path, wedge: true))
               injected_into << ns
               ::FlossFunding.debug_log { "[Wedge] Included successfully into #{ns}" }
-            rescue StandardError => e
-              # :nocov:
+            rescue => e
+              # simplecov:disable
               ::FlossFunding.debug_log { "[Wedge] Include failed for #{ns}: #{e.class}: #{e.message}" }
               # Swallow and continue; this is best-effort to probe many libs
-              # :nocov:
+              # simplecov:enable
             end
           end
 
           results[:tried] += 1
           results[:injected] += injected_into.size.positive? ? 1 : 0
-          details = {:gem => spec.name, :injected_into => injected_into}
+          details = {gem: spec.name, injected_into: injected_into}
           results[:details] << details
           ::FlossFunding.debug_log { "[Wedge] Result for #{spec.name}: #{details.inspect}" }
         end
@@ -107,7 +113,7 @@ module FlossFunding
         specs, strategy =
           begin
             [::Gem.loaded_specs, "Gem.loaded_specs"]
-          rescue StandardError => e
+          rescue => e
             ::FlossFunding.debug_log { "[Wedge] Gem.loaded_specs failed: #{e.class}: #{e.message}" }
             [[], "(error)"]
           end
@@ -117,7 +123,7 @@ module FlossFunding
         arr = Array(specs)
         ::FlossFunding.debug_log { "[Wedge] Loaded specs: count=#{arr.length}" }
         arr
-      rescue StandardError => e
+      rescue => e
         ::FlossFunding.debug_log { "[Wedge] loaded_specs failed: #{e.class}: #{e.message}" }
         []
       end
@@ -164,7 +170,7 @@ module FlossFunding
         parts = path.split("::")
         obj = Object
         parts.each do |name|
-          # :nocov:
+          # simplecov:disable
           exists = begin
             obj.const_defined?(name, false)
           rescue
@@ -174,25 +180,25 @@ module FlossFunding
           rescue
             false
           end
-          # :nocov:
+          # simplecov:enable
           ::FlossFunding.debug_log { "[Wedge]   checking part=#{name.inspect} exists=#{exists} in obj=#{obj}" }
           return nil unless exists
           obj = begin
             obj.const_get(name)
           rescue
-            # :nocov:
+            # simplecov:disable
             ::FlossFunding.debug_log { "[Wedge]   const_get failed for #{name.inspect}" }
-            # :nocov:
+            # simplecov:enable
             (return nil)
           end
         end
         ::FlossFunding.debug_log { "[Wedge] safe_const_resolve resolved=#{obj.inspect}" }
         obj
-      rescue StandardError => e
-        # :nocov:
+      rescue => e
+        # simplecov:disable
         ::FlossFunding.debug_log { "[Wedge] safe_const_resolve error: #{e.class}: #{e.message}" }
         nil
-        # :nocov:
+        # simplecov:enable
       end
 
       private
@@ -212,9 +218,24 @@ module FlossFunding
         end
 
         title = "[Wedge] Summary: tried=#{results[:tried]} injected=#{results[:injected]}"
-        table = Terminal::Table.new(:title => title, :headings => ["Gem", "Injected Into"], :rows => rows)
-        table.to_s
-      rescue StandardError => e
+        begin
+          table = ::Terminal::Table.new(title: title, headings: ["Gem", "Injected Into"], rows: rows)
+          ::FlossFunding::Terminal.apply_width!(table)
+          table.to_s
+        rescue => e
+          # Any terminal-table issues (missing constant, width errors, etc.): fallback to filtered list
+          ::FlossFunding.debug_log { "[Wedge] render_summary_table terminal-table failed: #{e.class}: #{e.message}" }
+          lines = [title]
+          if rows.empty?
+            lines << "(no injections)"
+          else
+            rows.each do |(gem_name, injected_into)|
+              lines << "  #{gem_name}: #{injected_into}"
+            end
+          end
+          lines.join("\n")
+        end
+      rescue => e
         ::FlossFunding.debug_log { "[Wedge] render_summary_table error: #{e.class}: #{e.message}" }
         "[Wedge] Summary: #{results.inspect}"
       end

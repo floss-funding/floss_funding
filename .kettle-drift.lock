@@ -1,0 +1,102 @@
+{
+  "- 'spec/floss_funding/poke_spec.rb'\n- 'spec/floss_funding/wedge_spec.rb'": [
+    {
+      "file": ".rubocop_rspec.yml",
+      "lines": [
+        99,
+        104
+      ]
+    }
+  ],
+  "- 100.00% documented\n### Added": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        145,
+        156
+      ]
+    }
+  ],
+  "// Use 'forwardPorts' to make a list of ports inside the container available locally.\n// \"forwardPorts\": [],": [
+    {
+      "file": ".devcontainer/devcontainer.json",
+      "lines": [
+        11,
+        22
+      ]
+    }
+  ],
+  "Exclude:\n- 'lib/floss_funding.rb'": [
+    {
+      "file": ".rubocop.yml",
+      "lines": [
+        32,
+        40
+      ]
+    }
+  ],
+  "Exclude:\n- 'spec/bench/**/*'": [
+    {
+      "file": ".rubocop_rspec.yml",
+      "lines": [
+        85,
+        91
+      ]
+    }
+  ],
+  "Exclude:\n- 'spec/floss_funding/poke_spec.rb'": [
+    {
+      "file": ".rubocop_rspec.yml",
+      "lines": [
+        98,
+        103,
+        113
+      ]
+    }
+  ],
+  "arr = data[\"workflow_runs\"]\nrun = arr && arr.first": [
+    {
+      "file": "Rakefile",
+      "lines": [
+        554,
+        581
+      ]
+    }
+  ],
+  "bench_files = Dir[File.join(File.dirname(__FILE__), \"benchmarks\", \"*.rb\")].sort\nif bench_files.empty?": [
+    {
+      "file": "Rakefile",
+      "lines": [
+        402,
+        419
+      ]
+    }
+  ],
+  "data = JSON.parse(res.body)\narr = data[\"workflow_runs\"]": [
+    {
+      "file": "Rakefile",
+      "lines": [
+        553,
+        580
+      ]
+    }
+  ],
+  "if bench_files.empty?\nputs \"No benchmark scripts found under benchmarks/.\"": [
+    {
+      "file": "Rakefile",
+      "lines": [
+        403,
+        420
+      ]
+    }
+  ],
+  "req = Net::HTTP::Get.new(uri)\nreq[\"User-Agent\"] = \"ci:act rake task\"": [
+    {
+      "file": "Rakefile",
+      "lines": [
+        545,
+        700
+      ]
+    }
+  ]
+}

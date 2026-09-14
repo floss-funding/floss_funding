@@ -6,7 +6,7 @@ RSpec.describe FlossFunding::Configuration do
       merged = described_class.merged_config([])
       expect(merged).to be_a(described_class)
       expect(merged).to be_empty
-      expect(merged.size).to eq(0)
+      expect(merged).to be_empty
     end
 
     it "merges multiple configurations and skips non-enumerable entries" do
@@ -52,7 +52,7 @@ RSpec.describe FlossFunding::Configuration do
 
   describe "#key? and aliases" do
     it "checks presence of keys" do
-      cfg = described_class.new({:a => 1})
+      cfg = described_class.new({a: 1})
       expect(cfg.key?("a")).to be(true)
       expect(cfg.include?(:a)).to be(true)
       expect(cfg.has_key?("missing")).to be(false)
@@ -61,7 +61,7 @@ RSpec.describe FlossFunding::Configuration do
 
   describe "#to_h/#size/#empty?" do
     it "returns dup of internal data and reports size/empty" do
-      cfg = described_class.new({:a => 1})
+      cfg = described_class.new({a: 1})
       h = cfg.to_h
       expect(h).to eq({"a" => [1]})
       expect(h).not_to be(cfg.instance_variable_get(:@data))
@@ -79,8 +79,8 @@ RSpec.describe FlossFunding::Configuration do
 
   describe "#[] normalization when value is nil" do
     it "normalizes nil values to empty arrays via the public API" do
-      cfg = described_class.new({:a => nil})
-      expect(cfg["a"]).to eq([])
+      cfg = described_class.new({a: nil})
+      expect(cfg["a"]).to be_empty
     end
   end
 end

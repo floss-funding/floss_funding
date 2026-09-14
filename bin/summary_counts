@@ -50,7 +50,7 @@ commands = [
   "bin/rake reek:update",
   "bin/rake clobber",
   "bin/rake clean",
-  "bin/rake bench:list",
+  "bin/rake bench:list"
   # "bin/rake bench",
   # "bin/floss_funding -t",
   # "bin/floss_funding --wedge",
@@ -65,16 +65,16 @@ trap("INT") do
   interrupted = true
   begin
     Process.kill("TERM", current_pid) if current_pid
-  rescue StandardError
+  rescue
     # ignore
   end
 end
 
 # Create a progress bar for overall task progress
 pbar = ProgressBar.create(
-  :title => "summary_counts",
-  :total => commands.size,
-  :format => "%t: |%B| %c/%C (%p%%)",
+  title: "summary_counts",
+  total: commands.size,
+  format: "%t: |%B| %c/%C (%p%%)"
 )
 
 commands.each do |cmd|
@@ -86,7 +86,7 @@ commands.each do |cmd|
   # Log the command being run without breaking the bar
   begin
     pbar.log("Running: #{cmd}")
-  rescue StandardError
+  rescue
     # ignore progress bar logging issues
   end
 
@@ -99,7 +99,7 @@ commands.each do |cmd|
           # Close child's stdin immediately to prevent interactive waits
           begin
             w.close unless w.closed?
-          rescue StandardError
+          rescue
             # ignore
           end
 
@@ -113,21 +113,21 @@ commands.each do |cmd|
               output += "\n[summary_counts] Timeout: command exceeded #{timeout}s: #{cmd}"
               begin
                 Process.kill("TERM", pid)
-              rescue StandardError
+              rescue
                 # ignore
               end
               # Give it a brief moment to exit, then escalate
               10.times do
                 begin
                   break unless Process.wait(pid, Process::WNOHANG).nil?
-                rescue StandardError
+                rescue
                   # ignore
                 end
                 sleep(0.05)
               end
               begin
                 Process.kill("KILL", pid)
-              rescue StandardError
+              rescue
                 # ignore
               end
               break
@@ -153,22 +153,22 @@ commands.each do |cmd|
             waited = Process.wait(pid, Process::WNOHANG)
             Process.detach(pid) if waited.nil?
             status = $?.dup if $?
-          rescue StandardError
+          rescue
             # ignore
           ensure
             begin
               r.close unless r.closed?
-            rescue StandardError
+            rescue
               # ignore
             end
             current_pid = nil
           end
         end
       end
-    rescue StandardError
+    rescue
       begin
         output, status = Open3.capture2e(cmd)
-      rescue StandardError => e
+      rescue => e
         output = e.message.to_s
         status = nil
       end
@@ -176,7 +176,7 @@ commands.each do |cmd|
   else
     begin
       output, status = Open3.capture2e(cmd)
-    rescue StandardError => e
+    rescue => e
       output = e.message.to_s
       status = nil
     end
@@ -188,14 +188,14 @@ commands.each do |cmd|
   # Advance the progress bar after finishing this command
   begin
     pbar.increment
-  rescue StandardError
+  rescue
     # ignore progress bar issues
   end
 end
 
-cmd_width = ["task".length, results.map { |r| r[0].length }.max || 0].max
-cnt_width = "count".length
-stat_width = "status".length
+cmd_width = [4, results.map { |r| r[0].length }.max || 0].max
+cnt_width = 5
+stat_width = 6
 
 sep = "+-#{"-" * cmd_width}-+-#{"-" * cnt_width}-+-#{"-" * stat_width}-+"
 header = "| #{"task".ljust(cmd_width)} | #{"count".rjust(cnt_width)} | #{"status".ljust(stat_width)} |"
