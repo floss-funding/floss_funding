@@ -1,5 +1,5 @@
 GIT
-  remote: https://github.com/pboling/yard-junk.git
+  remote: https://github.com/pboling/yard-junk
   revision: 54ccebabbfa9a9cd44d0b991687ebbfd22c32b55
   branch: next
   specs:
