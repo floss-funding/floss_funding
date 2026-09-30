@@ -24,7 +24,7 @@ gem_version =
 Gem::Specification.new do |spec|
   spec.name = "floss_funding"
   spec.version = gem_version
-  spec.authors = ["Peter H. Boling"]
+  spec.authors = ["Peter H. Boling", "Annibelle Boling"]
   spec.email = ["floss@galtzo.com"]
 
   spec.summary = "🪥 Help overlooked open source projects by funding them."
@@ -112,7 +112,6 @@ Gem::Specification.new do |spec|
   spec.executables = ["floss_funding"]
   spec.require_paths = ["lib"]
 
-  # Utilities
   spec.add_dependency("month-serializer", "~> 1.0", ">= 1.0.1")                              # ruby >= 1.9.2
   spec.add_dependency("psych", ">= 2.2.4") # ruby > 1.9.2
   spec.add_dependency("rainbow", ">= 1.99.2", "!= 2.2.0", "!= 2.2.1", "!= 3.1.0", "< 4.0")  # ruby > 0
@@ -133,7 +132,7 @@ Gem::Specification.new do |spec|
   #       and preferably a modular one (see gemfiles/modular/*.gemfile).
 
   # Dev, Test, & Release Tasks
-  spec.add_development_dependency("kettle-dev", "~> 3.1", ">= 3.1.0")             # ruby >= 2.4
+  spec.add_development_dependency("kettle-dev", "~> 3.1", ">= 3.1.5")             # ruby >= 2.4
 
   # Security
   spec.add_development_dependency("bundler-audit", "~> 0.9.3")                      # ruby >= 2.0.0
@@ -147,9 +146,9 @@ Gem::Specification.new do |spec|
   # Testing
   # Loads version files in anonymous namespaces for coverage without constant redefinition warnings.
   spec.add_development_dependency("anonymous_loader", "~> 0.1", ">= 0.1.3")         # ruby >= 2.2.0
-  spec.add_development_dependency("appraisal2", "~> 3.2", ">= 3.2.3")               # ruby >= 1.8.7, for testing against multiple versions of dependencies
-  spec.add_development_dependency("kettle-test", "~> 2.0", ">= 2.0.21")            # ruby >= 2.4
-  spec.add_development_dependency("turbo_tests2", "~> 3.2", ">= 3.2.8")           # ruby >= 2.4.0, default kettle-test runner
+  spec.add_development_dependency("appraisal2", "~> 3.2", ">= 3.2.5")               # ruby >= 1.8.7, for testing against multiple versions of dependencies
+  spec.add_development_dependency("kettle-test", "~> 2.0", ">= 2.0.23")            # ruby >= 2.4
+  spec.add_development_dependency("turbo_tests2", "~> 3.2", ">= 3.2.12")           # ruby >= 2.4.0, default kettle-test runner
 
   # Releasing
   spec.add_development_dependency("stone_checksums", "~> 1.0", ">= 1.0.9")          # ruby >= 2.2.0

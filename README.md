@@ -400,6 +400,7 @@ See [LICENSE.md][📄license] for the official copyright notice.
 <details markdown="1">
 <summary>Copyright holders</summary>
 
+- Copyright (c) 2025 Annibelle Boling
 - Copyright (c) 2025-2026 Peter H. Boling
 
 </details>

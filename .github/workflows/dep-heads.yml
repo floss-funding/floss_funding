@@ -61,7 +61,7 @@ jobs:
 
       - name: Setup Ruby & RubyGems
         if: ${{ !env.ACT }}
-        uses: appraisal-rb/setup-ruby-flash@b641b47cb7dfc09b0c2ee87284f9b4e31aa7d58f # v2.6
+        uses: appraisal-rb/setup-ruby-flash@643b5a1f21af52a180b132cd8cb2ce8b5e7972b6 # v2.12
         with:
           ruby-version: ${{ matrix.ruby }}
           rubygems: ${{ matrix.rubygems }}
@@ -102,7 +102,7 @@ jobs:
         run: bundle exec ${{ matrix.exec_cmd }}
 
   truffleruby:
-    if: "(github.event_name != 'push' || (!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]'))) && (github.event_name != 'pull_request' || startsWith(github.head_ref, 'engines/') || startsWith(github.head_ref, 'truffleruby/') || startsWith(github.head_ref, 'feature/release'))"
+    if: "(github.event_name != 'push' || (!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]'))) && (github.event_name != 'pull_request' || startsWith(github.head_ref, 'engines/') || startsWith(github.head_ref, 'truffleruby/') || startsWith(github.head_ref, 'feature/release') || startsWith(github.event.pull_request.title, 'Release '))"
     name: Specs truffleruby@dep-heads
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental || endsWith(matrix.ruby, 'head') }}
@@ -134,7 +134,7 @@ jobs:
 
       - name: Setup Ruby & RubyGems
         if: ${{ !env.ACT }}
-        uses: appraisal-rb/setup-ruby-flash@b641b47cb7dfc09b0c2ee87284f9b4e31aa7d58f # v2.6
+        uses: appraisal-rb/setup-ruby-flash@643b5a1f21af52a180b132cd8cb2ce8b5e7972b6 # v2.12
         with:
           ruby-version: ${{ matrix.ruby }}
           rubygems: ${{ matrix.rubygems }}
@@ -175,7 +175,7 @@ jobs:
         run: bundle exec ${{ matrix.exec_cmd }}
 
   jruby:
-    if: "(github.event_name != 'push' || (!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]'))) && (github.event_name != 'pull_request' || startsWith(github.head_ref, 'engines/') || startsWith(github.head_ref, 'jruby/') || startsWith(github.head_ref, 'feature/release'))"
+    if: "(github.event_name != 'push' || (!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]'))) && (github.event_name != 'pull_request' || startsWith(github.head_ref, 'engines/') || startsWith(github.head_ref, 'jruby/') || startsWith(github.head_ref, 'feature/release') || startsWith(github.event.pull_request.title, 'Release '))"
     name: Specs jruby@dep-heads
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental || endsWith(matrix.ruby, 'head') }}
@@ -208,7 +208,7 @@ jobs:
 
       - name: Setup Ruby & RubyGems
         if: ${{ !env.ACT }}
-        uses: appraisal-rb/setup-ruby-flash@b641b47cb7dfc09b0c2ee87284f9b4e31aa7d58f # v2.6
+        uses: appraisal-rb/setup-ruby-flash@643b5a1f21af52a180b132cd8cb2ce8b5e7972b6 # v2.12
         with:
           ruby-version: ${{ matrix.ruby }}
           rubygems: ${{ matrix.rubygems }}
