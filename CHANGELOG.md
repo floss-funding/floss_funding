@@ -59,15 +59,16 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - Use gem_mine for generated test fixtures instead of the private fixture scaffold.
 
-- [kc] kettle-jem/prepare: updated 15 project files:
+- [kc] kettle-jem/prepare: updated 16 project files:
+  - configuration (1)
   - dependencies (15)
 
-- [kc] kettle-jem/template: updated 46 project files:
+- [kc] kettle-jem/template: updated 48 project files:
   - code and tests (2)
   - dependencies (11)
-  - documentation (1)
+  - documentation (2)
   - other (2)
-  - workflows (30)
+  - workflows (31)
 
 ### Deprecated
 

@@ -12,8 +12,17 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        151,
-        162
+        152,
+        163
+      ]
+    }
+  ],
+  "- ruby: \"ruby\"\nappraisal: \"current\"": [
+    {
+      "file": ".github/workflows/current.yml",
+      "lines": [
+        40,
+        46
       ]
     }
   ],
@@ -58,8 +67,8 @@
     {
       "file": "Rakefile",
       "lines": [
-        556,
-        583
+        564,
+        591
       ]
     }
   ],
@@ -67,8 +76,17 @@
     {
       "file": "Rakefile",
       "lines": [
-        404,
-        421
+        412,
+        429
+      ]
+    }
+  ],
+  "config: .licenserc.yaml\nmode: \"check\"": [
+    {
+      "file": ".github/workflows/license-eye.yml",
+      "lines": [
+        49,
+        62
       ]
     }
   ],
@@ -76,8 +94,8 @@
     {
       "file": "Rakefile",
       "lines": [
-        555,
-        582
+        563,
+        590
       ]
     }
   ],
@@ -94,8 +112,8 @@
     {
       "file": "Rakefile",
       "lines": [
-        405,
-        422
+        413,
+        430
       ]
     }
   ],
@@ -103,8 +121,8 @@
     {
       "file": "Rakefile",
       "lines": [
-        547,
-        702
+        555,
+        710
       ]
     }
   ]
