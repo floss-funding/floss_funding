@@ -1,7 +1,7 @@
 {
-  "Rakefile:2728354830": [
-    [697, 24, 13, "Lint/LtsRuby/UnavailableMethod: Process#clock_gettime is unavailable before Ruby 2.1.", 2005665137],
-    [703, 25, 13, "Lint/LtsRuby/UnavailableMethod: Process#clock_gettime is unavailable before Ruby 2.1.", 2005665137]
+  "Rakefile:2192820104": [
+    [699, 24, 13, "Lint/LtsRuby/UnavailableMethod: Process#clock_gettime is unavailable before Ruby 2.1.", 2005665137],
+    [705, 25, 13, "Lint/LtsRuby/UnavailableMethod: Process#clock_gettime is unavailable before Ruby 2.1.", 2005665137]
   ],
   "bin/summary_counts:237516103": [
     [106, 32, 13, "Lint/LtsRuby/UnavailableMethod: Process#clock_gettime is unavailable before Ruby 2.1.", 2005665137],
