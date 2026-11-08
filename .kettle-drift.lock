@@ -67,8 +67,8 @@
     {
       "file": "Rakefile",
       "lines": [
-        572,
-        599
+        578,
+        605
       ]
     }
   ],
@@ -76,8 +76,8 @@
     {
       "file": "Rakefile",
       "lines": [
-        420,
-        437
+        426,
+        443
       ]
     }
   ],
@@ -94,8 +94,8 @@
     {
       "file": "Rakefile",
       "lines": [
-        571,
-        598
+        577,
+        604
       ]
     }
   ],
@@ -112,8 +112,17 @@
     {
       "file": "Rakefile",
       "lines": [
-        421,
-        438
+        427,
+        444
+      ]
+    }
+  ],
+  "out != \"\" { print > out }\n' \"$bundle\"": [
+    {
+      "file": ".github/workflows/current.yml",
+      "lines": [
+        95,
+        124
       ]
     }
   ],
@@ -121,8 +130,17 @@
     {
       "file": "Rakefile",
       "lines": [
-        563,
-        718
+        569,
+        724
+      ]
+    }
+  ],
+  "subject=\"$(openssl x509 -in \"$file\" -noout -subject 2>/dev/null || true)\"\nif [ -n \"$subject\" ] && matches \"$subject\"; then": [
+    {
+      "file": ".github/workflows/current.yml",
+      "lines": [
+        103,
+        127
       ]
     }
   ]
