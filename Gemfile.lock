@@ -953,7 +953,7 @@ DEPENDENCIES
   timecop-rspec (~> 1.0, >= 1.0.1)
   toml-merge!
   tree_haver!
-  turbo_tests2 (~> 4.0, >= 4.0.0)!
+  turbo_tests2 (~> 4.0, >= 4.0.1)!
   typescript-merge!
   webrick (~> 1.9)
   yaml-converter (~> 0.2, >= 0.2.7)
