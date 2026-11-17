@@ -155,7 +155,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency("turbo_tests2", "~> 4.0", ">= 4.0.2")           # ruby >= 2.4.0, default kettle-test runner
 
   # Releasing
-  spec.add_development_dependency("stone_checksums", "~> 1.0", ">= 1.0.10")          # ruby >= 2.2.0
+  spec.add_development_dependency("stone_checksums", "~> 1.0", ">= 1.0.11")          # ruby >= 2.2.0
 
   # Development tasks
   # The cake is a lie. erb v2.2, the oldest release, was never compatible with Ruby 2.3.
@@ -174,7 +174,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency("rspec", "~> 3.13")                         # ruby > 0
   spec.add_development_dependency("rspec-block_is_expected", "~> 1.0")        # ruby >= 1.8.7, for block_is_expected.to syntax
   spec.add_development_dependency("rspec_junit_formatter", "~> 0.6")          # ruby >= 2.3.0, for GitLab Test Result Parsing
-  spec.add_development_dependency("rspec-stubbed_env", "~> 1.0", ">= 1.0.18")              # ruby >= 2.3.0, helper for stubbing ENV in specs
+  spec.add_development_dependency("rspec-stubbed_env", "~> 1.0", ">= 1.0.19")              # ruby >= 2.3.0, helper for stubbing ENV in specs
   spec.add_development_dependency("silent_stream", "~> 1.0", ">= 1.0.11")     # ruby >= 2.3.0, for output capture
   spec.add_development_dependency("timecop", "~> 0.9", ">= 0.9.10")           # ruby >= 1.9.2, for time-based testing
   spec.add_development_dependency("timecop-rspec", "~> 1.0", ">= 1.0.1")      # ruby >= 1.9.2, time-based testing helpers
